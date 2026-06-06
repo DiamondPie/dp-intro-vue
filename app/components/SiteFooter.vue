@@ -1,14 +1,5 @@
 <template>
-  <footer
-    class="relative z-10 py-16 mt-20"
-    style="
-      background: radial-gradient(120% 80% at 30% 100%, rgba(255, 20, 147, 0.15), transparent 50%),
-        radial-gradient(100% 60% at 70% 90%, rgba(0, 255, 255, 0.12), transparent 60%),
-        radial-gradient(90% 70% at 50% 80%, rgba(138, 43, 226, 0.18), transparent 65%),
-        radial-gradient(110% 50% at 20% 110%, rgba(255, 215, 0, 0.08), transparent 40%),
-        rgba(0, 0, 0, 0.7);
-    "
-  >
+  <footer class="relative z-10 py-16 mt-20 footer-gradient">
     <div class="max-w-6xl mx-auto px-6 pb-8 text-center flex flex-col items-center">
       <div
         id="bottom-container"
@@ -290,5 +281,14 @@ onBeforeUnmount(() => {
 
 .jelly-like.dragging {
   cursor: pointer;
+}
+
+.footer-gradient {
+  background: 
+    radial-gradient(120% 80% at 30% 100%, rgba(255, 20, 147, 0.15), transparent 50%),
+    radial-gradient(100% 60% at 70% 90%, rgba(0, 255, 255, 0.12), transparent 60%),
+    radial-gradient(90% 70% at 50% 80%, rgba(138, 43, 226, 0.18), transparent 65%),
+    radial-gradient(110% 50% at 20% 110%, rgba(255, 215, 0, 0.08), transparent 40%),
+    rgba(0, 0, 0, 0.7);
 }
 </style>
