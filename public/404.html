@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — DiamondPie</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap&font-display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-cyan:     #d282e6;
+      --color-purple:   #b57bee;
+      --color-pink:     #f0a8c0;
+      --color-red:      #e05c5c;
+      --color-black:    #0d0d0f;
+      --color-gray-500: #6b7280;
+      --text-primary:   #e8e8e8;
+      --text-secondary: #9ca3af;
+      --accent-primary: #b57bee;
+      --bg:             #0d0d0f;
+      --surface:        rgba(255,255,255,0.04);
+      --border:         rgba(255,255,255,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Google Sans Code', monospace;
+      overflow: hidden;
+    }
+
+    /* grid background */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* ambient glow */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%,
+        rgba(100,60,180,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* scanlines */
+    .scanlines {
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 3px,
+        rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px
+      );
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* ── layout ── */
+    .container {
+      position: relative; z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      gap: 10vw;
+      padding: 40px;
+    }
+
+    /* ── glitch 404 — keeps original chunky mono look ── */
+    .error-num {
+      font-family: 'Space Mono', Courier, monospace;
+      font-weight: 900;
+      font-size: clamp(90px, 13vw, 168px);
+      line-height: 1;
+      letter-spacing: -4px;
+      color: var(--text-primary);
+      position: relative;
+      display: inline-block;
+      user-select: none;
+    }
+    .error-num::before,
+    .error-num::after {
+      content: '404';
+      position: absolute; top: 0; left: 0;
+    }
+    .error-num::before {
+      color: var(--color-cyan);
+      clip-path: polygon(0 15%, 100% 15%, 100% 38%, 0 38%);
+      animation: glitch-a 3.5s infinite steps(1);
+    }
+    .error-num::after {
+      color: var(--color-pink);
+      clip-path: polygon(0 62%, 100% 62%, 100% 82%, 0 82%);
+      animation: glitch-b 3.5s infinite steps(1);
+    }
+    @keyframes glitch-a {
+      0%,88%,100% { transform:translate(0); opacity:0; }
+      90% { transform:translate(-5px,2px); opacity:1; }
+      93% { transform:translate(4px,-1px); opacity:1; }
+      95% { opacity:0; }
+    }
+    @keyframes glitch-b {
+      0%,83%,100% { transform:translate(0); opacity:0; }
+      85% { transform:translate(5px,1px); opacity:1; }
+      88% { transform:translate(-3px,-2px); opacity:1; }
+      90% { opacity:0; }
+    }
+
+    /* ── animations (mirrors original site) ── */
+    @keyframes fadeInUp {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .animate-fadeInUp {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out both;
+    }
+
+    /* ── terminal panel ── */
+    .terminal { max-width: 520px; }
+
+    .prompt-line {
+      font-size: clamp(0.65rem, 1.2vw, 0.875rem);
+      opacity: 0.7;
+      margin-bottom: 16px;
+    }
+
+    .title-line {
+      font-size: clamp(1.8rem, 4.5vw, 3.75rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+    .title-line .caret   { color: var(--text-secondary); }
+
+    .comment-line {
+      font-size: clamp(0.65rem, 1.2vw, 0.875rem);
+      color: var(--color-gray-500);
+      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+      cursor: default;
+      transition: color 0.2s;
+    }
+
+    /* log block */
+    .log-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: clamp(0.6rem, 1vw, 0.75rem);
+      line-height: 2;
+    }
+    .log-line { display: flex; gap: 12px; }
+    .log-time  { color: var(--color-gray-500); flex-shrink: 0; }
+    .log-err   { color: var(--color-red); }
+    .log-warn  { color: var(--color-pink); }
+    .log-info  { color: var(--color-cyan); }
+
+    /* buttons — exact visual match to original */
+    .home {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-family: 'Google Sans Code', monospace;
+      font-size: clamp(0.7rem, 1.1vw, 0.875rem);
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .home:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.18);
+    }
+    .home.primary {
+      background: var(--text-primary);
+      color: var(--color-black);
+      border-color: var(--text-primary);
+    }
+    .home.primary:hover { background: #ccc; border-color: #ccc; }
+
+    .home .arrow {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
+      transition: transform 0.2s;
+    }
+    .home:hover .arrow { transform: translateX(4px); }
+
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    @media (max-width: 700px) {
+      .container { flex-direction: column; gap: 10vh; text-align: center; }
+      .log-block { text-align: left; }
+      .btn-row { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<div class="container">
+
+  <!-- Glitch 404 -->
+  <div style="flex-shrink:0">
+    <div class="error-num">404</div>
+  </div>
+
+  <!-- Terminal panel -->
+  <div class="terminal">
+
+    <!-- user@diamondpie:~$ prompt -->
+    <div class="prompt-line animate-fadeInUp" style="animation-delay:0.1s">
+        <span style="color:var(--color-cyan)">user@diamondpie</span><span style="color:var(--color-gray-500)">:</span><span style="color:var(--color-purple)" id="prompt-path">~</span><span style="color:var(--color-gray-500)">$</span><span style="margin-left:8px">find . -name <span style="color:var(--color-pink)" id="prompt-filename">"index"</span></span>
+      </div>
+
+    <!-- >PageNotFound_ -->
+    <h1 class="title-line animate-fadeInUp" style="animation-delay:0.2s">
+      <span class="caret">&gt;</span>PageNotFound
+    </h1>
+
+    <!-- comment -->
+    <p class="comment-line animate-fadeInUp" style="animation-delay:0.5s">
+      <span style="margin-right:0.5rem">//</span>The path you're looking for doesn't exist 👀
+    </p>
+
+    <!-- log output -->
+    <div class="log-block animate-fadeInUp" style="animation-delay:0.6s">
+      <div class="log-line">
+        <span class="log-time"></span>
+        <span class="log-err">[ERROR]</span>
+        <span>Route mismatched: returning 404</span>
+      </div>
+      <div class="log-line">
+        <span class="log-time"></span>
+        <span class="log-warn">[WARN]</span>
+        <span>No fallback handler registered for this path</span>
+      </div>
+      <div class="log-line">
+        <span class="log-time"></span>
+        <span class="log-info">[INFO]</span>
+        <span>Suggestion: navigate back to home <span style="color:var(--color-purple)">~</span></span>
+      </div>
+      <div class="log-line" style="margin-top:2px">
+        <span class="log-time time-hidden">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span style="color:var(--color-gray-500)">exit code <span style="color:var(--color-red)">1</span>&nbsp; ■</span>
+      </div>
+    </div>
+
+    <!-- action buttons — same pill style as original -->
+    <div class="btn-row animate-fadeInUp" style="animation-delay:0.75s">
+      <a href="/" class="home primary">
+        ~ (home)
+        <span class="arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="display:block">
+            <g fill="none">
+              <path d="M24 0v24H0V0z"/>
+              <path fill="currentColor" d="m15.06 5.283 5.657 5.657a1.5 1.5 0 0 1 0 2.12l-5.656 5.658a1.5 1.5 0 0 1-2.122-2.122l3.096-3.096H4.5a1.5 1.5 0 0 1 0-3h11.535L12.94 7.404a1.5 1.5 0 0 1 2.122-2.121Z"/>
+            </g>
+          </svg>
+        </span>
+      </a>
+      <a href="javascript:history.back()" class="home">
+        ← go back
+      </a>
+    </div>
+
+  </div>
+</div>
+<script>
+        document.documentElement.style.visibility = "visible";
+
+        // ── 1. Current time for log timestamps ──────────────────────────────────
+        function fmt(d) {
+            const pad = n => String(n).padStart(2, '0');
+            return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        }
+        const now = fmt(new Date());
+        document.querySelectorAll('.log-time:not(.time-hidden)').forEach((e) => {
+            e.textContent = now;
+        })
+    
+        // ── 2. Parse current URL path ────────────────────────────────────────────
+        const pathname = window.location.pathname; // e.g. /en/about or /en/
+    
+        // Extract directory part for the prompt (strip trailing filename if any)
+        // A segment is a "file" if it contains a dot (e.g. page.html) or is the
+        // last non-empty segment and the path doesn't end with /
+        const parts = pathname.split('/').filter(Boolean); // remove empty strings
+        let dir = '/';
+        let filename = 'index.html';
+    
+        if (parts.length > 0) {
+        const last = parts[parts.length - 1];
+        const looksLikeFile = last.includes('.') || !pathname.endsWith('/');
+    
+        if (looksLikeFile && last.includes('.')) {
+            // e.g. /en/about.html  → dir=/en  filename=about.html
+            filename = last;
+            dir = '/' + parts.slice(0, -1).join('/');
+            if (dir !== '/') dir += '/';
+        } else if (looksLikeFile) {
+            // e.g. /en/about  → dir=/en  filename=about
+            filename = last;
+            dir = '/' + parts.slice(0, -1).join('/');
+            if (dir !== '/') dir += '/';
+        } else {
+            // ends with /  → treat whole path as directory, file = index.html
+            dir = '/' + parts.join('/') + '/';
+            filename = 'index.html';
+        }
+        }
+    
+        // Build the prompt path: ~/dir  (collapse leading / for readability)
+        // e.g. /en/ → ~/en/   /  → ~/
+        const promptPath = '~' + (dir === '/' ? '' : dir.replace(/\/$/, ''));
+        document.getElementById('prompt-path').textContent = promptPath;
+        document.getElementById('prompt-filename').textContent = `"${filename}"`;
+</script>
+</body>
+</html>

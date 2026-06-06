@@ -62,27 +62,23 @@ export default defineNuxtConfig({
         {
           innerHTML: `
             if (sessionStorage.getItem("killed") === "1") {
+                sessionStorage.removeItem("killed");
                 document.documentElement.style.visibility = "hidden";
+                
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "/404.html", false); // public/404.html
+                xhr.send();
+                
+                const parsed = new DOMParser().parseFromString(xhr.responseText, "text/html");
+
+                parsed.documentElement.style.visibility = "visible";
+                document.documentElement.style.visibility = "visible";
+
+                document.replaceChild(
+                    document.importNode(parsed.documentElement, true),
+                    document.documentElement
+                );
             }
-            document.addEventListener("DOMContentLoaded", () => {
-                if (sessionStorage.getItem("killed") === "1") {
-                    sessionStorage.removeItem("killed");
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("GET", "/404.html", false);
-                    xhr.send();
-                    const parsed = new DOMParser().parseFromString(xhr.responseText, "text/html");
-                    document.head.replaceWith(parsed.head);
-                    document.body.replaceWith(parsed.body);
-                    document.querySelectorAll("script").forEach(oldScript => {
-                        const newScript = document.createElement("script");
-                        [...oldScript.attributes].forEach(attr => {
-                            newScript.setAttribute(attr.name, attr.value);
-                        });
-                        newScript.textContent = oldScript.textContent;
-                        oldScript.replaceWith(newScript);
-                    });
-                }
-            });
           `,
           tagPosition: 'head',
           type: 'text/javascript'
