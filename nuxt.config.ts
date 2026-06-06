@@ -1,0 +1,86 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  compatibilityDate: '2025-07-15',
+  devtools: { enabled: true },
+
+  modules: [
+    '@nuxtjs/tailwindcss'
+  ],
+
+  tailwindcss: {
+    configPath: 'tailwind.config.js',
+  },
+
+  css: [
+    '~/assets/css/main.css'
+  ],
+
+  app: {
+    head: {
+      htmlAttrs: { lang: 'en' },
+      title: 'Weirdo DiamondPie',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0' },
+        { name: 'description', content: "DiamondPie's intro page - No sorrow in falling, even stars burn out." },
+        { name: 'author', content: 'diamondpie' },
+        { name: 'keywords', content: 'diamondpie, developer, technology, coding' },
+ 
+        // Open Graph / Facebook
+        { property: 'og:type', content: 'website' },
+        { property: 'og:title', content: "DiamondPie's intro page" },
+        { property: 'og:description', content: "DiamondPie's intro page - No sorrow in falling, even stars burn out." },
+        { property: 'og:image', content: 'https://dpp.qzz.io/preview.png' },
+ 
+        // Twitter
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: "DiamondPie's intro page" },
+        { name: 'twitter:description', content: "DiamondPie's intro page - No sorrow in falling, even stars burn out." },
+        { name: 'twitter:image', content: 'https://dpp.qzz.io/preview.png' }
+      ],
+      link: [
+        { rel: 'alternate', hreflang: 'zh-Hans', href: 'https://dpp.qzz.io/zh/' },
+        { rel: 'icon', href: '/icon.jpg', type: 'image/jpeg' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap&font-display=block'
+        }
+      ],
+      script: [
+        // Kill-switch: must run as early as possible to hide the document
+        // before any paint when the previous session triggered the "kill" command.
+        // After DOMContentLoaded, fetch /404.html and replace the entire document.
+        {
+          innerHTML: `
+            if (sessionStorage.getItem("killed") === "1") {
+                document.documentElement.style.visibility = "hidden";
+            }
+            document.addEventListener("DOMContentLoaded", () => {
+                if (sessionStorage.getItem("killed") === "1") {
+                    sessionStorage.removeItem("killed");
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/404.html", false);
+                    xhr.send();
+                    const parsed = new DOMParser().parseFromString(xhr.responseText, "text/html");
+                    document.head.replaceWith(parsed.head);
+                    document.body.replaceWith(parsed.body);
+                    document.querySelectorAll("script").forEach(oldScript => {
+                        const newScript = document.createElement("script");
+                        [...oldScript.attributes].forEach(attr => {
+                            newScript.setAttribute(attr.name, attr.value);
+                        });
+                        newScript.textContent = oldScript.textContent;
+                        oldScript.replaceWith(newScript);
+                    });
+                }
+            });
+          `,
+          tagPosition: 'head',
+          type: 'text/javascript'
+        }
+      ]
+    }
+  }
+})

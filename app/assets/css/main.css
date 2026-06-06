@@ -1,0 +1,244 @@
+:root {
+  --bg-primary: #010101;
+  --content-1: #ffffff0d;
+  --content-2: #ffffff1f;
+  --content-1-hover: #ffffff14;
+  --content-2-hover: #ffffff26;
+  --text-primary: white;
+  --text-secondary: #8b949e;
+  --text-tertiary: #484f58;
+  /* --accent-primary: #00d9ff; */
+  --accent-primary: #e9a0ff;
+  --accent-secondary: #00b8d4;
+  --accent-tertiary: #a78bfa;
+  /* --color-cyan: #00d9ff; */
+  --color-cyan: #d282e6;
+  --color-purple: #a78bfa;
+  --color-gray-400: #8b949e;
+  --color-gray-500: #6e7681;
+  --color-gray-600: #484f58;
+  --color-gray-800: #30363d;
+  --color-black: #010409;
+  --border-color-1: #ffffff14;
+  --border-color-2: #ffffff4d;
+  --grid-color: #ffffff0d;
+  --gradient-mesh: radial-gradient(
+    ellipse 90% 40% at 50% 100%,
+    #bf80da40,
+    transparent 70%
+  );
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 8rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 2rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 2px 8px #0000004d;
+  --shadow-md: 0 4px 16px #0006;
+  --shadow-lg: 0 8px 32px #00000080;
+  --shadow-glow: 0 0 40px #ffffff4d;
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Google Sans Flex", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+@supports (color: lab(0% 0 0)) {
+  :root {
+    --gradient-mesh: radial-gradient(
+      ellipse 90% 40% at 50% 100%,
+      lab(62.811% 36.783 -37.130 / 0.25),
+      transparent 70%
+    );
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+* Base layout — html / body grid background and fixed background mesh
+* ──────────────────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-attachment: fixed;
+  background-color: var(--bg-primary);
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  background-image: var(--gradient-mesh);
+  color: var(--text-primary);
+  background-size: cover;
+  background-attachment: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+h1 {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+p {
+  color: var(--text-secondary);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.8;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+* Inline link tag (the colourful pill links inside paragraphs)
+* ──────────────────────────────────────────────────────────────────────────── */
+.link-tag {
+  background-color: color-mix(in oklab, var(--accent-primary), transparent 90%);
+  color: var(--accent-primary);
+  border-radius: 0.5rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.1rem 0.25rem;
+  padding: 0.15rem 0.5rem;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: inline-flex;
+}
+
+.link-tag:hover {
+  background-color: color-mix(in oklab, var(--accent-primary), transparent 75%);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+* The reusable rounded "home" call-to-action button used in the hero.
+* Class kept on a <button> element: `<button class="home …">…</button>`
+* ──────────────────────────────────────────────────────────────────────────── */
+button.home {
+  background: var(--content-2);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: 2px solid #0000;
+  padding: 0.6rem 1.2rem;
+  font-family: inherit;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+button.home:hover {
+  box-shadow: var(--shadow-glow);
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+button.home:active {
+  transform: translateY(0);
+}
+
+button.home:focus,
+button.home:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 4px;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+* Keyframes + helper animation classes
+* ──────────────────────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  0%  { opacity: 0; transform: translateY(20px); }
+  to  { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  0%  { opacity: 0; transform: translateY(40px); }
+  to  { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  0%  { opacity: 0; scale: 0.9; }
+  to  { opacity: 1; scale: 1; }
+}
+
+@keyframes slideInLeft {
+  0%  { opacity: 0; transform: translate(-40px); }
+  to  { opacity: 1; transform: translate(0); }
+}
+
+@keyframes slideInRight {
+  0%  { opacity: 0; transform: translate(40px); }
+  to  { opacity: 1; transform: translate(0); }
+}
+
+@keyframes cursorFloat {
+  0%, to { transform: translateY(0); }
+  50%    { transform: translateY(-6px); }
+}
+
+@keyframes glow {
+  0%, to { opacity: 0.5; }
+  50%    { opacity: 1; }
+}
+
+@keyframes blink {
+  0%, 49%  { opacity: 0; }
+  50%, to  { opacity: 1; }
+}
+
+.animate-fadeIn {
+  opacity: 0;
+  animation: fadeIn 0.6s var(--transition-smooth) forwards;
+}
+
+.animate-fadeInUp {
+  opacity: 0;
+  animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+}
+
+.animate-blink {
+  animation: 1s step-end infinite blink;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+* Scrollbar + selection
+* ──────────────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-primary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--text-primary), transparent 80%);
+}
