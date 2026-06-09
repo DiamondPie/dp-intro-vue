@@ -33,6 +33,7 @@ export default defineNuxtConfig({
         { name: 'description', content: "DiamondPie's intro page - No sorrow in falling, even stars burn out." },
         { name: 'author', content: 'diamondpie' },
         { name: 'keywords', content: 'diamondpie, developer, technology, coding' },
+        { name: 'robots', content: 'index, follow' },
  
         // Open Graph / Facebook
         { property: 'og:type', content: 'website' },
