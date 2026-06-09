@@ -44,6 +44,8 @@ export default defineNuxtConfig({
         { name: 'author', content: 'diamondpie' },
         { name: 'keywords', content: 'diamondpie, developer, technology, coding' },
         { name: 'robots', content: 'index, follow' },
+        { name: 'google-site-verification', content: 'ZyziDD5-aBjYavK2JTEQPCJG9IpJirxt9AgdYvelguw' },
+        // If you're planning to deploy your own website, don't forget to replace this!
  
         // Open Graph / Facebook
         { property: 'og:type', content: 'website' },
