@@ -85,6 +85,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const art = String.raw`
  
+  
 ██████╗ ██╗ █████╗ ███╗   ███╗ ██████╗ ███╗   ██╗██████╗ ██████╗ ██╗███████╗
 ██╔══██╗██║██╔══██╗████╗ ████║██╔═══██╗████╗  ██║██╔══██╗██╔══██╗██║██╔════╝
 ██║  ██║██║███████║██╔████╔██║██║   ██║██╔██╗ ██║██║  ██║██████╔╝██║█████╗  
@@ -92,7 +93,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 ██████╔╝██║██║  ██║██║ ╚═╝ ██║╚██████╔╝██║ ╚████║██████╔╝██║     ██║███████╗
 ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝ ╚═╝     ╚═╝╚══════╝
  
-© 2026 DiamondPie. Crafted with passion, code and Gemini.
+© 2026 DiamondPie. Crafted with passion, code and Claude Opus 4.8.
  
 `
 
