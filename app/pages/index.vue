@@ -22,4 +22,22 @@ import WorksSection from '~/components/WorksSection.vue'
 import FriendsSection from '~/components/FriendsSection.vue'
 import SiteFooter from '~/components/SiteFooter.vue'
 import BackToTopButton from '~/components/BackToTopButton.vue'
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        'name': 'Weirdo DiamondPie',
+        'url': 'https://dpp.qzz.io'
+      })
+    }
+  ]
+})
+
+useSeoMeta({
+  ogSiteName: 'Weirdo DiamondPie'
+})
 </script>
