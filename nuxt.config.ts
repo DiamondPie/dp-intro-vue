@@ -5,7 +5,8 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxtjs/sitemap'
   ],
 
   tailwindcss: {
@@ -21,6 +22,15 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {}
     }
+  },
+
+  site: {
+    url: "https://dpp.qzz.io",
+    name: "DiamondPie's intro page"
+  },
+
+  sitemap: {
+    zeroRuntime: true
   },
 
   app: {

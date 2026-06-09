@@ -1,2 +1,4 @@
 User-Agent: *
 Disallow:
+
+Sitemap: https://dpp.qzz.io/sitemap.xml
