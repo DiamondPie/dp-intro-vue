@@ -4,7 +4,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/i18n'
   ],
 
   tailwindcss: {
@@ -84,6 +85,29 @@ export default defineNuxtConfig({
           type: 'text/javascript'
         }
       ]
+    }
+  },
+
+  i18n: {
+    strategy: 'prefix', 
+    defaultLocale: 'en', 
+    locales: [
+      {
+        code: 'en',
+        name: 'English',
+        file: 'en.json'
+      },
+      {
+        code: 'zh',
+        name: '简体中文',
+        file: 'zh.json'
+      }
+    ],
+    langDir: 'locales/',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root'
     }
   }
 })
