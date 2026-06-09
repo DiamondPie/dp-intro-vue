@@ -1,1 +1,41 @@
-{}
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "works": "Works",
+    "friends": "Friends"
+  },
+  "hero": {
+    "get_in_touch": "Get in Touch",
+    "contact": "Contact",
+    "terminal_path": "~/en",
+    "subtext": "Entering university and wanting to make more friends 👀"
+  },
+  "about": {
+    "title": "About Me",
+    "dp_warning": "⚠️ Not to be confused with {link}, an algorithmic paradigm."
+  },
+  "works": {
+    "title": "Works",
+    "blog_title": "Personal Blog",
+    "blog_desc": "A hexo blog built based on Anzhiyu Theme.",
+    "irisbot_title": "Irisbot",
+    "irisbot_desc": "A native discord chatbot build with discord.py",
+    "detectclipout_title": "DetectClipOut",
+    "detectclipout_desc": "An NZQA exam simulation page, which would detect if you have clipped out of the page.",
+    "countdown_title": "Countdown",
+    "countdown_desc": "A new year (or any events) countdown frontend."
+  },
+  "friends": {
+    "title": "Friends",
+    "invite_heading": "Keen to show up?",
+    "invite_text": "Fill up a short form... and appear on the friend link!",
+    "invite_contact": "Contact me via {email} if you are unable to access the form due to network issues.",
+    "invite_email": "Email",
+    "invite_btn": "Fill the form"
+  },
+  "footer": {
+    "get_in_touch": "Get in Touch",
+    "copyright": "© 2026 DiamondPie. Crafted with passion, code and {llm}."
+  }
+}

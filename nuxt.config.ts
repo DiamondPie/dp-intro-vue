@@ -47,7 +47,6 @@ export default defineNuxtConfig({
         { name: 'twitter:image', content: 'https://dpp.qzz.io/preview.png' }
       ],
       link: [
-        { rel: 'alternate', hreflang: 'zh-Hans', href: 'https://dpp.qzz.io/zh/' },
         { rel: 'icon', href: '/icon.jpg', type: 'image/jpeg' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
@@ -89,8 +88,8 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    strategy: 'prefix', 
-    defaultLocale: 'en', 
+    strategy: 'no_prefix',
+    defaultLocale: 'en',
     locales: [
       {
         code: 'en',

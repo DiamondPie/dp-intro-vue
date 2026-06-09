@@ -25,12 +25,12 @@
             class="mb-6 flex gap-2 flex-wrap justify-center lg:justify-start"
           >
             <a
-              href="/zh/"
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 0.6s 1 normal both running scaleIn;
                 background-color: color-mix(rgb(233, 160, 255) 10%, transparent);
               "
+              @click.prevent="toggleLocale"
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
                 <div
@@ -40,7 +40,9 @@
                     filter: drop-shadow(rgba(233, 160, 255, 0.5) 0px 0px 20px);
                   "
                 >
+                  <!-- English icon — shown when current locale is en -->
                   <svg
+                    v-if="locale === 'en'"
                     xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink"
                     aria-hidden="true"
@@ -54,6 +56,23 @@
                       <rect width="36" height="36" x="6" y="6" stroke-linejoin="round" rx="3" />
                       <path stroke-linejoin="round" d="M14 18h20v10H14z" />
                       <path d="M24 14v21" />
+                    </g>
+                  </svg>
+                  <!-- Chinese icon — shown when current locale is zh -->
+                  <svg
+                    v-else
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    aria-hidden="true"
+                    role="img"
+                    class="iconify iconify--simple-icons"
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 48 48"
+                  >
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+                      <rect width="36" height="36" x="6" y="6" rx="3" />
+                      <path d="M13 31V17h8m-8 7h7.5M13 31h7.5m5.5 0V19m0 12v-6.5a4.5 4.5 0 0 1 4.5-4.5v0a4.5 4.5 0 0 1 4.5 4.5V31" />
                     </g>
                   </svg>
                 </div>
@@ -285,7 +304,7 @@
             style="animation-delay: 0.85s"
           >
             <button data-target="about" class="home group !text-sm lg:!text-base">
-              About<span
+              {{ $t('nav.about') }}<span
                 class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform"
               >
                 <svg
@@ -312,7 +331,7 @@
             </button>
 
             <button data-target="works" class="home group !text-sm lg:!text-base">
-              Works<span
+              {{ $t('nav.works') }}<span
                 class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform"
               >
                 <svg
@@ -339,7 +358,7 @@
             </button>
 
             <button data-target="friends" class="home group !text-sm lg:!text-base">
-              Friends<span
+              {{ $t('nav.friends') }}<span
                 class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform"
               >
                 <svg
@@ -370,7 +389,7 @@
               style="background: var(--text-primary); color: var(--color-black)"
               @click="openMail"
             >
-              Get in Touch<span
+              {{ $t('hero.get_in_touch') }}<span
                 class="inline-block align-middle ml-2 group-hover:scale-125 transition-transform"
               >
                 <svg
@@ -419,6 +438,14 @@
 <script setup>
 import PixelCanvas from './HeroSection/PixelCanvas.vue'
 import CommandLine from './HeroSection/CommandLine.vue'
+
+const { locale } = useI18n()
+
+function toggleLocale() {
+  const next = locale.value === 'zh' ? 'en' : 'zh'
+  document.cookie = `i18n_redirected=${next};path=/;max-age=31536000;SameSite=Lax`
+  window.location.reload()
+}
 
 function openMail() {
   if (typeof window !== 'undefined' && typeof window.openMailClient === 'function') {

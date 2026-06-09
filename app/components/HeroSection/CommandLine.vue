@@ -16,7 +16,7 @@
       class="mb-2 lg:mb-4 animate-fadeInUp font-mono text-xs lg:text-sm opacity-70"
       style="animation-delay: 0.1s;"
     >
-      <span style="color: var(--color-cyan);">user@diamondpie</span><span style="color: var(--color-gray-500);">:</span><span style="color: var(--color-purple);">~/en</span><span style="color: var(--color-gray-500);">$</span><span class="cmd-line ml-2">
+      <span style="color: var(--color-cyan);">user@diamondpie</span><span style="color: var(--color-gray-500);">:</span><span style="color: var(--color-purple);">{{ $t('hero.terminal_path') }}</span><span style="color: var(--color-gray-500);">$</span><span class="cmd-line ml-2">
         <input
           id="cmd-input"
           class="cmd-editable"
@@ -63,7 +63,7 @@
       class="text-xs lg:text-sm font-mono mb-6 animate-fadeInUp hover:text-[var(--color-cyan)]"
       style="animation-delay: 0.5s; color: var(--color-gray-500); letter-spacing: 0.02em;"
     >
-      <span style="margin-right: 0.5rem;">//</span>Entering university and wanting to make more friends 👀
+      <span style="margin-right: 0.5rem;">//</span>{{ $t('hero.subtext') }}
     </p>
   </div>
 </template>

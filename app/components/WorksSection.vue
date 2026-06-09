@@ -2,7 +2,7 @@
   <section id="works" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
     <div class="animate-fadeIn">
       <h2 class="lg:text-4xl text-2xl mb-8 flex items-center gap-4 uppercase">
-        <span class="font-extrabold">Works</span>
+        <span class="font-extrabold">{{ $t('works.title') }}</span>
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <a
@@ -38,31 +38,34 @@
 </template>
 
 <script setup>
-const works = [
+import { computed } from 'vue'
+
+const { t } = useI18n()
+
+const works = computed(() => [
   {
     href: 'https://blog.dpp.qzz.io',
-    title: 'Personal Blog',
-    description: 'A hexo blog built based on Anzhiyu Theme.',
+    title: t('works.blog_title'),
+    description: t('works.blog_desc'),
     image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/blog.webp'
   },
   {
     href: 'https://github.com/DiamondPie/Irisbot',
-    title: 'Irisbot',
-    description: 'A native discord chatbot build with discord.py',
+    title: t('works.irisbot_title'),
+    description: t('works.irisbot_desc'),
     image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/discord_bot.webp'
   },
   {
     href: 'https://github.com/DiamondPie/DetectClipOut',
-    title: 'DetectClipOut',
-    description:
-      'An NZQA exam simulation page, which would detect if you have clipped out of the page.',
+    title: t('works.detectclipout_title'),
+    description: t('works.detectclipout_desc'),
     image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/detect_clip.webp'
   },
   {
     href: 'https://year.dpp.qzz.io',
-    title: 'Countdown',
-    description: 'A new year (or any events) countdown frontend.',
+    title: t('works.countdown_title'),
+    description: t('works.countdown_desc'),
     image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/countdown.webp'
   }
-]
+])
 </script>

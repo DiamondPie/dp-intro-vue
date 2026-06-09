@@ -11,11 +11,14 @@
     </div>
 
     <div class="friend-invite-text">
-      <h3>Keen to show up?</h3>
-      <p>Fill up a short form... and appear on the friend link!</p>
+      <h3>{{ $t('friends.invite_heading') }}</h3>
+      <p>{{ $t('friends.invite_text') }}</p>
       <p>
-        Contact me via <a @click="openMail">Email</a> if you are unable to access the form due to
-        network issues.
+        <i18n-t keypath="friends.invite_contact" tag="span" scope="global">
+          <template #email>
+            <a @click="openMail">{{ $t('friends.invite_email') }}</a>
+          </template>
+        </i18n-t>
       </p>
     </div>
 
@@ -30,7 +33,7 @@
           d="M14 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9l-7-7zm5 16H5V5h8v5h5v9zM9 13h6v2H9v-2zm0-3h6v2H9v-2zm0 6h4v2H9v-2z"
         />
       </svg>
-      Fill the form
+      {{ $t('friends.invite_btn') }}
     </a>
   </div>
 </template>

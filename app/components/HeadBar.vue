@@ -48,7 +48,7 @@
                 data-target="home"
                 class="px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 mix-blend-lighten bg-white/20 text-white"
               >
-                Home
+                {{ $t('nav.home') }}
               </button>
               <div class="w-px h-5 bg-white/10" />
             </div>
@@ -57,7 +57,7 @@
                 data-target="about"
                 class="px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 mix-blend-lighten bg-transparent text-white/60 hover:text-white hover:bg-white/10"
               >
-                About
+                {{ $t('nav.about') }}
               </button>
               <div class="w-px h-5 bg-white/10" />
             </div>
@@ -66,7 +66,7 @@
                 data-target="works"
                 class="px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 mix-blend-lighten bg-transparent text-white/60 hover:text-white hover:bg-white/10"
               >
-                Works
+                {{ $t('nav.works') }}
               </button>
               <div class="w-px h-5 bg-white/10" />
             </div>
@@ -75,7 +75,7 @@
                 data-target="friends"
                 class="px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 mix-blend-lighten bg-transparent text-white/60 hover:text-white hover:bg-white/10"
               >
-                Friends
+                {{ $t('nav.friends') }}
               </button>
             </div>
           </div>
@@ -85,7 +85,7 @@
             class="flex items-center gap-2 leading-[2.75rem] px-4 rounded-full font-medium text-sm transition-all duration-300 hover:scale-105 bg-white text-black"
             @click="openMail"
           >
-            Get in Touch
+            {{ $t('hero.get_in_touch') }}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -114,7 +114,7 @@
             style="background: var(--text-primary); color: var(--color-black);"
             @click="openMail"
           >
-            <span>Contact</span>
+            <span>{{ $t('hero.contact') }}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -166,28 +166,28 @@
           class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-[var(--color-cyan)]"
           style="transition-delay: 0ms; transform: translateX(-20px); opacity: 0;"
         >
-          Home
+          {{ $t('nav.home') }}
         </button>
         <button
           data-target="about"
           class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-white/90 hover:text-white"
           style="transition-delay: 0ms; transform: translateX(-20px); opacity: 0;"
         >
-          About
+          {{ $t('nav.about') }}
         </button>
         <button
           data-target="works"
           class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-white/90 hover:text-white"
           style="transition-delay: 0ms; transform: translateX(-20px); opacity: 0;"
         >
-          Works
+          {{ $t('nav.works') }}
         </button>
         <button
           data-target="friends"
           class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-white/90 hover:text-white"
           style="transition-delay: 0ms; transform: translateX(-20px); opacity: 0;"
         >
-          Friends
+          {{ $t('nav.friends') }}
         </button>
       </nav>
     </div>

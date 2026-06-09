@@ -1,1 +1,41 @@
-{}
+{
+  "nav": {
+    "home": "主页",
+    "about": "关于",
+    "works": "作品",
+    "friends": "朋友"
+  },
+  "hero": {
+    "get_in_touch": "认识一下~",
+    "contact": "联系",
+    "terminal_path": "~/zh",
+    "subtext": "大一新生，寻找拍档中... 👀"
+  },
+  "about": {
+    "title": "About Me",
+    "dp_warning": "⚠️ 不要与 {link} 相混淆，后者是一种算法范式。"
+  },
+  "works": {
+    "title": "Works",
+    "blog_title": "我的博客",
+    "blog_desc": "一个基于 Anzhiyu 主题打造的 Hexo 博客",
+    "irisbot_title": "Irisbot",
+    "irisbot_desc": "一个基于 discord.py 构建的原生 Discord 聊天机器人",
+    "detectclipout_title": "切出检测器",
+    "detectclipout_desc": "一个 NZQA 考试模拟页面，可以检测你是否从页面中切出",
+    "countdown_title": "倒计时",
+    "countdown_desc": "新年 (或任何你想要的事件) 倒计时前端页面"
+  },
+  "friends": {
+    "title": "Friends",
+    "invite_heading": "想成为一员吗？",
+    "invite_text": "填写一份简单的表格，加入我们吧~！",
+    "invite_contact": "如果因网络原因无法访问表单，请通过{email}和我联系",
+    "invite_email": "邮件",
+    "invite_btn": "填写表格"
+  },
+  "footer": {
+    "get_in_touch": "认识一下~",
+    "copyright": "© 2026 DiamondPie. 倾注热情、代码和 {llm} 精心打造."
+  }
+}

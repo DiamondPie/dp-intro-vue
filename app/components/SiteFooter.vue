@@ -36,7 +36,7 @@
         style="background: var(--text-primary); color: var(--color-black)"
         @click="openMail"
       >
-        Get in Touch<svg
+        {{ $t('footer.get_in_touch') }}<svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           aria-hidden="true"
@@ -61,13 +61,17 @@
     <div class="flex mx-6 flex-col items-center">
       <h1 class="w-[75vw] tracking-tighter text-white font-mono font-bold">
         <span class="-ml-4"><img src="/logo.svg" alt="DiamondPie" class="jelly-like" /></span>
-        <p
+        <i18n-t
+          keypath="footer.copyright"
+          tag="p"
+          scope="global"
           class="mt-16 tracking-normal font-normal"
           style="color: var(--text-secondary)"
         >
-          © 2026 DiamondPie. Crafted with passion, code and
-          <span style="text-decoration: line-through">Gemini</span>.
-        </p>
+          <template #llm>
+            <span style="text-decoration: line-through">LLMs</span>
+          </template>
+        </i18n-t>
       </h1>
     </div>
   </footer>
