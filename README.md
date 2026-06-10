@@ -13,13 +13,13 @@
 
 </div>
 
-A personal introduction and portfolio site for **DiamondPie~** which blends a terminal/hacker aesthetic with fluid scroll-driven animations and interactive elements.
+A personal introduction and portfolio site for **DiamondPie** (myself!), which blends a terminal/hacker aesthetic with fluid scroll-driven animations and interactive elements.
 
-Live at **[dpp.qzz.io](https://dpp.qzz.io)**
+👉 Live at **[dpp.qzz.io](https://dpp.qzz.io)** ✨
 
 ---
 
-## Project Structure
+## 🔍 Project Structure
 
 ```
 dp-intro-vue/
@@ -47,11 +47,21 @@ dp-intro-vue/
 └── nuxt.config.ts
 ```
 
-## License
+## 🤝 Contributions
 
-The entire repository, including the page itself, its components, and content, is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You may not use anything in the repository for commercial purposes.
+Any suggestions, feedbacks and issues are welcomed. Just [fire an issue](https://github.com/DiamondPie/dp-intro-vue/issues/new) and write anything!
 
+## ⚖️ License
 
+The entire repository, including the page itself, its components, and content, is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). 
+
+You may not use anything in the repository for commercial purposes.
+
+---
+
+<br/>
 <div align="center">
-  <sub>© 2026 DiamondPie — Crafted with passion, code and Gemini.</sub>
+  <a href="https://dpp.qzz.io"><img align=center src="https://raw.githubusercontent.com/DiamondPie/storage/refs/heads/main/logo.svg" alt="DiamondPie" width="70%" height="auto" /></a>
+
+  <sub>© 2026 DiamondPie — Crafted with passion, code and LLms.</sub>
 </div>
