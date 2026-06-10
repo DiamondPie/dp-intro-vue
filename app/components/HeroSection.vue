@@ -299,6 +299,7 @@
                 </div>
               </div>
             </a>
+
           </div>
 
           <div
@@ -434,19 +435,29 @@
         </svg>
       </div>
     </div>
+
+    <TransitionDXTransition :loading="dxTransitionLoading" />
   </header>
 </template>
 
 <script setup>
 import PixelCanvas from './HeroSection/PixelCanvas.vue'
 import CommandLine from './HeroSection/CommandLine.vue'
+import TransitionDXTransition from './Transition/DXTransition.vue'
 
-const { locale } = useI18n()
+const { locale, setLocale } = useI18n()
+
+const dxTransitionLoading = ref(false)
 
 function toggleLocale() {
+  if (dxTransitionLoading.value) return
   const next = locale.value === 'zh' ? 'en' : 'zh'
-  document.cookie = `i18n_redirected=${next};path=/;max-age=31536000;SameSite=Lax`
-  window.location.reload()
+  dxTransitionLoading.value = true
+  setTimeout(() => {
+    document.cookie = `i18n_redirected=${next};path=/;max-age=31536000;SameSite=Lax`
+    setLocale(next)
+  }, 400)
+  setTimeout(() => { dxTransitionLoading.value = false }, 1200)
 }
 
 function openMail() {
