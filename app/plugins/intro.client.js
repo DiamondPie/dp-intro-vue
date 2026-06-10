@@ -44,6 +44,34 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   }
 
+  const logPluginStatus = (message, { isError = false } = {}) => {
+    const rootStyles = getComputedStyle(document.documentElement)
+    const accentColor = isError
+      ? '#ef4444'
+      : (rootStyles.getPropertyValue('--accent-tertiary').trim() || '#a78bfa')
+
+    const getRgba = (hex) => {
+      const cleanHex = hex.replace('#', '')
+      const r = parseInt(cleanHex.substring(0, 2), 16)
+      const g = parseInt(cleanHex.substring(2, 4), 16)
+      const b = parseInt(cleanHex.substring(4, 6), 16)
+      return `rgba(${r}, ${g}, ${b}, 0.15)`
+    }
+
+    const rightBg = getRgba(accentColor)
+
+    console.log(
+      `%cdp.Intro %c ${message} `,
+      `color: white; font-weight: bold; border-radius: 3px 0 0 3px; padding: 2px 4px 1px 10px; background: ${accentColor}`,
+      `color: white; border-radius: 0 3px 3px 0; padding: 2px 10px 1px 4px; background: ${rightBg}`,
+      ''
+    )
+  }
+
+  const pluginStartTime = performance.now()
+
+  logPluginStatus('Client plugin initializing...')
+
   /**
    * 使用多行字符串并在控制台打印渐变色
    * @param {string} charString - 多行字符串
@@ -340,8 +368,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // ── Run all DOM-dependent initializers after Vue has mounted the tree. ──
   nuxtApp.hook('app:mounted', () => {
-    initBtnContainerHover()
-    handleScrollEffects()
-    initScrollSpy()
+    try {
+      initBtnContainerHover()
+      handleScrollEffects()
+      initScrollSpy()
+      logPluginStatus(`Loaded successfully! Cost ${(performance.now() - pluginStartTime).toFixed(1)}ms`)
+    } catch (err) {
+      logPluginStatus(`Error: ${err.message}`, { isError: true })
+      console.error(err.stack)
+    }
   })
 })
