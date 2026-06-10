@@ -6,7 +6,7 @@
   ![Nuxt 4](https://img.shields.io/badge/Nuxt-4.4.7-09dd86?logo=nuxt)
   ![Vue 3](https://img.shields.io/badge/Vue-3-42b883?logo=vue.js)
   ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06b6d4?logo=tailwindcss)
-  [![MIT license](https://custom-icon-badges.demolab.com/github/license/denvercoder1/custom-icon-badges?logo=law)](https://lbesson.mit-license.org/)
+  [![CC BY-NC-SA 4.0](https://custom-icon-badges.demolab.com/github/license/diamondpie/dp-intro-vue?logo=law)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
   ![](https://img.shields.io/github/last-commit/DiamondPie/dp-intro-vue)
 
@@ -45,6 +45,11 @@ dp-intro-vue/
 │   └── intro.client.js     # Console banner, scroll effects, nav spy
 └── nuxt.config.ts
 ```
+
+## License
+
+The entire repository, including the page itself, its components, and content, is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You may not use anything in the repository for commercial purposes.
+
 
 <div align="center">
   <sub>© 2026 DiamondPie — Crafted with passion, code and Gemini.</sub>
