@@ -391,7 +391,6 @@ onMounted(() => {
   })
 
   cmdInput.addEventListener('input', (e) => {
-    console.log('input triggered. value=', cmdInput.value)
     if (activeCommand) {
       const before = cmdInput.dataset.lastValue ?? ''
       cmdInput.value = before
@@ -401,16 +400,6 @@ onMounted(() => {
   })
 
   cmdInput.addEventListener('input', () => {
-    if (cmdInput.value.length === 16) {
-      setDiamondContent('What the dog doin?')
-      return
-    } else if (diamondEl.textContent === 'What the dog doin?') {
-      setDiamondContent('')
-      activeCommand = null
-      hideParameter()
-      hideEnterHint()
-    }
-
     // Strip any spaces that might have slipped through
     cmdInput.value = cmdInput.value.replace(/\s/g, '')
 
