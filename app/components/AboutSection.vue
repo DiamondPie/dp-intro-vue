@@ -75,7 +75,7 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import PhotoGrid from './AboutSection/PhotoGrid.vue'
 
 const { locale } = useI18n()
@@ -85,13 +85,33 @@ let touchstartHandler = null
 let clickHandler = null
 let mouseupHandler = null
 let touchendHandler = null
+let currentTrigger = null
 
-onMounted(() => {
+function teardown() {
+  if (currentTrigger) {
+    if (mousedownHandler) currentTrigger.removeEventListener('mousedown', mousedownHandler)
+    if (touchstartHandler) currentTrigger.removeEventListener('touchstart', touchstartHandler)
+    if (clickHandler) currentTrigger.removeEventListener('click', clickHandler)
+    currentTrigger = null
+  }
+  if (mouseupHandler) document.removeEventListener('mouseup', mouseupHandler)
+  if (touchendHandler) document.removeEventListener('touchend', touchendHandler)
+  mousedownHandler = null
+  touchstartHandler = null
+  clickHandler = null
+  mouseupHandler = null
+  touchendHandler = null
+}
+
+async function setup() {
+  teardown()
+  await nextTick()
   const trigger = document.getElementById('perspectiveTrigger')
   const box = document.getElementById('perspectiveBox')
   if (!trigger || !box) return
 
-  const DURATION = 500 // ms
+  currentTrigger = trigger
+  const DURATION = 500
 
   let rafId = null
   let startTime = null
@@ -107,7 +127,6 @@ onMounted(() => {
     startTime = null
     trigger.classList.remove('arc-active')
     if (animate) {
-      // quick visual retraction
       let start = null
       const currentPct = parseFloat(trigger.style.getPropertyValue('--arc-pct')) || 0
       function retract(now) {
@@ -135,7 +154,6 @@ onMounted(() => {
         rafId = requestAnimationFrame(tick)
       } else {
         rafId = null
-        //   trigger.classList.remove('arc-active');
         toggleBox()
       }
     }
@@ -150,7 +168,6 @@ onMounted(() => {
   mousedownHandler = (e) => {
     e.preventDefault()
     if (isOpen) {
-      // already open → close immediately, no arc needed
       toggleBox()
       trigger.classList.remove('arc-active')
       return
@@ -160,10 +177,7 @@ onMounted(() => {
   trigger.addEventListener('mousedown', mousedownHandler)
 
   mouseupHandler = () => {
-    if (rafId !== null) {
-      // arc was in progress but not completed → cancel
-      resetArc(true)
-    }
+    if (rafId !== null) resetArc(true)
   }
   document.addEventListener('mouseup', mouseupHandler)
 
@@ -185,18 +199,11 @@ onMounted(() => {
 
   clickHandler = (e) => e.preventDefault()
   trigger.addEventListener('click', clickHandler)
-})
+}
 
-onBeforeUnmount(() => {
-  const trigger = document.getElementById('perspectiveTrigger')
-  if (trigger) {
-    if (mousedownHandler) trigger.removeEventListener('mousedown', mousedownHandler)
-    if (touchstartHandler) trigger.removeEventListener('touchstart', touchstartHandler)
-    if (clickHandler) trigger.removeEventListener('click', clickHandler)
-  }
-  if (mouseupHandler) document.removeEventListener('mouseup', mouseupHandler)
-  if (touchendHandler) document.removeEventListener('touchend', touchendHandler)
-})
+onMounted(setup)
+watch(locale, setup)
+onBeforeUnmount(teardown)
 </script>
 
 <style scoped>
