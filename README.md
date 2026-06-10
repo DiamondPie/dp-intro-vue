@@ -3,7 +3,7 @@
   
   *No sorrow in falling - even stars burn out.*
 
-  ![Nuxt 4](https://img.shields.io/badge/Nuxt-4.4.7-09dd86?logo=nuxt)
+  ![Nuxt 4](https://img.shields.io/badge/Nuxt-4.4.8-09dd86?logo=nuxt)
   ![Vue 3](https://img.shields.io/badge/Vue-3-42b883?logo=vue.js)
   ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06b6d4?logo=tailwindcss)
   [![CC BY-NC-SA 4.0](https://custom-icon-badges.demolab.com/badge/License-CC%20BY%20NC--SA%204.0-blue?logo=law)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
