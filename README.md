@@ -24,26 +24,29 @@ A personal introduction and portfolio site for **DiamondPie** (myself!), which b
 ```
 dp-intro-vue/
 ├── pages/
-│   └── index.vue          # Single-page scroll layout
+│   └── index.vue              # Single-page scroll layout
 ├── components/
-│   ├── HeadBar.vue         # Fixed nav — fades in on scroll
-│   ├── HeroSection.vue     # Full-viewport landing with terminal & portrait
-│   │   ├── PixelCanvas.vue     # ASCII-art portrait / QR code canvas
-│   │   └── CommandLine.vue     # Interactive terminal with command registry
-│   ├── BackgroundCover.vue # Scroll-driven gradient backdrop
-│   ├── AboutSection.vue    # Bio, interests, photo grid
-│   │   └── PhotoGrid.vue       # Masonry layout of personal photos
-│   ├── WorksSection.vue    # Featured project cards
-│   ├── FriendsSection.vue  # Friend cards + invite form
+│   ├── HeadBar.vue             # Fixed nav — fades in on scroll
+│   ├── HeroSection.vue         # Full-viewport landing with terminal & portrait
+│   │   ├── PixelCanvas.vue         # ASCII-art portrait / QR code canvas
+│   │   └── CommandLine.vue         # Interactive terminal with command registry
+│   ├── Transition/             # maimai DX-style page transition
+│   │   ├── DXTransition.vue        # Orchestrator — driven by a :loading prop
+│   │   └── ...                     # Rest of background panels and svg elements
+│   ├── BackgroundCover.vue     # Scroll-driven gradient backdrop
+│   ├── AboutSection.vue        # Bio, interests, photo grid
+│   │   └── PhotoGrid.vue           # Masonry layout of personal photos
+│   ├── WorksSection.vue        # Featured project cards
+│   ├── FriendsSection.vue      # Friend cards + invite form
 │   │   └── FriendInvite.vue
-│   ├── SiteFooter.vue      # Social links, draggable logo
+│   ├── SiteFooter.vue          # Social links, draggable logo
 │   └── BackToTopButton.vue
-├── error.vue               # Custom 404/403 terminal-style error page
+├── error.vue                  # Custom 404/403 terminal-style error page
 ├── assets/
-│   ├── css/main.css        # CSS variables, global animations
-│   └── data/pixelData.js   # Portrait & QR code pixel data
+│   ├── css/main.css            # CSS variables, global animations
+│   └── data/pixelData.js       # Portrait & QR code pixel data
 ├── plugins/
-│   └── intro.client.js     # Console banner, scroll effects, nav spy
+│   └── intro.client.js         # Console banner, scroll effects, nav spy
 └── nuxt.config.ts
 ```
 
