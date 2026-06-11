@@ -1,0 +1,10 @@
+{
+  "eslint.useFlatConfig": true,
+  "eslint.format.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "vue",
+    "json"
+  ],
+}
