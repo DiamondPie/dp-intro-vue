@@ -1,6 +1,6 @@
 <template>
   <div class="friend-invite">
-    <div class="friend-invite-glow"></div>
+    <div class="friend-invite-glow"/>
 
     <div class="friend-invite-icon">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

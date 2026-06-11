@@ -24,7 +24,7 @@
                   class="w-[inherit] h-[inherit] object-cover transition-opacity duration-500 ease-in-out opacity-100"
                   :src="friend.avatar"
                   loading="lazy"
-                />
+                >
               </div>
               <div class="flex flex-col min-w-0 gap-1">
                 <h3 class="text-sm font-bold truncate">{{ friend.name }}</h3>

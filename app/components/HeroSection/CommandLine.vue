@@ -156,10 +156,10 @@ onMounted(() => {
   }
 
   // ─── State ───────────────────────────────────────────────────────────────────
-  let currentContent = ''       // text currently shown inside #diamondpie
+  let _currentContent = ''      // text currently shown inside #diamondpie
   let typeTimer = null          // handle for ongoing typewriter timeout
   let deleteTimer = null        // handle for ongoing delete timeout
-  let isAnimating = false       // guard: true while type/delete in progress
+  let _isAnimating = false      // guard: true while type/delete in progress
   let activeCommand = null      // the matched command key (string) or null
   let enterHintVisible = false  // whether the ↵ hint is currently shown
 
@@ -191,14 +191,14 @@ onMounted(() => {
    */
   function deleteContent(onDone) {
     clearTimers()
-    isAnimating = true
+    _isAnimating = true
 
     function step() {
       const txt = diamondEl.textContent
       if (txt.length === 0) {
-        isAnimating = false
-        currentContent = ''
-        onDone && onDone()
+        _isAnimating = false
+        _currentContent = ''
+        if (onDone) onDone()
         return
       }
       diamondEl.textContent = txt.slice(0, -1)
@@ -212,7 +212,7 @@ onMounted(() => {
    */
   function typeContent(text, onDone) {
     clearTimers()
-    isAnimating = true
+    _isAnimating = true
     let i = 0
 
     function step() {
@@ -221,9 +221,9 @@ onMounted(() => {
         i++
         typeTimer = setTimeout(step, randomDelay(60, 35))
       } else {
-        isAnimating = false
-        currentContent = text
-        onDone && onDone()
+        _isAnimating = false
+        _currentContent = text
+        if (onDone) onDone()
       }
     }
     step()
@@ -390,7 +390,7 @@ onMounted(() => {
     }
   })
 
-  cmdInput.addEventListener('input', (e) => {
+  cmdInput.addEventListener('input', () => {
     if (activeCommand) {
       const before = cmdInput.dataset.lastValue ?? ''
       cmdInput.value = before
@@ -431,11 +431,7 @@ onMounted(() => {
     e.preventDefault()
     cmdInput.focus()
     const len = cmdInput.value.length
-    if (cmdInput.setSelectionRange === undefined) {
-      cmdInput.value = cmdInput.value
-    } else {
-      cmdInput.setSelectionRange(len, len)
-    }
+    cmdInput.setSelectionRange(len, len)
   })
   cmdInput.addEventListener('mousedown', (e) => e.preventDefault())
   // Set default command value

@@ -181,7 +181,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     // 获取当前滚动高度
     const scrollTop = window.scrollY || document.documentElement.scrollTop
 
-    let coverOpacity = 1
+    let coverOpacity
     // --- 1. 处理 #cover 的 Opacity (370px - 870px) ---
     if (cover) {
       if (scrollTop < 370) {

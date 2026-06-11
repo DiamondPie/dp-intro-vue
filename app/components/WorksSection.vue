@@ -20,12 +20,12 @@
               class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[600ms] ease-in-out opacity-100"
               :src="work.image"
               loading="lazy"
-            />
+            >
           </div>
           <div class="relative z-10 mt-auto">
             <div
               class="absolute -left-[2px] -right-[2px] -bottom-[2px] -top-12 z-[-1] bg-gradient-to-t from-black/80 via-black/40"
-            ></div>
+            />
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">{{ work.title }}</h3>
               <p class="text-sm leading-relaxed line-clamp-2 text-white/60">{{ work.description }}</p>
