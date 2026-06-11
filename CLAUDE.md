@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with code in this repository.
 
 ## Commands
 
@@ -16,7 +16,7 @@ Package manager is **pnpm** (v11). Always use `pnpm`, never `npm` or `yarn`.
 
 ## Architecture
 
-This is a **Nuxt 4** single-page portfolio site. All application code lives under `app/` (Nuxt 4 convention).
+This is a **Nuxt 4** single-page portfolio site. All application code lives under `app/` (Nuxt 4 convention). This site uses **SSG**.
 
 ### Page structure
 
