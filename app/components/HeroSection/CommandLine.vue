@@ -156,10 +156,8 @@ onMounted(() => {
   }
 
   // ─── State ───────────────────────────────────────────────────────────────────
-  let _currentContent = ''      // text currently shown inside #diamondpie
   let typeTimer = null          // handle for ongoing typewriter timeout
   let deleteTimer = null        // handle for ongoing delete timeout
-  let _isAnimating = false      // guard: true while type/delete in progress
   let activeCommand = null      // the matched command key (string) or null
   let enterHintVisible = false  // whether the ↵ hint is currently shown
 
@@ -191,13 +189,10 @@ onMounted(() => {
    */
   function deleteContent(onDone) {
     clearTimers()
-    _isAnimating = true
 
     function step() {
       const txt = diamondEl.textContent
       if (txt.length === 0) {
-        _isAnimating = false
-        _currentContent = ''
         if (onDone) onDone()
         return
       }
@@ -212,7 +207,6 @@ onMounted(() => {
    */
   function typeContent(text, onDone) {
     clearTimers()
-    _isAnimating = true
     let i = 0
 
     function step() {
@@ -221,8 +215,6 @@ onMounted(() => {
         i++
         typeTimer = setTimeout(step, randomDelay(60, 35))
       } else {
-        _isAnimating = false
-        _currentContent = text
         if (onDone) onDone()
       }
     }
