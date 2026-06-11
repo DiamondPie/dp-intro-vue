@@ -21,7 +21,7 @@
   <div
     id="pixel-canvas"
     translate="no"
-    class="font-mono opacity-0 transition-all transition-ease-in-out text-[4.5px] leading-[6px] sm:text-[6px] sm:leading-[8px] lg:text-[9px] lg:leading-[12px] tracking-normal notranslate"
+    class="font-mono opacity-0 transition-all transition-ease-in-out text-[4.5px] leading-[6px] sm:text-[6px] sm:leading-[8px] lg:text-[9px] lg:leading-[12px] tracking-normal notranslate min-w-[80ch] min-h-[222px] sm:min-h-[296px] lg:min-h-[444px]"
     style="text-size-adjust: none; -webkit-text-size-adjust: none; opacity: 1; transition: filter 1s ease-out, opacity 0.3s ease; filter: grayscale(1);"
   />
 </template>
