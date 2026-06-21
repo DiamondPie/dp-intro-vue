@@ -62,3 +62,7 @@ Renders a pixel-art portrait and QR code from data in `app/data/pixelData.js`. T
 - @nuxtjs/i18n: https://i18n.nuxtjs.org
 - @nuxtjs/tailwindcss: https://tailwindcss.nuxtjs.org
 - @nuxtjs/sitemap: https://nuxtseo.com/sitemap
+
+## Access to docs
+
+If any online documentations are forbidden, obfuscated or truncated. Try scrape [url] by accessing webclaw mcp.
