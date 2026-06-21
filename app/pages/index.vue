@@ -9,6 +9,7 @@
       <FriendsSection />
       <SiteFooter />
       <BackToTopButton />
+      <!-- <NavDock /> -->
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ import WorksSection from '~/components/WorksSection.vue'
 import FriendsSection from '~/components/FriendsSection.vue'
 import SiteFooter from '~/components/SiteFooter.vue'
 import BackToTopButton from '~/components/BackToTopButton.vue'
+import _NavDock from '~/components/NavDock.vue'
 
 useHead({
   script: [
