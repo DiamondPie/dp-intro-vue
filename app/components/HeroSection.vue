@@ -41,6 +41,11 @@
                   "
                 >
                   <ClientOnly>
+                    <template #fallback>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" aria-hidden="true">
+                        <rect width="36" height="36" x="6" y="6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" rx="3" />
+                      </svg>
+                    </template>
                     <!-- English icon — shown when current locale is en -->
                     <svg
                       v-if="locale === 'en'"
