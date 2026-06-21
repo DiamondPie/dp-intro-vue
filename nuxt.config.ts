@@ -7,8 +7,16 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
     '@nuxtjs/sitemap',
-    '@nuxt/eslint'
+    '@nuxt/eslint',
+    '@nuxt/icon'
   ],
+
+  icon: {
+    clientBundle: {
+      scan: true,
+    },
+    mode: 'svg'
+  },
 
   tailwindcss: {
     configPath: 'tailwind.config.js',
