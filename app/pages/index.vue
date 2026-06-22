@@ -4,6 +4,13 @@
       <BackgroundCover />
       <HeadBar />
       <HeroSection />
+      <div class="relative z-10 flex items-center justify-center gap-4 px-8 py-14 animate-fadeIn" style="animation-delay: 1.35s">
+        <div class="w-12 h-px" style="background: var(--text-secondary); opacity: 0.35" />
+        <p class="text-sm text-center" style="color: var(--text-secondary); opacity: 0.55">
+          {{ $t('hero.interlude') }}
+        </p>
+        <div class="w-12 h-px" style="background: var(--text-secondary); opacity: 0.35" />
+      </div>
       <AboutSection />
       <WorksSection />
       <FriendsSection />
