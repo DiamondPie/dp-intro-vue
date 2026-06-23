@@ -19,13 +19,13 @@
   "works": {
     "title": "Works",
     "blog_title": "Personal Blog",
-    "blog_desc": "A hexo blog built based on Anzhiyu Theme.",
+    "blog_desc": "Tech notes and personal stories, built on Hexo.",
     "irisbot_title": "Irisbot",
-    "irisbot_desc": "A native discord chatbot build with discord.py",
+    "irisbot_desc": "A native Discord chatbot built with discord.py.",
     "detectclipout_title": "DetectClipOut",
-    "detectclipout_desc": "An NZQA exam simulation page, which would detect if you have clipped out of the page.",
+    "detectclipout_desc": "NZQA exam simulation with tab-switch detection.",
     "countdown_title": "Countdown",
-    "countdown_desc": "A new year (or any events) countdown frontend."
+    "countdown_desc": "Minimal countdown timer for New Year and custom events."
   },
   "friends": {
     "title": "Friends",
