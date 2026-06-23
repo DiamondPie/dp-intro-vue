@@ -1,50 +1,15 @@
 // Pre-load pixel data into the module cache before PixelCanvas mounts.
 import '~/data/pixelData.js'
 
-// ────────────────────────────────────────────────────────────────────────────
-// Cross-cutting client-side behaviour for the intro page.
-//
-// What lives here (and *why* it's not inside a single component):
-//
-//   1. ASCII-art gradient banner printed to the developer console on load.
-//   2. `initBtnContainerHover`  – the social-button hover tint logic
-//      that touches buttons rendered in BOTH the hero (#btn-container)
-//      AND the footer (#bottom-container).
-//   3. `handleScrollEffects`    – the global scroll listener that drives
-//      #cover, #head-bar, #avatar, #top-btn, #side-text, #arrow-down.
-//   4. `initScrollSpy`          – ties the nav buttons in the head bar
-//      (both desktop and mobile flavours) to the section anchors
-//      (#home / #about / #works / #friends), and wires #top-btn’s click.
-//
-// All initializers are registered against `app:mounted` rather than
-// `DOMContentLoaded`. By the time a Nuxt plugin runs, the document
-// has usually already fired `DOMContentLoaded`, so we instead wait for
-// Vue to finish mounting the component tree — which is when the IDs
-// referenced below are guaranteed to exist in the DOM.
-//
-// The script is faithful to the original — naming, comments and ordering
-// are preserved so the diff is auditable line-for-line.
-// ────────────────────────────────────────────────────────────────────────────
+import { onMounted, onUnmounted } from 'vue'
 
-export default defineNuxtPlugin((nuxtApp) => {
-  // ── Expose `openMailClient` globally, since it's referenced from
-  //    inline `onclick="openMailClient()"` handlers across the markup. ──
-  if (typeof window !== 'undefined') {
-    window.openMailClient = function openMailClient() {
-      const email = 'diamondpie@dpp.qzz.io'
-      window.location.href = `mailto:${email}`
-    }
-    // The original bundle also re-declared the lazyload options object on
-    // window; keeping it for parity even though we no longer ship the
-    // vanilla-lazyload library (see HeroSection / WorksSection / ... where
-    // the native `loading="lazy"` attribute is used instead).
-    window.lazyLoadOptions = {
-      threshold: 400,
-      cancel_on_exit: false
-    }
-  }
+export function useIntroEffects() {
+  let scrollRafTicking = false
+  let scrollListener = null
+  let sectionObserver = null
 
-  const logPluginStatus = (message, { isError = false } = {}) => {
+  // ── Console status badge ───────────────────────────────────────────────────
+  const logStatus = (message, { isError = false } = {}) => {
     const rootStyles = getComputedStyle(document.documentElement)
     const accentColor = isError
       ? '#ef4444'
@@ -68,10 +33,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     )
   }
 
-  const pluginStartTime = performance.now()
-
-  logPluginStatus('Client plugin initializing...')
-
   /**
    * 使用多行字符串并在控制台打印渐变色
    * @param {string} charString - 多行字符串
@@ -83,19 +44,16 @@ export default defineNuxtPlugin((nuxtApp) => {
     const s = parseRGB(startColor)
     const e = parseRGB(endColor)
 
-    // 1. 将字符串按行切分
     const lines = charString.split('\n')
     let fullOutput = ''
 
     lines.forEach((line) => {
-      // 过滤掉可能存在的空行（比如字符串开头结尾的换行）
       if (line.length === 0) return
 
-      const chars = [...line] // 能够正确处理特殊字符或 Emoji
+      const chars = [...line]
       const rowLength = chars.length
 
       chars.forEach((char, index) => {
-        // 2. 计算当前字符在该行中的渐变比例
         const ratio = rowLength > 1 ? index / (rowLength - 1) : 0
 
         const r = Math.round(s[0] + (e[0] - s[0]) * ratio)
@@ -112,22 +70,20 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   const art = String.raw`
- 
-  
+
+
 ██████╗ ██╗ █████╗ ███╗   ███╗ ██████╗ ███╗   ██╗██████╗ ██████╗ ██╗███████╗
 ██╔══██╗██║██╔══██╗████╗ ████║██╔═══██╗████╗  ██║██╔══██╗██╔══██╗██║██╔════╝
-██║  ██║██║███████║██╔████╔██║██║   ██║██╔██╗ ██║██║  ██║██████╔╝██║█████╗  
-██║  ██║██║██╔══██║██║╚██╔╝██║██║   ██║██║╚██╗██║██║  ██║██╔═══╝ ██║██╔══╝  
+██║  ██║██║███████║██╔████╔██║██║   ██║██╔██╗ ██║██║  ██║██████╔╝██║█████╗
+██║  ██║██║██╔══██║██║╚██╔╝██║██║   ██║██║╚██╗██║██║  ██║██╔═══╝ ██║██╔══╝
 ██████╔╝██║██║  ██║██║ ╚═╝ ██║╚██████╔╝██║ ╚████║██████╔╝██║     ██║███████╗
 ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝ ╚═╝     ╚═╝╚══════╝
- 
+
 © 2026 DiamondPie. Crafted with passion, code and Claude Opus 4.8.
- 
+
 `
 
-  printGradientString(art, 'rgb(192, 106, 217)', 'rgb(54, 38, 173)')
-
-  // ── Hover tint on the social pill containers ───────────────────────────
+  // ── Hover tint on the social pill containers ───────────────────────────────
   const initBtnContainerHover = () => {
     const container = document.getElementById('btn-container')
     const bottomContainer = document.getElementById('bottom-container')
@@ -170,7 +126,6 @@ export default defineNuxtPlugin((nuxtApp) => {
    * 处理页面滚动交互逻辑
    */
   const handleScrollEffects = () => {
-    // 获取 DOM 元素
     const cover = document.getElementById('cover')
     const headBar = document.getElementById('head-bar')
     const avatar = document.getElementById('avatar')
@@ -178,7 +133,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     const sideText = document.getElementById('side-text')
     const arrowDown = document.getElementById('arrow-down')
 
-    // 获取当前滚动高度
     const scrollTop = window.scrollY || document.documentElement.scrollTop
 
     let coverOpacity
@@ -187,10 +141,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (scrollTop < 370) {
         coverOpacity = 0
       } else if (scrollTop >= 370 && scrollTop <= 870) {
-        // 计算线性插值 (0 到 0.75)
-        // 进度 = (当前值 - 最小值) / (最大值 - 最小值)
         const progress = (scrollTop - 370) / (870 - 370)
-        // 应用 ease-in-out 缓动函数（可选，此处手动模拟简单平滑）
         const easedProgress = progress < 0.5
           ? 2 * progress * progress
           : 1 - Math.pow(-2 * progress + 2, 2) / 2
@@ -208,9 +159,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         if (distanceToBottom <= 100) {
           coverOpacity = 0
         } else {
-          // 线性插值：500 → 350 对应 opacity → 0
           const progress = (distanceToBottom - 100) / (400 - 100)
-          coverOpacity *= progress // 👈 在原有基础上渐隐（更自然）
+          coverOpacity *= progress
         }
       }
 
@@ -220,19 +170,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     // --- 2. 处理 #head-bar 和 #avatar (590px) ---
     if (headBar && avatar) {
       if (scrollTop > 590) {
-        // HeadBar 状态
         headBar.style.opacity = '1'
         headBar.style.pointerEvents = 'auto'
-        // Avatar 类名切换
         avatar.classList.replace('w-0', 'w-10')
         avatar.classList.replace('opacity-0', 'opacity-100')
         avatar.classList.replace('scale-0', 'scale-100')
         avatar.classList.replace('mr-0', 'mr-2')
       } else {
-        // 恢复初始状态
         headBar.style.opacity = '0'
         headBar.style.pointerEvents = 'none'
-        // Avatar 恢复类名
         avatar.classList.replace('w-10', 'w-0')
         avatar.classList.replace('opacity-100', 'opacity-0')
         avatar.classList.replace('scale-100', 'scale-0')
@@ -270,9 +216,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         arrowDown.classList.add('opacity-60')
       }
     }
-    arrowDown.addEventListener('click', function () {
-      document.getElementById('about').scrollIntoView()
-    })
   }
 
   const initScrollSpy = () => {
@@ -291,11 +234,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       document.getElementById(btn.getAttribute('data-target'))
     ).filter((el) => el !== null)
 
-    // --- 2. 修改核心切换逻辑 ---
+    // --- 2. 核心切换逻辑 ---
     const setActiveButton = (id) => {
       navButtons.forEach((btn) => {
         const isTarget = btn.getAttribute('data-target') === id
-        // 判断当前按钮是否在手机端菜单内 (#mobile-nav)
         const isMobileBtn = btn.closest('#mobile-nav') !== null
 
         const activeClasses = isMobileBtn ? mobileActive : desktopActive
@@ -311,14 +253,13 @@ export default defineNuxtPlugin((nuxtApp) => {
       })
     }
 
-    // Intersection Observer 配置保持不变
     const observerOptions = {
       root: null,
       rootMargin: '-30% 0px -60% 0px',
       threshold: 0
     }
 
-    const observer = new IntersectionObserver((entries) => {
+    sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setActiveButton(entry.target.id)
@@ -326,9 +267,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       })
     }, observerOptions)
 
-    sections.forEach((section) => observer.observe(section))
+    sections.forEach((section) => sectionObserver.observe(section))
 
-    // 点击跳转逻辑 (保持不变)
     navButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const targetId = btn.getAttribute('data-target')
@@ -339,43 +279,68 @@ export default defineNuxtPlugin((nuxtApp) => {
       })
     })
 
-    // 获取返回顶部按钮元素
     const topBtn = document.getElementById('top-btn')
-
     if (topBtn) {
       topBtn.addEventListener('click', () => {
-        // 使用平滑滚动回到顶部
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      })
+    }
+
+    const arrowDown = document.getElementById('arrow-down')
+    if (arrowDown) {
+      arrowDown.addEventListener('click', () => {
+        document.getElementById('about').scrollIntoView()
       })
     }
   }
 
-  // ── Wire scroll listener once (always safe; the handler itself is null-safe) ──
-  // 使用 requestAnimationFrame 优化滚动性能
-  let ticking = false
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        handleScrollEffects()
-        ticking = false
-      })
-      ticking = true
-    }
-  })
+  onMounted(() => {
+    const startTime = performance.now()
 
-  // ── Run all DOM-dependent initializers after Vue has mounted the tree. ──
-  nuxtApp.hook('app:mounted', () => {
+    // ── Expose `openMailClient` globally for inline onclick handlers ──
+    window.openMailClient = function openMailClient() {
+      const email = 'diamondpie@dpp.qzz.io'
+      window.location.href = `mailto:${email}`
+    }
+    window.lazyLoadOptions = {
+      threshold: 400,
+      cancel_on_exit: false
+    }
+
+    logStatus('Initializing...')
+    printGradientString(art, 'rgb(192, 106, 217)', 'rgb(54, 38, 173)')
+
+    // ── Wire RAF-throttled scroll listener ──
+    scrollListener = () => {
+      if (!scrollRafTicking) {
+        window.requestAnimationFrame(() => {
+          handleScrollEffects()
+          scrollRafTicking = false
+        })
+        scrollRafTicking = true
+      }
+    }
+    window.addEventListener('scroll', scrollListener)
+
     try {
       initBtnContainerHover()
       handleScrollEffects()
       initScrollSpy()
-      logPluginStatus(`Loaded successfully! Cost ${(performance.now() - pluginStartTime).toFixed(1)}ms`)
+      logStatus(`Loaded successfully! Cost ${(performance.now() - startTime).toFixed(1)}ms`)
     } catch (err) {
-      logPluginStatus(`Error: ${err.message}`, { isError: true })
+      logStatus(`Error: ${err.message}`, { isError: true })
       console.error(err.stack)
     }
   })
-})
+
+  onUnmounted(() => {
+    if (scrollListener) {
+      window.removeEventListener('scroll', scrollListener)
+      scrollListener = null
+    }
+    if (sectionObserver) {
+      sectionObserver.disconnect()
+      sectionObserver = null
+    }
+  })
+}
