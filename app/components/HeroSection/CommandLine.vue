@@ -92,7 +92,7 @@ onMounted(() => {
         // Show enter icon after full command typed; on Enter key → open mailto
         showEnterHint: true,
         onEnter: () => {
-          window.location.href = 'mailto:mymail@gmail.com'
+          window.location.href = 'mailto:diamondpie@dpp.qzz.io'
         }
       }
     },
