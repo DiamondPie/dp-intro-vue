@@ -28,7 +28,7 @@
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 0.6s 1 normal both running scaleIn;
-                background-color: color-mix(rgb(233, 160, 255) 10%, transparent);
+                background-color: color-mix(in oklab, rgb(233, 160, 255) 10%, transparent);
               "
               @click.prevent="toggleLocale"
             >
@@ -36,7 +36,7 @@
                 <div
                   class="text-xl transition-transform duration-300"
                   style="
-                    color: color-mix(rgb(233, 160, 255) 80%, white);
+                    color: color-mix(in oklab, rgb(233, 160, 255) 80%, white);
                     filter: drop-shadow(rgba(233, 160, 255, 0.5) 0px 0px 20px);
                   "
                 >
@@ -91,14 +91,14 @@
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 0.7s 1 normal both running scaleIn;
-                background-color: color-mix(rgb(234, 67, 53) 10%, transparent);
+                background-color: color-mix(in oklab, rgb(234, 67, 53) 10%, transparent);
               "
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
                 <div
                   class="text-xl transition-transform duration-300"
                   style="
-                    color: color-mix(rgb(234, 67, 53) 80%, white);
+                    color: color-mix(in oklab, rgb(234, 67, 53) 80%, white);
                     filter: drop-shadow(rgba(234, 67, 53, 0.5) 0px 0px 20px);
                   "
                 >
@@ -118,14 +118,14 @@
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 0.8s 1 normal both running scaleIn;
-                background-color: color-mix(rgb(255, 255, 255) 10%, transparent);
+                background-color: color-mix(in oklab, rgb(255, 255, 255) 10%, transparent);
               "
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
                 <div
                   class="text-xl transition-transform duration-300"
                   style="
-                    color: color-mix(rgb(255, 255, 255) 80%, white);
+                    color: color-mix(in oklab, rgb(255, 255, 255) 80%, white);
                     filter: drop-shadow(rgba(255, 255, 255, 0.5) 0px 0px 20px);
                   "
                 >
@@ -145,14 +145,14 @@
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 0.9s 1 normal both running scaleIn;
-                background-color: color-mix(rgb(246, 30, 157) 10%, transparent);
+                background-color: color-mix(in oklab, rgb(246, 30, 157) 10%, transparent);
               "
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
                 <div
                   class="text-xl transition-transform duration-300"
                   style="
-                    color: color-mix(rgb(246, 30, 157) 80%, white);
+                    color: color-mix(in oklab, rgb(246, 30, 157) 80%, white);
                     filter: drop-shadow(rgba(246, 30, 157, 0.5) 0px 0px 20px);
                   "
                 >
@@ -173,14 +173,14 @@
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 1s 1 normal both running scaleIn;
-                background-color: color-mix(rgb(68, 120, 241) 10%, transparent);
+                background-color: color-mix(in oklab, rgb(68, 120, 241) 10%, transparent);
               "
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
                 <div
                   class="text-xl transition-transform duration-300"
                   style="
-                    color: color-mix(rgb(68, 120, 241) 80%, white);
+                    color: color-mix(in oklab, rgb(68, 120, 241) 80%, white);
                     filter: drop-shadow(rgba(68, 120, 241, 0.5) 0px 0px 20px);
                   "
                 >
@@ -199,14 +199,14 @@
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 1.1s 1 normal both running scaleIn;
-                background-color: color-mix(rgb(78, 175, 79) 10%, transparent);
+                background-color: color-mix(in oklab, rgb(78, 175, 79) 10%, transparent);
               "
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
                 <div
                   class="text-xl transition-transform duration-300"
                   style="
-                    color: color-mix(rgb(78, 175, 79) 80%, white);
+                    color: color-mix(in oklab, rgb(78, 175, 79) 80%, white);
                     filter: drop-shadow(rgba(78, 175, 79, 0.5) 0px 0px 20px);
                   "
                 >
@@ -227,14 +227,14 @@
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 1.2s 1 normal both running scaleIn;
-                background-color: color-mix(rgb(38, 165, 228) 10%, transparent);
+                background-color: color-mix(in oklab, rgb(38, 165, 228) 10%, transparent);
               "
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
                 <div
                   class="text-xl transition-transform duration-300"
                   style="
-                    color: color-mix(rgb(38, 165, 228) 80%, white);
+                    color: color-mix(in oklab, rgb(38, 165, 228) 80%, white);
                     filter: drop-shadow(rgba(38, 165, 228, 0.5) 0px 0px 20px);
                   "
                 >
@@ -254,14 +254,14 @@
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 1.3s 1 normal both running scaleIn;
-                background-color: color-mix(rgb(19, 107, 157) 10%, transparent);
+                background-color: color-mix(in oklab, rgb(19, 107, 157) 10%, transparent);
               "
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
                 <div
                   class="text-xl transition-transform duration-300"
                   style="
-                    color: color-mix(rgb(19, 107, 157) 80%, white);
+                    color: color-mix(in oklab, rgb(19, 107, 157) 80%, white);
                     filter: drop-shadow(rgba(19, 107, 157, 0.5) 0px 0px 20px);
                   "
                 >
