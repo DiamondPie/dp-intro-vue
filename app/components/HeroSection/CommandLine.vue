@@ -252,6 +252,12 @@ onMounted(() => {
   const cmdParameter  = document.getElementById('cmd-parameter')   // faded parameter after full command
   const cmdEnterHint  = document.getElementById('cmd-enter-hint')  // ↵ icon
 
+  const supportsFieldSizing = CSS.supports('field-sizing', 'content')
+  function syncInputWidth() {
+    if (supportsFieldSizing) return
+    cmdInput.style.width = Math.max(1, cmdInput.value.length) + 'ch'
+  }
+
   function updateGhost(inputVal) {
     const matches = matchCommands(inputVal)
     if (inputVal && matches.length > 0) {
@@ -346,6 +352,7 @@ onMounted(() => {
       const matches = matchCommands(val)
       if (matches.length > 0 && !activeCommand) {
         cmdInput.value = matches[0]
+        syncInputWidth()
         cmdGhost.textContent = ''
         updateRedState(matches[0])
         // Check if now a full command
@@ -386,6 +393,7 @@ onMounted(() => {
     if (activeCommand) {
       const before = cmdInput.dataset.lastValue ?? ''
       cmdInput.value = before
+      syncInputWidth()
       return
     }
     cmdInput.dataset.lastValue = cmdInput.value
@@ -417,6 +425,7 @@ onMounted(() => {
       updateGhost(val)
       updateRedState(val)
     }
+    syncInputWidth()
   })
 
   cmdInput.closest('div').addEventListener('click', function (e) {
@@ -428,6 +437,7 @@ onMounted(() => {
   cmdInput.addEventListener('mousedown', (e) => e.preventDefault())
   // Set default command value
   cmdInput.value = 'whoami'
+  syncInputWidth()
   activeCommand = 'whoami'
 
   // Initial type of "DiamondPie" after 1.2s delay (matches original)
@@ -459,6 +469,13 @@ onMounted(() => {
   color: var(--text-primary);
   caret-color: var(--text-primary);
   min-width: 1ch;
+}
+
+/* ── WebKit fallback: field-sizing not supported, initial width for "whoami" ── */
+@supports not (field-sizing: content) {
+  .cmd-editable {
+    width: 6ch;
+  }
 }
 
 /* ── Ghost completion text (right of the caret) ── */
