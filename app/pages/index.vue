@@ -1,6 +1,6 @@
 <template>
   <div id="root">
-    <div class="relative w-screen min-h-screen">
+    <main class="relative w-screen min-h-screen">
       <BackgroundCover />
       <HeadBar />
       <HeroSection />
@@ -17,7 +17,7 @@
       <SiteFooter />
       <BackToTopButton />
       <!-- <NavDock /> -->
-    </div>
+    </main>
   </div>
 </template>
 
