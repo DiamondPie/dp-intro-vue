@@ -8,6 +8,8 @@ export function useIntroEffects() {
   let scrollListener = null
   let sectionObserver = null
 
+  const { locale, setLocale } = useI18n()
+
   // ── Console status badge ───────────────────────────────────────────────────
   const logStatus = (message, { isError = false } = {}) => {
     const rootStyles = getComputedStyle(document.documentElement)
@@ -330,6 +332,11 @@ export function useIntroEffects() {
     } catch (err) {
       logStatus(`Error: ${err.message}`, { isError: true })
       console.error(err.stack)
+    }
+
+    const savedLocale = document.cookie.match(/i18n_redirected=([^;]+)/)?.[1]
+    if (savedLocale && savedLocale !== locale.value) {
+      setLocale(savedLocale)
     }
   })
 
