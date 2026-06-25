@@ -20,17 +20,24 @@ This is a **Nuxt 4** single-page portfolio site. All application code lives unde
 
 ### Page structure
 
-There is a single route (`app/pages/index.vue`) that renders a full-page vertical scroll layout. Sections are stacked in order: `HeroSection → AboutSection → WorksSection → FriendsSection → SiteFooter`, all wrapped in `BackgroundCover` and `HeadBar`.
+There are two routes:
 
-### Cross-cutting scroll logic (`app/plugins/intro.client.js`)
+- **`app/pages/index.vue`** — the main portfolio page. Renders a full-page vertical scroll layout with sections stacked in order: `HeroSection → AboutSection → WorksSection → FriendsSection → SiteFooter`. Also includes `BackgroundCover`, `HeadBar`, and `BackToTopButton`. `NavDock` exists but is currently commented out.
+- **`app/pages/music.vue`** — a standalone music player page at `/music`, backed by a server API (`server/api/music.ts` reads `server/assets/music.json`). Uses `useFetch('/api/music')` at runtime, so this route is not purely static.
 
-This client-only plugin is the most architecturally important file. It runs after `app:mounted` and owns all DOM-driven behavior that spans multiple components:
+### Cross-cutting scroll logic (`app/composables/useIntroEffects.js`)
+
+This is the most architecturally important file. It was previously a client-only plugin (`app/plugins/intro.client.js`) and has been rewritten as a composable. It is called from `index.vue` via `useIntroEffects()` in `<script setup>`, with all DOM access guarded inside `onMounted`.
+
+It owns all DOM-driven behavior that spans multiple components:
 
 - **Scroll effects** — drives opacity/transform on `#cover`, `#head-bar`, `#avatar`, `#top-btn`, `#side-text`, `#arrow-down` by reading `window.scrollY` thresholds. RAF-throttled.
 - **Scroll spy** — `IntersectionObserver` on section anchors (`#home`, `#about`, `#works`, `#friends`) that toggles active styles on `button[data-target]` elements in both the desktop nav and `#mobile-nav`.
 - **Button hover tints** — reads `background-color` from inline `style` attributes on `<a>` tags inside `#btn-container` (hero) and `#bottom-container` (footer), then adjusts the alpha on hover.
+- **Console branding** — prints a styled ASCII art banner and status badge on page load.
+- **Pixel data pre-load** — imports `~/data/pixelData.js` at the top of the module so it is in the module cache before `PixelCanvas` mounts.
 
-> **Rule**: Do not move scroll/nav logic into individual components. It's in the plugin because it touches elements rendered by both `HeroSection` and `SiteFooter`.
+> **Rule**: Do not move scroll/nav logic into individual components. It's in the composable because it touches elements rendered by both `HeroSection` and `SiteFooter`.
 
 ### DX Transition system (`app/components/Transition/`)
 
@@ -54,7 +61,7 @@ Uses `@nuxtjs/i18n` with `strategy: 'no_prefix'`. Locale files live in `i18n/loc
 
 ### Pixel canvas (`app/components/HeroSection/PixelCanvas.vue`)
 
-Renders a pixel-art portrait and QR code from data in `app/data/pixelData.js`. The plugin pre-loads this module so it's in cache before the component mounts.
+Renders a pixel-art portrait and QR code from data in `app/data/pixelData.js`. The `useIntroEffects` composable pre-loads this module at the top level so it's in cache before the component mounts.
 
 ## Key library docs
 
