@@ -36,7 +36,28 @@ const currentLyricIndex = ref(-1)
 const mobileDrawerOpen = ref(false)
 
 let audio: HTMLAudioElement | null = null
+let audioCtx: AudioContext | null = null
 let keyHandler: ((e: KeyboardEvent) => void) | null = null
+
+const audioAnalyser = ref<AnalyserNode | null>(null)
+const showVisualizer = ref(true)
+
+function initAudioContext() {
+  if (audioCtx || !audio) return
+  try {
+    audioCtx = new AudioContext()
+    const analyserNode = audioCtx.createAnalyser()
+    analyserNode.fftSize = 1024
+    analyserNode.smoothingTimeConstant = 0.8
+    const src = audioCtx.createMediaElementSource(audio)
+    src.connect(analyserNode)
+    analyserNode.connect(audioCtx.destination)
+    audioAnalyser.value = analyserNode
+  }
+  catch (e) {
+    console.warn('[MusicAudioVisualizer] AudioContext init failed', e)
+  }
+}
 
 const currentTrack = computed(() => tracks.value?.[currentIndex.value] ?? null)
 const progress = computed(() =>
@@ -241,12 +262,18 @@ watch(volume, (v) => { if (audio) audio.volume = v })
 
 onMounted(() => {
   audio = new Audio()
+  audio.crossOrigin = 'anonymous'
   audio.volume = volume.value
   audio.addEventListener('timeupdate', onTimeUpdate)
   audio.addEventListener('durationchange', () => { if (audio) duration.value = audio.duration })
   audio.addEventListener('ended', advanceTrack)
-  audio.addEventListener('play', () => { isPlaying.value = true })
+  audio.addEventListener('play', () => {
+    isPlaying.value = true
+    if (audioCtx?.state === 'suspended') audioCtx.resume()
+  })
   audio.addEventListener('pause', () => { isPlaying.value = false })
+
+  initAudioContext()
 
   if (tracks.value?.length) loadAndPlay(0)
 
@@ -261,6 +288,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (audio) { audio.pause(); audio.src = '' }
+  audioCtx?.close()
   if (keyHandler) window.removeEventListener('keydown', keyHandler)
   if (arcRafId !== null) cancelAnimationFrame(arcRafId)
 })
@@ -269,6 +297,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="fixed inset-0 flex flex-col overflow-hidden text-white bg-[#111] font-sans">
     <MusicBackground :cover="currentTrack?.cover" />
+    <MusicAudioVisualizer :analyser="audioAnalyser" :is-playing="isPlaying" :visible="showVisualizer" />
 
     <MusicDrawerTab
       :is-open="mobileDrawerOpen"
@@ -277,7 +306,7 @@ onBeforeUnmount(() => {
     />
 
     <!-- Main area: track list + player panel -->
-    <div class="relative z-[2] flex flex-1 min-h-0 mt-10 mx-15 max-sm:flex-col max-sm:mt-0 max-sm:mx-0 max-sm:z-auto">
+    <div class="relative z-[3] flex flex-1 min-h-0 mt-10 mx-15 max-sm:flex-col max-sm:mt-0 max-sm:mx-0 max-sm:z-auto">
       <MusicTrackList
         :tracks="tracks ?? []"
         :current-index="currentIndex"
@@ -292,10 +321,12 @@ onBeforeUnmount(() => {
         :current-lyric-index="currentLyricIndex"
         :arc-active="arcActive"
         :refresh-arc-pct="refreshArcPct"
+        :show-visualizer="showVisualizer"
         @toggle-play="togglePlay"
         @seek-to-lyric="seekToLyric"
         @random-track="randomTrack"
         @start-refresh-arc="startRefreshArc"
+        @toggle-visualizer="showVisualizer = !showVisualizer"
       />
     </div>
 

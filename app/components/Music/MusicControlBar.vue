@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="relative z-[2] flex-shrink-0 px-6 pt-[0.7rem] pb-[1.6rem] backdrop-blur-md max-sm:z-20 max-sm:px-4 max-sm:pt-2 max-sm:pb-[0.8rem]">
+  <div class="relative z-[3] flex-shrink-0 px-6 pt-[0.7rem] pb-[1.6rem] backdrop-blur-md max-sm:z-20 max-sm:px-4 max-sm:pt-2 max-sm:pb-[0.8rem]">
     <div class="flex items-center gap-[0.3rem]">
       <button class="ctrl-btn" title="Previous" @click="emit('prevTrack')">
         <Icon name="mdi:skip-previous" />

@@ -20,6 +20,7 @@ const props = defineProps<{
   currentLyricIndex: number
   arcActive: boolean
   refreshArcPct: number
+  showVisualizer: boolean
 }>()
 
 const emit = defineEmits<{
@@ -27,6 +28,7 @@ const emit = defineEmits<{
   seekToLyric: [time: number]
   randomTrack: []
   startRefreshArc: []
+  toggleVisualizer: []
 }>()
 
 const lyricsContainer = ref<HTMLElement | null>(null)
@@ -128,6 +130,14 @@ watch(() => props.currentLyricIndex, () => {
         @click="emit('startRefreshArc')"
       >
         <Icon name="mdi:refresh" />
+      </button>
+      <button
+        class="mode-btn"
+        :class="{ 'mode-btn--on': showVisualizer }"
+        :title="showVisualizer ? 'Hide visualizer' : 'Show visualizer'"
+        @click="emit('toggleVisualizer')"
+      >
+        <Icon name="mdi:waveform" />
       </button>
     </div>
   </div>
@@ -286,6 +296,7 @@ watch(() => props.currentLyricIndex, () => {
 }
 
 .mode-btn:hover { background: rgba(255,255,255,.22); color: #fff; }
+.mode-btn--on { background: rgba(255,255,255,.22); color: #fff; }
 
 .mode-btn::before {
   content: '';
