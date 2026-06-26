@@ -16,7 +16,7 @@
       <p>
         <i18n-t keypath="friends.invite_contact" tag="span" scope="global">
           <template #email>
-            <a @click="openMail">{{ $t('friends.invite_email') }}</a>
+            <a href="mailto:diamondpie@dpp.qzz.io">{{ $t('friends.invite_email') }}</a>
           </template>
         </i18n-t>
       </p>
@@ -38,13 +38,6 @@
   </div>
 </template>
 
-<script setup>
-function openMail() {
-  if (typeof window !== 'undefined' && typeof window.openMailClient === 'function') {
-    window.openMailClient()
-  }
-}
-</script>
 
 <style scoped>
 .friend-invite {
