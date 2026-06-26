@@ -30,6 +30,7 @@
                 animation: 0.6s ease-out 0.6s 1 normal both running scaleIn;
                 background-color: color-mix(in oklab, rgb(233, 160, 255) 10%, transparent);
               "
+              :aria-label="locale === 'en' ? 'Switch to Chinese' : 'Switch to English'"
               @click.prevent="toggleLocale"
             >
               <div class="relative z-10 text-center flex gap-2 justify-center items-center">
@@ -86,13 +87,15 @@
               </div>
             </button>
 
-            <a
+            <component
+              :is="link.href ? 'a' : 'button'"
               v-for="link in socialLinks"
               :id="link.id"
               :key="link.icon"
               :href="link.href"
               :target="link.external ? '_blank' : undefined"
               :rel="link.external ? 'noopener noreferrer' : undefined"
+              :aria-label="link.ariaLabel"
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               :style="`animation: 0.6s ease-out ${link.delay} 1 normal both running scaleIn; background-color: color-mix(in oklab, ${link.color} 10%, transparent);`"
             >
@@ -104,7 +107,7 @@
                   <Icon :name="link.icon" width="1em" height="1em" />
                 </div>
               </div>
-            </a>
+            </component>
 
           </div>
 
@@ -198,13 +201,67 @@ import TransitionDXTransition from './Transition/DXTransition.vue'
 const { locale, setLocale } = useI18n()
 
 const socialLinks = [
-  { href: 'mailto:diamondpie@dpp.qzz.io', icon: 'simple-icons:gmail', color: 'rgb(234, 67, 53)', shadow: 'rgba(234, 67, 53, 0.5)', delay: '0.7s' },
-  { href: 'https://github.com/DiamondPie', icon: 'simple-icons:github', color: 'rgb(255, 255, 255)', shadow: 'rgba(255, 255, 255, 0.5)', delay: '0.8s', external: true },
-  { href: 'https://www.instagram.com/diamond.3.14/', icon: 'simple-icons:instagram', color: 'rgb(246, 30, 157)', shadow: 'rgba(246, 30, 157, 0.5)', delay: '0.9s', external: true },
-  { href: 'https://discord.com/users/1125178615122907295', icon: 'simple-icons:discord', color: 'rgb(68, 120, 241)', shadow: 'rgba(68, 120, 241, 0.5)', delay: '1s', external: true },
-  { id: 'show-qrcode', icon: 'simple-icons:wechat', color: 'rgb(78, 175, 79)', shadow: 'rgba(78, 175, 79, 0.5)', delay: '1.1s' },
-  { href: 'https://t.me/DiamondPie', icon: 'simple-icons:telegram', color: 'rgb(38, 165, 228)', shadow: 'rgba(38, 165, 228, 0.5)', delay: '1.2s', external: true },
-  { href: 'https://steamcommunity.com/id/diamondpie114/', icon: 'simple-icons:steam', color: 'rgb(19, 107, 157)', shadow: 'rgba(19, 107, 157, 0.5)', delay: '1.3s', external: true },
+  {
+    href: 'mailto:diamondpie@dpp.qzz.io',
+    icon: 'simple-icons:gmail',
+    color: 'rgb(234, 67, 53)',
+    shadow: 'rgba(234, 67, 53, 0.5)',
+    delay: '0.7s',
+    ariaLabel: 'Email',
+  },
+  {
+    href: 'https://github.com/DiamondPie',
+    icon: 'simple-icons:github',
+    color: 'rgb(255, 255, 255)',
+    shadow: 'rgba(255, 255, 255, 0.5)',
+    delay: '0.8s',
+    external: true,
+    ariaLabel: 'GitHub',
+  },
+  {
+    href: 'https://www.instagram.com/diamond.3.14/',
+    icon: 'simple-icons:instagram',
+    color: 'rgb(246, 30, 157)',
+    shadow: 'rgba(246, 30, 157, 0.5)',
+    delay: '0.9s',
+    external: true,
+    ariaLabel: 'Instagram',
+  },
+  {
+    href: 'https://discord.com/users/1125178615122907295',
+    icon: 'simple-icons:discord',
+    color: 'rgb(68, 120, 241)',
+    shadow: 'rgba(68, 120, 241, 0.5)',
+    delay: '1s',
+    external: true,
+    ariaLabel: 'Discord',
+  },
+  {
+    id: 'show-qrcode',
+    icon: 'simple-icons:wechat',
+    color: 'rgb(78, 175, 79)',
+    shadow: 'rgba(78, 175, 79, 0.5)',
+    delay: '1.1s',
+    ariaLabel: 'WeChat QR Code',
+  },
+  {
+    href: 'https://t.me/DiamondPie',
+    icon: 'simple-icons:telegram',
+    color: 'rgb(38, 165, 228)',
+    shadow: 'rgba(38, 165, 228, 0.5)',
+    delay: '1.2s',
+    external: true,
+    ariaLabel: 'Telegram',
+  },
+  {
+    href: 'https://steamcommunity.com/id/diamondpie114/',
+    icon: 'simple-icons:steam',
+    color: 'rgb(19, 107, 157)',
+    shadow: 'rgba(19, 107, 157, 0.5)',
+    delay: '1.3s',
+    external: true,
+    ariaLabel: 'Steam',
+  },
 ]
 
 const dxTransitionLoading = ref(false)

@@ -21,6 +21,7 @@
           id="cmd-input"
           class="cmd-editable"
           type="text"
+          aria-label="Terminal command input"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"

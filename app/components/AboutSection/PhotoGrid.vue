@@ -9,7 +9,7 @@
       class="relative block group overflow-hidden rounded-2xl break-inside-avoid cursor-zoom-in"
     >
       <img
-        :alt="photo.alt"
+        alt=""
         class="w-full h-[60%] object-cover duration-[600ms] group-hover:scale-105 ease-in-out opacity-100"
         :src="photo.src"
         loading="lazy"

@@ -20,7 +20,7 @@
                 class="shrink-0 rounded-full w-12 h-12 bg-[var(--content-1)] overflow-hidden"
               >
                 <img
-                  :alt="friend.name"
+                  alt=""
                   class="w-[inherit] h-[inherit] object-cover transition-opacity duration-500 ease-in-out opacity-100"
                   :src="friend.avatar"
                   loading="lazy"

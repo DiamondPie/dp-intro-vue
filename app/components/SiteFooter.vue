@@ -9,6 +9,7 @@
           v-for="(link, index) in bottomLinks"
           :key="link.label"
           :href="link.href"
+          :aria-label="link.label"
           v-bind="link.target ? { target: link.target, rel: 'noopener noreferrer' } : {}"
           class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
           :style="`animation: 0.6s ease-out ${index * 0.1}s 1 normal both running scaleIn; background-color: color-mix(in oklab, var(--text-primary), transparent 90%);`"

@@ -16,7 +16,7 @@
         >
           <div class="absolute inset-0 z-0">
             <img
-              :alt="work.title"
+              alt=""
               class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[600ms] ease-in-out opacity-100"
               :src="work.image"
               loading="lazy"
