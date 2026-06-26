@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  nitro: {
+    preset: 'cloudflare-pages',
+  },
+
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
@@ -10,6 +14,11 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/icon'
   ],
+
+  routeRules: {
+    '/': { prerender: true },
+    '/music': { ssr: true },
+  },
 
   icon: {
     clientBundle: {
