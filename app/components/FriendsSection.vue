@@ -28,9 +28,8 @@
               </div>
               <div class="flex flex-col min-w-0 gap-1">
                 <h3 class="text-sm font-bold truncate">{{ friend.name }}</h3>
-                <p class="text-xs" style="color: var(--color-gray-400)">
-                  <del v-if="friend.deletedHandle">{{ friend.deletedHandle }}</del>
-                </p>
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <p v-if="friend.desc" class="text-xs" style="color: var(--color-gray-400)" v-html="friend.desc" />
               </div>
             </div>
           </a>
@@ -49,19 +48,17 @@ const friends = [
     href: 'https://github.com/diamondPiesdad',
     name: 'Void Magician',
     avatar: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/friends/void_magician.webp',
-    deletedHandle: 'DiamondPiesDad'
+    desc: '<del>DiamondPiesDad</del>'
   },
   {
     href: 'https://github.com/70RCH',
     name: '70RCH',
     avatar: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/friends/70rch.webp',
-    deletedHandle: ''
   },
   {
     href: 'https://github.com/niuniu12341234',
     name: 'Niuniu12341234',
     avatar: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/friends/niuniu12341234.webp',
-    deletedHandle: ''
   }
 ]
 </script>
