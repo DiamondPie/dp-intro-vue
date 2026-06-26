@@ -10,6 +10,7 @@ interface Track {
 interface LyricLine {
   time: number
   text: string
+  translation?: string
 }
 
 const props = defineProps<{
@@ -97,15 +98,16 @@ watch(() => props.currentLyricIndex, () => {
     <div ref="lyricsContainer" class="lyrics-area">
       <div class="lyrics-pad" />
       <template v-if="parsedLyrics.length">
-        <p
+        <div
           v-for="(line, i) in parsedLyrics"
           :key="i"
           class="lyric-line"
           :class="{ 'lyric-active': i === currentLyricIndex }"
           @click="emit('seekToLyric', line.time)"
         >
-          {{ line.text }}
-        </p>
+          <p class="lyric-text">{{ line.text }}</p>
+          <p v-if="line.translation" class="lyric-translation">{{ line.translation }}</p>
+        </div>
       </template>
       <p v-else class="text-center text-[2rem] my-8" style="color: rgba(255,255,255,.18)">
         ♪
@@ -212,6 +214,7 @@ watch(() => props.currentLyricIndex, () => {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   padding-right: .25rem;
+  margin: 0.2rem 0;
 }
 
 .lyrics-area::-webkit-scrollbar { display: none; }
@@ -220,21 +223,48 @@ watch(() => props.currentLyricIndex, () => {
 
 .lyric-line {
   text-align: center;
-  color: rgba(255,255,255,.35);
   font-size: 1rem;
-  line-height: 2;
   margin: 0;
-  transition: color .3s, font-size .5s, font-weight .3s;
+  padding: 0.15rem 0;
+  transition: font-size .5s;
   cursor: pointer;
   user-select: none;
 }
 
-.lyric-line:hover { color: rgba(255,255,255,.6); }
+.lyric-text {
+  line-height: 1.8;
+  margin: 0;
+  color: rgba(255,255,255,.35);
+  transition: color .3s, font-weight .3s;
+}
+
+.lyric-translation {
+  line-height: 1.4;
+  font-size: 0.78em;
+  margin: 0;
+  margin-bottom: 0.3em;
+  color: rgba(255,255,255,.35);
+  opacity: 0.55;
+  letter-spacing: 0.01em;
+  transition: color .3s, opacity .3s;
+}
+
+.lyric-line:hover .lyric-text { color: rgba(255,255,255,.6); }
+.lyric-line:hover .lyric-translation { opacity: 0.75; }
 
 .lyric-line.lyric-active {
-  color: #fff;
   font-size: 1.14rem;
+}
+
+.lyric-line.lyric-active .lyric-text {
+  color: #fff;
   font-weight: 700;
+}
+
+.lyric-line.lyric-active .lyric-translation {
+  color: #fff;
+  opacity: 0.7;
+  font-weight: 400;
 }
 
 /* Refresh arc button: conic-gradient ::before ring */

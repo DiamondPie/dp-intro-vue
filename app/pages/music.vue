@@ -10,6 +10,7 @@ interface Track {
 interface LyricLine {
   time: number
   text: string
+  translation?: string
 }
 
 useHead({
@@ -44,14 +45,40 @@ const progress = computed(() =>
 const isMuted = computed(() => volume.value === 0)
 
 function parseLrc(text: string): LyricLine[] {
-  const result: LyricLine[] = []
+  interface RawItem { time: number; text: string; isTr: boolean }
+  const items: RawItem[] = []
+
   for (const line of text.split('\n')) {
     const m = line.match(/\[(\d{1,3}):(\d{2})\.(\d{2,3})\](.*)/)
     if (!m) continue
     const time = Number(m[1]) * 60 + Number(m[2]) + parseInt(m[3]!.padEnd(3, '0')) / 1000
-    const txt = m[4]!.trim()
-    result.push({ time, text: txt })
+    const rest = m[4]!.trim()
+    const trMatch = rest.match(/^\[tr\](.*)/)
+    if (trMatch) {
+      items.push({ time, text: trMatch[1]!.trim(), isTr: true })
+    }
+    else {
+      items.push({ time, text: rest, isTr: false })
+    }
   }
+
+  const timeToLyric = new Map<number, LyricLine>()
+  const result: LyricLine[] = []
+
+  for (const item of items) {
+    if (!item.isTr) {
+      const lyric: LyricLine = { time: item.time, text: item.text }
+      timeToLyric.set(item.time, lyric)
+      result.push(lyric)
+    }
+  }
+  for (const item of items) {
+    if (item.isTr) {
+      const lyric = timeToLyric.get(item.time)
+      if (lyric) lyric.translation = item.text
+    }
+  }
+
   return result.sort((a, b) => a.time - b.time)
 }
 

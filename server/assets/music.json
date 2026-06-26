@@ -1,226 +1,38 @@
-[
-  {
-    "name": "Komorebi",
-    "artist": "M-TAKU",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Komorebi/Komorebi.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Komorebi/Komorebi.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Komorebi/Komorebi.lrc"
-  },
-  {
-    "name": "Escaping Gravity",
-    "artist": "TheFatRat",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Escaping-Gravity/Escaping-Gravity.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Escaping-Gravity/Escaping-Gravity.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Escaping-Gravity/Escaping-Gravity.lrc"
-  },
-  {
-    "name": "Bleach",
-    "artist": "Airborne",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Bleach/Bleach.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Bleach/Bleach.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Bleach/Bleach.lrc"
-  },
-  {
-    "name": "Fight",
-    "artist": "Beatbrothers",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fight/Fight.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fight/Fight.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fight/Fight.lrc"
-  },
-  {
-    "name": "Sold Out",
-    "artist": "Hawk Nelson",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Sold-Out/Sold-Out.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Sold-Out/Sold-Out.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Sold-Out/Sold-Out.lrc"
-  },
-  {
-    "name": "Neon Rainbow",
-    "artist": "Rameses B&Anna Yvette",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Neon-Rainbow/Neon-Rainbow.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Neon-Rainbow/Neon-Rainbow.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Neon-Rainbow/Neon-Rainbow.lrc"
-  },
-  {
-    "name": "Victory",
-    "artist": "Two Steps From Hell",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Victory/Victory.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Victory/Victory.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Victory/Victory.lrc"
-  },
-  {
-    "name": "Umbrella (Matte Remix)",
-    "artist": "Ember Island",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Umbrella-Matte-Remix/Umbrella-Matte-Remix.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Umbrella-Matte-Remix/Umbrella-Matte-Remix.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Umbrella-Matte-Remix/Umbrella-Matte-Remix.lrc"
-  },
-  {
-    "name": "Mine",
-    "artist": "Phoebe Ryan",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Mine/Mine.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Mine/Mine.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Mine/Mine.lrc"
-  },
-  {
-    "name": "Fearless Pt. II",
-    "artist": "Lost Sky/Chris Linton",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fearless-Pt-II/Fearless-Pt-II.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fearless-Pt-II/Fearless-Pt-II.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fearless-Pt-II/Fearless-Pt-II.lrc"
-  },
-  {
-    "name": "Legend",
-    "artist": "The Score",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Legend/Legend.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Legend/Legend.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Legend/Legend.lrc"
-  },
-  {
-    "name": "That Girl DJ CHEN remix",
-    "artist": "Olly Murs",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/That-Girl-DJ-CHEN-remix/That-Girl-DJ-CHEN-remix.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/That-Girl-DJ-CHEN-remix/That-Girl-DJ-CHEN-remix.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/That-Girl-DJ-CHEN-remix/That-Girl-DJ-CHEN-remix.lrc"
-  },
-  {
-    "name": "Ferrari",
-    "artist": "Bebe Rexha",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Ferrari/Ferrari.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Ferrari/Ferrari.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Ferrari/Ferrari.lrc"
-  },
-  {
-    "name": "My Sunset",
-    "artist": "Feint",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/My-Sunset/My-Sunset.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/My-Sunset/My-Sunset.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/My-Sunset/My-Sunset.lrc"
-  },
-  {
-    "name": "Overdrive",
-    "artist": "Far Out",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Overdrive/Overdrive.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Overdrive/Overdrive.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Overdrive/Overdrive.lrc"
-  },
-  {
-    "name": "The Girl",
-    "artist": "Cre-sc3NT",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/The-Girl/The-Girl.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/The-Girl/The-Girl.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/The-Girl/The-Girl.lrc"
-  },
-  {
-    "name": "Centuries",
-    "artist": "Fall Out Boy",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Centuries/Centuries.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Centuries/Centuries.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Centuries/Centuries.lrc"
-  },
-  {
-    "name": "Endless war",
-    "artist": "Within Temptation",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Endless-war/Endless-war.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Endless-war/Endless-war.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Endless-war/Endless-war.lrc"
-  },
-  {
-    "name": "Fading Wind",
-    "artist": "Feint",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fading-Wind/Fading-Wind.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fading-Wind/Fading-Wind.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Fading-Wind/Fading-Wind.lrc"
-  },
-  {
-    "name": "Weavers",
-    "artist": "Feint",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.2/Weavers/Weavers.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.2/Weavers/Weavers.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.2/Weavers/Weavers.lrc"
-  },
-  {
-    "name": "Anatomy",
-    "artist": "NextRO",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Anatomy/Anatomy.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Anatomy/Anatomy.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.0/Anatomy/Anatomy.lrc"
-  },
-  {
-    "name": "Xenogenesis",
-    "artist": "TheFatRat",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.1/Xenogenesis/Xenogenesis.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.1/Xenogenesis/Xenogenesis.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.1/Xenogenesis/Xenogenesis.lrc"
-  },
-  {
-    "name": "On My Way",
-    "artist": "Alan Walker",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.3/On-My-Way/On-My-Way.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.3/On-My-Way/On-My-Way.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.3/On-My-Way/On-My-Way.lrc"
-  },
-  {
-    "name": "Down For Life",
-    "artist": "GTR7",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.6/Down-For-Life/Down-For-Life.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.6/Down-For-Life/Down-For-Life.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.6/Down-For-Life/Down-For-Life.lrc"
-  },
-  {
-    "name": "Slow Down",
-    "artist": "Madnap",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.6/Slow-Down/Slow-Down.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.6/Slow-Down/Slow-Down.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.7/Slow-Down/Slow-Down.lrc"
-  },
-  {
-    "name": "Doopravdy",
-    "artist": "???",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.5/Doopravdy/Doopravdy.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.5/Doopravdy/Doopravdy.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.5/Doopravdy/Doopravdy.lrc"
-  },
-  {
-    "name": "Star Eater",
-    "artist": "Daniel Deluxe",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.8/Star-Eater/Star-Eater.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.8/Star-Eater/Star-Eater.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.8/Star-Eater/Star-Eater.lrc"
-  },
-  {
-    "name": "X-GALACTICO (Super Slowed)",
-    "artist": "Glichery",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.8/X-Galactico/X-Galactico.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.8/X-Galactico/X-Galactico.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.8/X-Galactico/X-Galactico.lrc"
-  },
-  {
-    "name": "Underground",
-    "artist": "Lindsey Stirling",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.9/Underground/Underground.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.9/Underground/Underground.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.0.9/Underground/Underground.lrc"
-  },
-  {
-    "name": "Golden Hour",
-    "artist": "JVKE",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.0/Golden-Hour/Golden-Hour.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.0/Golden-Hour/Golden-Hour.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.2/Golden-Hour/Golden-Hour.lrc"
-  },
-  {
-    "name": "Normal No More",
-    "artist": "TYSM",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.0/Normal-No-More/Normal-No-More.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.0/Normal-No-More/Normal-No-More.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.2/Normal-No-More/Normal-No-More.lrc"
-  },
-  {
-    "name": "Try",
-    "artist": "Colbie Caillat",
-    "url": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.0/Try/Try.mp3",
-    "cover": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.0/Try/Try.jpg",
-    "lrc": "https://cdn.jsdelivr.net/npm/dpblog-music@1.1.2/Try/Try.lrc"
-  }
-]
+{
+  "cdnUrl": "https://dp-music.vercel.app/",
+  "songs": [
+    { "name": "Komorebi", "artist": "M-TAKU" },
+    { "name": "Escaping Gravity", "artist": "TheFatRat" },
+    { "name": "Bleach", "artist": "Airborne" },
+    { "name": "Fight", "artist": "Beatbrothers" },
+    { "name": "Sold Out", "artist": "Hawk Nelson" },
+    { "name": "Neon Rainbow", "artist": "Rameses B&Anna Yvette" },
+    { "name": "Victory", "artist": "Two Steps From Hell" },
+    { "name": "Umbrella (Matte Remix)", "artist": "Ember Island" },
+    { "name": "Mine", "artist": "Phoebe Ryan" },
+    { "name": "Fearless Pt. II", "artist": "Lost Sky/Chris Linton" },
+    { "name": "Legend", "artist": "The Score" },
+    { "name": "That Girl DJ CHEN remix", "artist": "Olly Murs" },
+    { "name": "Ferrari", "artist": "Bebe Rexha" },
+    { "name": "My Sunset", "artist": "Feint" },
+    { "name": "Overdrive", "artist": "Far Out" },
+    { "name": "The Girl", "artist": "Cre-sc3NT" },
+    { "name": "Centuries", "artist": "Fall Out Boy" },
+    { "name": "Endless war", "artist": "Within Temptation" },
+    { "name": "Fading Wind", "artist": "Feint" },
+    { "name": "Weavers", "artist": "Feint" },
+    { "name": "Anatomy", "artist": "NextRO" },
+    { "name": "Xenogenesis", "artist": "TheFatRat" },
+    { "name": "On My Way", "artist": "Alan Walker" },
+    { "name": "Down For Life", "artist": "GTR7" },
+    { "name": "Slow Down", "artist": "Madnap" },
+    { "name": "Doopravdy", "artist": "???" },
+    { "name": "Star Eater", "artist": "Daniel Deluxe" },
+    { "name": "X-GALACTICO (Super Slowed)", "artist": "Glichery" },
+    { "name": "Underground", "artist": "Lindsey Stirling" },
+    { "name": "Golden Hour", "artist": "JVKE" },
+    { "name": "Normal No More", "artist": "TYSM" },
+    { "name": "Try", "artist": "Colbie Caillat" },
+    { "name": "Sinos De Natal", "artist": "MGD & MXZHPHXNK"}
+  ]
+}
