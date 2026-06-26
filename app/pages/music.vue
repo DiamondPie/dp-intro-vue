@@ -38,6 +38,44 @@ const mobileDrawerOpen = ref(false)
 let audio: HTMLAudioElement | null = null
 let audioCtx: AudioContext | null = null
 let keyHandler: ((e: KeyboardEvent) => void) | null = null
+let lastSaveTime = 0
+
+const STORAGE_KEY = 'music-player-state'
+
+interface PersistedState {
+  currentIndex?: number
+  volume?: number
+  prevVolume?: number
+  shuffle?: boolean
+  repeat?: 'none' | 'all' | 'one'
+  showVisualizer?: boolean
+  currentTime?: number
+}
+
+function loadSavedState(): PersistedState | null {
+  if (!import.meta.client) return null
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    return raw ? JSON.parse(raw) as PersistedState : null
+  }
+  catch { return null }
+}
+
+function saveState() {
+  if (!import.meta.client) return
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      currentIndex: currentIndex.value,
+      volume: volume.value,
+      prevVolume: prevVolume.value,
+      shuffle: shuffle.value,
+      repeat: repeat.value,
+      showVisualizer: showVisualizer.value,
+      currentTime: audio?.currentTime ?? 0,
+    } satisfies PersistedState))
+  }
+  catch { /* quota exceeded */ }
+}
 
 const audioAnalyser = ref<AnalyserNode | null>(null)
 const showVisualizer = ref(true)
@@ -119,16 +157,19 @@ function onTimeUpdate() {
   currentTime.value = audio.currentTime
 
   const lyrics = parsedLyrics.value
-  if (!lyrics.length) return
-
-  let idx = -1
-  for (let i = 0; i < lyrics.length; i++) {
-    if ((lyrics[i]?.time ?? Infinity) <= audio.currentTime) idx = i
-    else break
+  if (lyrics.length) {
+    let idx = -1
+    for (let i = 0; i < lyrics.length; i++) {
+      if ((lyrics[i]?.time ?? Infinity) <= audio.currentTime) idx = i
+      else break
+    }
+    if (idx !== currentLyricIndex.value) currentLyricIndex.value = idx
   }
 
-  if (idx !== currentLyricIndex.value) {
-    currentLyricIndex.value = idx
+  const now = Date.now()
+  if (now - lastSaveTime > 5000) {
+    lastSaveTime = now
+    saveState()
   }
 }
 
@@ -182,12 +223,7 @@ function advanceTrack() {
   else {
     idx = (currentIndex.value + 1) % len
   }
-  if (idx === 0 && repeat.value === 'none' && !shuffle.value) {
-    loadAndPlay(idx, false)
-  }
-  else {
-    loadAndPlay(idx, isPlaying.value)
-  }
+  loadAndPlay(idx, true)
 }
 
 function nextTrack() {
@@ -259,10 +295,21 @@ function setVolume(e: Event) {
 }
 
 watch(volume, (v) => { if (audio) audio.volume = v })
+watch([currentIndex, volume, prevVolume, shuffle, repeat, showVisualizer], saveState)
 
 onMounted(() => {
   audio = new Audio()
   audio.crossOrigin = 'anonymous'
+
+  const saved = loadSavedState()
+  if (saved) {
+    if (saved.volume !== undefined) volume.value = saved.volume
+    if (saved.prevVolume !== undefined) prevVolume.value = saved.prevVolume
+    if (saved.shuffle !== undefined) shuffle.value = saved.shuffle
+    if (saved.repeat !== undefined) repeat.value = saved.repeat
+    if (saved.showVisualizer !== undefined) showVisualizer.value = saved.showVisualizer
+  }
+
   audio.volume = volume.value
   audio.addEventListener('timeupdate', onTimeUpdate)
   audio.addEventListener('durationchange', () => { if (audio) duration.value = audio.duration })
@@ -275,7 +322,21 @@ onMounted(() => {
 
   initAudioContext()
 
-  if (tracks.value?.length) loadAndPlay(0)
+  if (tracks.value?.length) {
+    const startIndex = (saved?.currentIndex !== undefined && saved.currentIndex < tracks.value.length)
+      ? saved.currentIndex
+      : 0
+    loadAndPlay(startIndex)
+    if (saved?.currentTime && saved.currentTime > 1) {
+      audio.addEventListener('loadedmetadata', () => {
+        if (audio && saved.currentTime && audio.duration > 0 && saved.currentTime < audio.duration - 2) {
+          audio.currentTime = saved.currentTime
+        }
+      }, { once: true })
+    }
+  }
+
+  window.addEventListener('beforeunload', saveState)
 
   keyHandler = (e: KeyboardEvent) => {
     if ((e.target as HTMLElement).tagName === 'INPUT') return
@@ -287,9 +348,11 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  saveState()
   if (audio) { audio.pause(); audio.src = '' }
   audioCtx?.close()
   if (keyHandler) window.removeEventListener('keydown', keyHandler)
+  window.removeEventListener('beforeunload', saveState)
   if (arcRafId !== null) cancelAnimationFrame(arcRafId)
 })
 </script>
