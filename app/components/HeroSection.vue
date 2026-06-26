@@ -24,7 +24,7 @@
             id="btn-container"
             class="mb-6 flex gap-2 flex-wrap justify-center lg:justify-start"
           >
-            <a
+            <button
               class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
               style="
                 animation: 0.6s ease-out 0.6s 1 normal both running scaleIn;
@@ -84,7 +84,7 @@
                   </ClientOnly>
                 </div>
               </div>
-            </a>
+            </button>
 
             <a
               v-for="link in socialLinks"
