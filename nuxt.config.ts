@@ -86,35 +86,6 @@ export default defineNuxtConfig({
           href: 'https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap&font-display=block'
         }
       ],
-      script: [
-        // Kill-switch: must run as early as possible to hide the document
-        // before any paint when the previous session triggered the "kill" command.
-        // After DOMContentLoaded, fetch /404.html and replace the entire document.
-        {
-          innerHTML: `
-            if (sessionStorage.getItem("killed") === "1") {
-                sessionStorage.removeItem("killed");
-                document.documentElement.style.visibility = "hidden";
-                
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", "/404.html", false); // public/404.html
-                xhr.send();
-                
-                const parsed = new DOMParser().parseFromString(xhr.responseText, "text/html");
-
-                parsed.documentElement.style.visibility = "visible";
-                document.documentElement.style.visibility = "visible";
-
-                document.replaceChild(
-                    document.importNode(parsed.documentElement, true),
-                    document.documentElement
-                );
-            }
-          `,
-          tagPosition: 'head',
-          type: 'text/javascript'
-        }
-      ]
     }
   },
 
