@@ -17,12 +17,6 @@
       <SiteFooter />
       <BackToTopButton />
     </main>
-    <!-- TEST NAV BUTTON: remove after testing -->
-    <NuxtLink
-      to="/music"
-      class="fixed bottom-6 right-6 z-50 px-4 py-2 text-sm font-mono rounded-full border"
-      style="background: var(--content-2); border-color: var(--border-color-2); color: var(--text-primary)"
-    >Test → /music</NuxtLink>
   </div>
 </template>
 

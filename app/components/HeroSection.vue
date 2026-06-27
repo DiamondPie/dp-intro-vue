@@ -87,6 +87,22 @@
               </div>
             </button>
 
+            <NuxtLink
+              to="/music"
+              class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
+              style="animation: 0.6s ease-out 0.7s 1 normal both running scaleIn; background-color: color-mix(in oklab, rgb(6, 182, 212) 10%, transparent);"
+              aria-label="Music"
+            >
+              <div class="relative z-10 text-center flex gap-2 justify-center items-center">
+                <div
+                  class="text-xl transition-transform duration-300"
+                  style="color: color-mix(in oklab, rgb(6, 182, 212) 80%, white); filter: drop-shadow(rgba(6, 182, 212, 0.5) 0px 0px 20px);"
+                >
+                  <Icon name="mingcute:headphone-fill" width="1em" height="1em" />
+                </div>
+              </div>
+            </NuxtLink>
+
             <component
               :is="link.href ? 'a' : 'button'"
               v-for="link in socialLinks"
@@ -206,7 +222,7 @@ const socialLinks = [
     icon: 'simple-icons:gmail',
     color: 'rgb(234, 67, 53)',
     shadow: 'rgba(234, 67, 53, 0.5)',
-    delay: '0.7s',
+    delay: '0.8s',
     ariaLabel: 'Email',
   },
   {
@@ -214,7 +230,7 @@ const socialLinks = [
     icon: 'simple-icons:github',
     color: 'rgb(255, 255, 255)',
     shadow: 'rgba(255, 255, 255, 0.5)',
-    delay: '0.8s',
+    delay: '0.9s',
     external: true,
     ariaLabel: 'GitHub',
   },
@@ -223,7 +239,7 @@ const socialLinks = [
     icon: 'simple-icons:instagram',
     color: 'rgb(246, 30, 157)',
     shadow: 'rgba(246, 30, 157, 0.5)',
-    delay: '0.9s',
+    delay: '1s',
     external: true,
     ariaLabel: 'Instagram',
   },
@@ -232,7 +248,7 @@ const socialLinks = [
     icon: 'simple-icons:discord',
     color: 'rgb(68, 120, 241)',
     shadow: 'rgba(68, 120, 241, 0.5)',
-    delay: '1s',
+    delay: '1.1s',
     external: true,
     ariaLabel: 'Discord',
   },
@@ -241,7 +257,7 @@ const socialLinks = [
     icon: 'simple-icons:wechat',
     color: 'rgb(78, 175, 79)',
     shadow: 'rgba(78, 175, 79, 0.5)',
-    delay: '1.1s',
+    delay: '1.2s',
     ariaLabel: 'WeChat QR Code',
   },
   {
@@ -249,7 +265,7 @@ const socialLinks = [
     icon: 'simple-icons:telegram',
     color: 'rgb(38, 165, 228)',
     shadow: 'rgba(38, 165, 228, 0.5)',
-    delay: '1.2s',
+    delay: '1.3s',
     external: true,
     ariaLabel: 'Telegram',
   },
@@ -258,7 +274,7 @@ const socialLinks = [
     icon: 'simple-icons:steam',
     color: 'rgb(19, 107, 157)',
     shadow: 'rgba(19, 107, 157, 0.5)',
-    delay: '1.3s',
+    delay: '1.4s',
     external: true,
     ariaLabel: 'Steam',
   },

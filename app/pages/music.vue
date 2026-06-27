@@ -431,11 +431,14 @@ onBeforeUnmount(() => {
       <MusicBackground :cover="currentTrack?.cover" />
     </Teleport>
     <div class="fixed inset-0 flex flex-col overflow-hidden text-white font-sans">
-    <!-- TEST NAV BUTTON: remove after testing -->
     <NuxtLink
       to="/"
-      class="absolute top-4 left-4 z-[100] px-4 py-2 text-sm font-mono rounded-full bg-white/10 border border-white/20"
-    >Test → Home</NuxtLink>
+      class="absolute top-4 left-6 z-[100] flex items-center gap-2 px-4 h-9 rounded-full text-sm font-medium text-white/70 hover:text-white bg-white/[0.08] hover:bg-white/[0.14] backdrop-blur-md border border-white/10 hover:border-white/25 transition-all duration-300 hover:scale-[1.03]"
+      aria-label="Back to home"
+    >
+      <Icon name="mingcute:left-fill" class="text-base" width="1em" height="1em" />
+      <span>Home</span>
+    </NuxtLink>
     <MusicAudioVisualizer :analyser="audioAnalyser" :is-playing="isPlaying" :visible="showVisualizer" :cover="currentTrack?.cover ?? ''" />
 
     <MusicDrawerTab
