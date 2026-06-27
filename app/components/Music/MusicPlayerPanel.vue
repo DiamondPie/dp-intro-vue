@@ -225,6 +225,8 @@ watch(() => props.currentLyricIndex, () => {
   scrollbar-width: none;
   padding-right: .25rem;
   margin: 0.2rem 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
 }
 
 .lyrics-area::-webkit-scrollbar { display: none; }
