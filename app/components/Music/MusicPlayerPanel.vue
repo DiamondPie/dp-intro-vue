@@ -62,7 +62,7 @@ watch(() => props.currentLyricIndex, () => {
 <template>
   <div class="player-panel">
     <!-- Cover art -->
-    <div class="flex flex-shrink-0 items-start justify-center mb-[1.1rem]">
+    <div class="cover-section flex flex-shrink-0 items-start justify-center mb-[1.1rem]">
       <div class="cover-wrapper" @click="emit('togglePlay')">
         <img
           v-if="currentTrack?.cover"
@@ -92,7 +92,7 @@ watch(() => props.currentLyricIndex, () => {
     </div>
 
     <!-- Track title -->
-    <h2 class="flex-shrink-0 text-center text-white font-bold mb-[0.85rem] tracking-[0.01em] text-[1.8rem] max-sm:text-[1.1rem]">
+    <h2 class="track-title flex-shrink-0 text-center text-white font-bold mb-[0.85rem] tracking-[0.01em] text-[1.8rem] max-sm:text-[1.1rem]">
       {{ currentTrack ? `${currentTrack.name} - ${currentTrack.artist}` : '...' }}
     </h2>
 
@@ -144,6 +144,13 @@ watch(() => props.currentLyricIndex, () => {
 </template>
 
 <style scoped>
+@keyframes element-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(2.5rem);
+  }
+}
+
 .player-panel {
   flex: 1;
   display: flex;
@@ -152,6 +159,18 @@ watch(() => props.currentLyricIndex, () => {
   min-width: 0;
   overflow: hidden;
   position: relative;
+}
+
+.cover-section {
+  animation: element-slide-in 480ms cubic-bezier(0.1, 0.9, 0.2, 1) 150ms backwards;
+}
+
+.track-title {
+  animation: element-slide-in 480ms cubic-bezier(0.1, 0.9, 0.2, 1) 300ms backwards;
+}
+
+.lyrics-area {
+  animation: element-slide-in 480ms cubic-bezier(0.1, 0.9, 0.2, 1) 450ms backwards;
 }
 
 .cover-art {

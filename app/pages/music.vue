@@ -104,7 +104,8 @@ function initAudioContext() {
   }
 }
 
-const currentTrack = computed(() => tracks.value?.[currentIndex.value] ?? null)
+const playerReady = ref(false)
+const currentTrack = computed(() => playerReady.value ? (tracks.value?.[currentIndex.value] ?? null) : null)
 const progress = computed(() =>
   duration.value > 0 ? currentTime.value / duration.value : 0,
 )
@@ -405,6 +406,7 @@ onMounted(() => {
     else if (e.code === 'ArrowLeft' && audio) audio.currentTime = Math.max(0, audio.currentTime - 5)
   }
   window.addEventListener('keydown', keyHandler)
+  playerReady.value = true
 })
 
 onBeforeUnmount(() => {
@@ -424,8 +426,16 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="fixed inset-0 flex flex-col overflow-hidden text-white bg-[#111] font-sans">
-    <MusicBackground :cover="currentTrack?.cover" />
+  <div class="fixed inset-0 z-[2]">
+    <Teleport to="body">
+      <MusicBackground :cover="currentTrack?.cover" />
+    </Teleport>
+    <div class="fixed inset-0 flex flex-col overflow-hidden text-white font-sans">
+    <!-- TEST NAV BUTTON: remove after testing -->
+    <NuxtLink
+      to="/"
+      class="absolute top-4 left-4 z-[100] px-4 py-2 text-sm font-mono rounded-full bg-white/10 border border-white/20"
+    >Test → Home</NuxtLink>
     <MusicAudioVisualizer :analyser="audioAnalyser" :is-playing="isPlaying" :visible="showVisualizer" :cover="currentTrack?.cover ?? ''" />
 
     <MusicDrawerTab
@@ -477,5 +487,6 @@ onBeforeUnmount(() => {
       @toggle-shuffle="shuffle = !shuffle"
       @toggle-repeat="toggleRepeat"
     />
+    </div>
   </div>
 </template>

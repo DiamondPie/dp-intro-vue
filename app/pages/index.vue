@@ -18,6 +18,12 @@
       <BackToTopButton />
       <!-- <NavDock /> -->
     </main>
+    <!-- TEST NAV BUTTON: remove after testing -->
+    <NuxtLink
+      to="/music"
+      class="fixed bottom-6 right-6 z-50 px-4 py-2 text-sm font-mono rounded-full border"
+      style="background: var(--content-2); border-color: var(--border-color-2); color: var(--text-primary)"
+    >Test → /music</NuxtLink>
   </div>
 </template>
 
@@ -32,6 +38,10 @@ import SiteFooter from '~/components/SiteFooter.vue'
 import BackToTopButton from '~/components/BackToTopButton.vue'
 import _NavDock from '~/components/NavDock.vue'
 import { useIntroEffects } from '~/composables/useIntroEffects.js'
+
+definePageMeta({
+  pageTransition: { name: 'page-home', mode: 'out-in' }
+})
 
 useIntroEffects()
 

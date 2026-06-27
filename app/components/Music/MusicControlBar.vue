@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="relative z-[3] flex-shrink-0 px-6 pt-[0.7rem] pb-[1.6rem] backdrop-blur-md max-sm:z-20 max-sm:px-4 max-sm:pt-2 max-sm:pb-[0.8rem]">
+  <div class="control-bar relative z-[3] flex-shrink-0 px-6 pt-[0.7rem] pb-[1.6rem] backdrop-blur-md max-sm:z-20 max-sm:px-4 max-sm:pt-2 max-sm:pb-[0.8rem]">
     <div class="flex items-center gap-[0.3rem]">
       <button class="ctrl-btn" title="Previous" @click="emit('prevTrack')">
         <Icon name="mdi:skip-previous" />
@@ -177,6 +177,17 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+@keyframes bar-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+}
+
+.control-bar {
+  animation: bar-slide-in 450ms cubic-bezier(0.1, 0.9, 0.2, 1) 600ms backwards;
+}
+
 /* Custom slider track overlay pattern — requires absolute positioning + transparent input */
 .progress-track,
 .vol-track {

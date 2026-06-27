@@ -40,6 +40,7 @@ watch(() => props.currentIndex, () => {
       :key="i"
       class="track-item"
       :class="{ 'is-active': i === currentIndex }"
+      :style="{ animationDelay: `${100 + i * 40}ms`, animationDuration: `${420 + i * 12}ms` }"
       @click="emit('select', i)"
     >
       <span class="track-num">{{ i + 1 }}</span>
@@ -65,6 +66,13 @@ watch(() => props.currentIndex, () => {
   border-radius: 2px;
 }
 
+@keyframes track-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-1.25rem);
+  }
+}
+
 .track-item {
   display: flex;
   align-items: center;
@@ -81,6 +89,7 @@ watch(() => props.currentIndex, () => {
   border-radius: 8px;
   transition: background .2s ease-in-out, color .2s ease-in-out,
               padding .2s ease-in-out, font-size .2s ease-in-out;
+  animation: track-slide-in cubic-bezier(0.1, 0.9, 0.2, 1) backwards;
 }
 
 @media (hover: hover) {
