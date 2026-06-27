@@ -37,8 +37,11 @@ const mobileDrawerOpen = ref(false)
 
 let audio: HTMLAudioElement | null = null
 let audioCtx: AudioContext | null = null
+let gainNode: GainNode | null = null
 let keyHandler: ((e: KeyboardEvent) => void) | null = null
 let lastSaveTime = 0
+
+const FADE_DURATION = 0.3 // seconds
 
 const STORAGE_KEY = 'music-player-state'
 
@@ -86,9 +89,12 @@ function initAudioContext() {
     audioCtx = new AudioContext()
     const analyserNode = audioCtx.createAnalyser()
     analyserNode.fftSize = 1024
-    analyserNode.smoothingTimeConstant = 0.8
+    analyserNode.smoothingTimeConstant = 0.72
+    gainNode = audioCtx.createGain()
+    gainNode.gain.value = 1
     const src = audioCtx.createMediaElementSource(audio)
-    src.connect(analyserNode)
+    src.connect(gainNode)
+    gainNode.connect(analyserNode)
     analyserNode.connect(audioCtx.destination)
     audioAnalyser.value = analyserNode
   }
@@ -192,10 +198,31 @@ function selectTrack(index: number) {
   mobileDrawerOpen.value = false
 }
 
-function togglePlay() {
+async function togglePlay() {
   if (!audio) return
-  if (isPlaying.value) audio.pause()
-  else audio.play().catch(() => {})
+  if (isPlaying.value) {
+    if (gainNode && audioCtx) {
+      const ct = audioCtx.currentTime
+      gainNode.gain.cancelScheduledValues(ct)
+      gainNode.gain.setValueAtTime(gainNode.gain.value, ct)
+      gainNode.gain.linearRampToValueAtTime(0, ct + FADE_DURATION)
+    }
+    // setTimeout is imprecise; add buffer so AudioContext gain ramp is guaranteed complete before pause
+    await new Promise<void>(resolve => setTimeout(resolve, FADE_DURATION * 1000 + 80))
+    audio.pause()
+    // Do NOT reset gain here: the decoder's pre-buffered frames keep flowing through the Web Audio
+    // graph for ~500ms after pause; resetting gain to 1 would let them through and cause a pop.
+    // The fade-in branch always starts from setValueAtTime(0) so no reset is needed.
+  }
+  else {
+    if (gainNode && audioCtx) {
+      const ct = audioCtx.currentTime
+      gainNode.gain.cancelScheduledValues(ct)
+      gainNode.gain.setValueAtTime(0, ct)
+      gainNode.gain.linearRampToValueAtTime(1, ct + FADE_DURATION)
+    }
+    audio.play().catch(() => {})
+  }
 }
 
 function prevTrack() {
@@ -297,6 +324,31 @@ function setVolume(e: Event) {
 watch(volume, (v) => { if (audio) audio.volume = v })
 watch([currentIndex, volume, prevVolume, shuffle, repeat, showVisualizer], saveState)
 
+function updateMediaSession() {
+  if (!import.meta.client || !('mediaSession' in navigator)) return
+  const track = currentTrack.value
+  if (!track) return
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: track.name,
+    artist: track.artist,
+    artwork: track.cover ? [{ src: track.cover }] : [],
+  })
+}
+
+function setupMediaSessionHandlers() {
+  if (!import.meta.client || !('mediaSession' in navigator)) return
+  navigator.mediaSession.setActionHandler('play', () => { if (!isPlaying.value) togglePlay() })
+  navigator.mediaSession.setActionHandler('pause', () => { if (isPlaying.value) togglePlay() })
+  navigator.mediaSession.setActionHandler('previoustrack', prevTrack)
+  navigator.mediaSession.setActionHandler('nexttrack', nextTrack)
+}
+
+watch(currentTrack, updateMediaSession)
+watch(isPlaying, (playing) => {
+  if (!import.meta.client || !('mediaSession' in navigator)) return
+  navigator.mediaSession.playbackState = playing ? 'playing' : 'paused'
+})
+
 onMounted(() => {
   audio = new Audio()
   audio.crossOrigin = 'anonymous'
@@ -336,6 +388,7 @@ onMounted(() => {
     }
   }
 
+  setupMediaSessionHandlers()
   window.addEventListener('beforeunload', saveState)
 
   keyHandler = (e: KeyboardEvent) => {
@@ -354,13 +407,19 @@ onBeforeUnmount(() => {
   if (keyHandler) window.removeEventListener('keydown', keyHandler)
   window.removeEventListener('beforeunload', saveState)
   if (arcRafId !== null) cancelAnimationFrame(arcRafId)
+  if (import.meta.client && 'mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', null)
+    navigator.mediaSession.setActionHandler('pause', null)
+    navigator.mediaSession.setActionHandler('previoustrack', null)
+    navigator.mediaSession.setActionHandler('nexttrack', null)
+  }
 })
 </script>
 
 <template>
   <div class="fixed inset-0 flex flex-col overflow-hidden text-white bg-[#111] font-sans">
     <MusicBackground :cover="currentTrack?.cover" />
-    <MusicAudioVisualizer :analyser="audioAnalyser" :is-playing="isPlaying" :visible="showVisualizer" />
+    <MusicAudioVisualizer :analyser="audioAnalyser" :is-playing="isPlaying" :visible="showVisualizer" :cover="currentTrack?.cover ?? ''" />
 
     <MusicDrawerTab
       :is-open="mobileDrawerOpen"

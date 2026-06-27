@@ -3,6 +3,7 @@ const props = defineProps<{
   analyser: AnalyserNode | null
   isPlaying: boolean
   visible: boolean
+  cover: string
 }>()
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
@@ -14,12 +15,53 @@ let lastDpr = 0
 // Smooth factor: 0 = fully idle, 1 = full audio. Lerps based on isPlaying.
 let displayFactor = 0
 let lastTs = 0
+// Dominant color extracted from the current cover art; falls back to white on CORS failure.
+let accentColor: [number, number, number] = [255, 255, 255]
 
 watch(
   () => props.analyser,
   (a) => { dataArray = a ? new Uint8Array(new ArrayBuffer(a.frequencyBinCount)) : null },
   { immediate: true },
 )
+
+async function extractColor(url: string) {
+  if (!url) { accentColor = [255, 255, 255]; return }
+  try {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    await new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve()
+      img.onerror = reject
+      img.src = url
+    })
+    const SIZE = 50
+    const cvs = document.createElement('canvas')
+    cvs.width = SIZE
+    cvs.height = SIZE
+    const c = cvs.getContext('2d')!
+    c.drawImage(img, 0, 0, SIZE, SIZE)
+    const { data } = c.getImageData(0, 0, SIZE, SIZE)
+    let rSum = 0, gSum = 0, bSum = 0, count = 0
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i]!, g = data[i + 1]!, b = data[i + 2]!
+      const max = Math.max(r, g, b)
+      const min = Math.min(r, g, b)
+      const sat = max > 0 ? (max - min) / max : 0
+      // Only include colorful, non-dark pixels
+      if (sat > 0.15 && max / 255 > 0.25) {
+        rSum += r; gSum += g; bSum += b; count++
+      }
+    }
+    accentColor = count > 0
+      ? [Math.round(rSum / count), Math.round(gSum / count), Math.round(bSum / count)]
+      : [255, 255, 255]
+  }
+  catch {
+    accentColor = [255, 255, 255]
+  }
+}
+
+watch(() => props.cover, (url) => { extractColor(url) }, { immediate: true })
 
 function syncSize(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): { w: number, h: number } {
   const dpr = window.devicePixelRatio || 1
@@ -64,6 +106,13 @@ function catmullRomPath(
   }
 }
 
+// Fades only the outer 12% on each side; middle stays at 1.0 so audio content drives the shape.
+function edgeFade(t: number): number {
+  const EDGE = 0.12
+  const e = t < EDGE ? t / EDGE : t > (1 - EDGE) ? (1 - t) / EDGE : 1
+  return e * e * (3 - 2 * e)
+}
+
 function frame(ts: number) {
   rafId = requestAnimationFrame(frame)
 
@@ -85,34 +134,42 @@ function frame(ts: number) {
   const maxH = h * 0.42
   const N = 80
 
-  // --- Audio amplitude (read every frame; naturally decays via smoothingTimeConstant when paused) ---
-  const audioAmp = new Array<number>(N).fill(0)
+  // Read FFT data once per frame
   if (props.analyser && dataArray) {
     props.analyser.getByteFrequencyData(dataArray)
-    const usable = Math.floor(dataArray.length * 0.65)
+  }
+  const usable = dataArray ? Math.floor(dataArray.length * 0.65) : 0
+
+  // --- Audio amplitude ---
+  const audioAmp = new Array<number>(N).fill(0)
+  if (dataArray && usable > 0) {
     for (let i = 0; i < N; i++) {
-      const bin = Math.floor(Math.pow(i / (N - 1), 1.4) * usable)
+      const t = i / (N - 1)
+      const bin = Math.floor(Math.pow(t, 1.4) * usable)
       let sum = 0
       for (let j = -2; j <= 2; j++)
         sum += dataArray[Math.min(Math.max(bin + j, 0), dataArray.length - 1)]!
-      audioAmp[i] = (sum / 5) / 255
+      const raw = (sum / 5) / 255
+      // Progressive high-freq boost: 1.0 at t=0.3 → 2.2 at t=1.0
+      const boost = t > 0.3 ? 1.0 + 1.2 * ((t - 0.3) / 0.7) : 1.0
+      audioAmp[i] = Math.min(raw * boost, 1)
     }
   }
 
   // --- Idle sine ripple (always computed, blended in when not playing) ---
-  const t = ts / 4000
+  const tIdle = ts / 4000
   const idleAmp = new Array<number>(N)
   for (let i = 0; i < N; i++)
-    idleAmp[i] = (Math.sin((i / (N - 1)) * Math.PI * 4 + t * Math.PI * 2) * 0.5 + 0.5) * 0.045
+    idleAmp[i] = (Math.sin((i / (N - 1)) * Math.PI * 4 + tIdle * Math.PI * 2) * 0.5 + 0.5) * 0.045
 
   // --- Blend: audio ↔ idle driven by displayFactor ---
   const amp = new Array<number>(N)
   for (let i = 0; i < N; i++)
     amp[i] = audioAmp[i]! * displayFactor + idleAmp[i]! * (1 - displayFactor)
 
-  // Sine-envelope taper so both edges always meet at the centre line
+  // Edge fade — only outer 12% on each side tapers; audio content shapes the middle freely
   for (let i = 0; i < N; i++)
-    amp[i]! *= Math.sin((i / (N - 1)) * Math.PI)
+    amp[i]! *= edgeFade(i / (N - 1))
 
   // Build upper and lower curve points
   const upper: { x: number, y: number }[] = []
@@ -127,25 +184,35 @@ function frame(ts: number) {
 
   ctx.clearRect(0, 0, w, h)
 
-  // --- Filled shape (upper L→R, lower R→L, closed) ---
+  const [r, g, b] = accentColor
+
+  // --- Filled shape ---
   ctx.beginPath()
   catmullRomPath(ctx, upper, true)
   catmullRomPath(ctx, lowerRev, false)
   ctx.closePath()
 
-  const grad = ctx.createLinearGradient(0, centerY - maxH, 0, centerY + maxH)
-  grad.addColorStop(0, 'rgba(255,255,255,0.06)')
-  grad.addColorStop(0.5, 'rgba(255,255,255,0.14)')
-  grad.addColorStop(1, 'rgba(255,255,255,0.06)')
-  ctx.fillStyle = grad
+  const fillGrad = ctx.createLinearGradient(0, centerY - maxH, 0, centerY + maxH)
+  fillGrad.addColorStop(0, `rgba(${r},${g},${b},0.05)`)
+  fillGrad.addColorStop(0.5, 'rgba(255,255,255,0.13)')
+  fillGrad.addColorStop(1, `rgba(${r},${g},${b},0.05)`)
+  ctx.fillStyle = fillGrad
   ctx.fill()
+
+  // Horizontal accent-to-white gradient for strokes
+  const strokeGrad = ctx.createLinearGradient(0, 0, w, 0)
+  strokeGrad.addColorStop(0, `rgba(${r},${g},${b},0)`)
+  strokeGrad.addColorStop(0.15, `rgba(${r},${g},${b},0.45)`)
+  strokeGrad.addColorStop(0.5, 'rgba(255,255,255,0.55)')
+  strokeGrad.addColorStop(0.85, `rgba(${r},${g},${b},0.45)`)
+  strokeGrad.addColorStop(1, `rgba(${r},${g},${b},0)`)
+  ctx.strokeStyle = strokeGrad
+  ctx.lineWidth = 1.5
+  ctx.lineJoin = 'round'
 
   // --- Upper curve stroke ---
   ctx.beginPath()
   catmullRomPath(ctx, upper, true)
-  ctx.strokeStyle = 'rgba(255,255,255,0.50)'
-  ctx.lineWidth = 1.5
-  ctx.lineJoin = 'round'
   ctx.stroke()
 
   // --- Lower curve stroke ---
