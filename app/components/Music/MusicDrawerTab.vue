@@ -47,9 +47,14 @@ const emit = defineEmits<{
     transition: background .2s;
   }
 
-  .track-drawer-tab:hover,
   .track-drawer-tab:active {
     background: rgba(255,255,255,.28);
+  }
+
+  @media (hover: hover) {
+    .track-drawer-tab:hover {
+      background: rgba(255,255,255,.28);
+    }
   }
 
   .track-drawer-overlay {

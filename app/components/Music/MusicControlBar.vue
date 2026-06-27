@@ -288,9 +288,11 @@ onBeforeUnmount(() => {
   transition: color .15s, background .15s;
 }
 
-.ctrl-btn:hover {
-  color: #fff;
-  background: rgba(255,255,255,.09);
+@media (hover: hover) {
+  .ctrl-btn:hover {
+    color: #fff;
+    background: rgba(255,255,255,.09);
+  }
 }
 
 .ctrl-btn.is-on {
@@ -305,7 +307,9 @@ onBeforeUnmount(() => {
   font-size: 1.6rem;
 }
 
-.ctrl-btn--play:hover { background: rgba(255,255,255,.22); }
+@media (hover: hover) {
+  .ctrl-btn--play:hover { background: rgba(255,255,255,.22); }
+}
 
 /* Vertical volume popup enter/leave transition */
 .vol-popup-enter-active,

@@ -83,9 +83,11 @@ watch(() => props.currentIndex, () => {
               padding .2s ease-in-out, font-size .2s ease-in-out;
 }
 
-.track-item:hover {
-  background: rgba(255,255,255,.06);
-  color: #fff;
+@media (hover: hover) {
+  .track-item:hover {
+    background: rgba(255,255,255,.06);
+    color: #fff;
+  }
 }
 
 .track-item.is-active {
