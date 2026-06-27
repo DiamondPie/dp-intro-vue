@@ -171,6 +171,10 @@ function frame(ts: number) {
   for (let i = 0; i < N; i++)
     amp[i]! *= edgeFade(i / (N - 1))
 
+  const AMPLITUDE_FLOOR = 0.38
+  for (let i = 0; i < N; i++)
+    amp[i] = Math.max(0, amp[i]! - AMPLITUDE_FLOOR * displayFactor)
+
   // Build upper and lower curve points
   const upper: { x: number, y: number }[] = []
   const lower: { x: number, y: number }[] = []
