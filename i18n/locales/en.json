@@ -35,6 +35,68 @@
     "invite_email": "Email",
     "invite_btn": "Fill the form"
   },
+  "commits": {
+    "entries": [
+      {
+        "year": "2026",
+        "month": "February 2026",
+        "title": "Started University · Computer Science",
+        "desc": "Began my Bachelor of Science at the University of Auckland, diving headfirst into algorithms, discrete maths, and a semester's worth of caffeine.",
+        "courses": [
+          "COMPSCI 110 — Introduction to Computer Science",
+          "MATHS 120 — Linear Algebra",
+          "PHYSICS 140 — Digital Fundamentals"
+        ],
+        "badges": [
+          { "label": "UOACS",           "color": "#d0539b" },
+          { "label": "SESA",            "color": "#afdece" },
+          { "label": "Linux User Group","color": "#43ccaf" },
+          { "label": "DEVS",            "color": "#9479ed" }
+        ],
+        "details": [
+          {
+            "label": "Milestones",
+            "type": "new",
+            "defaultOpen": true,
+            "items": [
+              "First semester GPA achieved.",
+              "Completed first solo programming assignment in Python.",
+              "Made friends with people who also think semicolons matter."
+            ]
+          },
+          {
+            "label": "Side Projects",
+            "type": "update",
+            "defaultOpen": false,
+            "items": [
+              "Built a Minecraft plugin to automate in-game quiz and prices.",
+              "Started this portfolio site with Vue + Nuxt 4."
+            ]
+          }
+        ]
+      },
+      {
+        "year": "2023",
+        "month": "September 2023",
+        "title": "High School · Playing and Catching Dues with Friends",
+        "desc": "Started the habit of staying up all night writing code. Learnt Python, JavaScript, a bit of Java, and Git. Tried to build some small automation and web tools.",
+        "courses": [],
+        "badges": [],
+        "details": [
+          {
+            "label": "Toy Projects",
+            "type": "new",
+            "defaultOpen": true,
+            "items": [
+              "A QQ chatbot based on CQHttp and finally got banned.",
+              "A Discord bot for entertainment.",
+              "Personal website v1 with pure HTML/CSS."
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "footer": {
     "get_in_touch": "Get in Touch",
     "copyright": "© 2026 DiamondPie. Crafted with passion, code and {llm}."

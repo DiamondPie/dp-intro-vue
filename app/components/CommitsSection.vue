@@ -1,6 +1,39 @@
 <script setup lang="ts">
-import Badge from './CommitsSection/Badge.vue';
+interface CommitDetail {
+  label: string
+  type: string
+  defaultOpen: boolean
+  items: string[]
+}
 
+interface CommitEntry {
+  year: string
+  month: string
+  title: string
+  desc: string
+  courses: string[]
+  badges: { label: string; color: string }[]
+  details: CommitDetail[]
+}
+
+const { tm, rt } = useI18n()
+
+const entries = computed<CommitEntry[]>(() =>
+  (tm('commits.entries') as Record<string, unknown>[]).map(e => ({
+    year:    rt(e.year   as string),
+    month:   rt(e.month  as string),
+    title:   rt(e.title  as string),
+    desc:    rt(e.desc   as string),
+    courses: (e.courses as string[]).map(c => rt(c)),
+    badges:  (e.badges  as { label: string; color: string }[]).map(b => ({ label: rt(b.label), color: rt(b.color) })),
+    details: (e.details as Record<string, unknown>[]).map(d => ({
+      label:       rt(d.label as string),
+      type:        rt(d.type  as string),
+      defaultOpen: d.defaultOpen as boolean,
+      items:       (d.items as string[]).map(i => rt(i)),
+    })),
+  }))
+)
 </script>
 
 <template>
@@ -13,13 +46,18 @@ import Badge from './CommitsSection/Badge.vue';
 
       <div class="flex flex-col items-start w-full">
 
-        <!-- ── Entry: 2026 ──────────────────────────────────────────────── -->
-        <div class="relative flex w-full justify-end gap-2">
+        <div
+          v-for="entry in entries"
+          :key="String(entry.year)"
+          class="relative flex w-full justify-end gap-2"
+        >
+          <!-- Left column (desktop) -->
           <div class="sticky top-[4.75rem] hidden w-36 flex-col items-end gap-2 self-start pb-4 md:flex">
-            <span class="timeline-badge">2026</span>
-            <div class="text-right text-sm font-medium" style="color: var(--text-secondary)">February 2026</div>
+            <span class="timeline-badge">{{ entry.year }}</span>
+            <div class="text-right text-sm font-medium" style="color: var(--text-secondary)">{{ entry.month }}</div>
           </div>
 
+          <!-- Timeline dot + line -->
           <div class="flex flex-col items-center">
             <div class="sticky top-[4.75rem] flex size-6 items-center justify-center">
               <span class="timeline-dot-outer flex size-[1.125rem] shrink-0 items-center justify-center rounded-full">
@@ -29,79 +67,43 @@ import Badge from './CommitsSection/Badge.vue';
             <span class="timeline-line -mt-2.5 w-px flex-1" />
           </div>
 
+          <!-- Content -->
           <div class="flex flex-1 flex-col gap-4 pb-11 pl-3 md:pl-6 lg:pl-9">
+            <!-- Mobile year/month -->
             <div class="flex flex-col gap-2 md:hidden">
-              <span class="timeline-badge self-start">2026</span>
-              <div class="font-medium">February 2026</div>
+              <span class="timeline-badge self-start">{{ entry.year }}</span>
+              <div class="font-medium">{{ entry.month }}</div>
             </div>
 
             <div class="space-y-4">
               <div class="space-y-3">
-                <h3 class="text-xl font-semibold">Started University · Computer Science</h3>
-                <p class="text-sm" style="color: var(--text-secondary)">Began my Bachelor of Science at the University of Auckland, diving headfirst into algorithms, discrete maths, and a semester's worth of caffeine.</p>
+                <h3 class="text-xl font-semibold">{{ entry.title }}</h3>
+                <p class="text-sm" style="color: var(--text-secondary)">{{ entry.desc }}</p>
               </div>
 
-              <ul class="ml-2 list-inside list-disc space-y-3 text-sm" style="color: var(--text-secondary)">
-                <li>COMPSCI 110 — Introduction to Computer Science</li>
-                <li>MATHS 120 — Linear Algebra</li>
-                <li>PHYSICS 140 — Digital Fundamentals</li>
+              <ul v-if="entry.courses?.length" class="ml-2 list-inside list-disc space-y-3 text-sm" style="color: var(--text-secondary)">
+                <li v-for="course in entry.courses" :key="String(course)">{{ course }}</li>
               </ul>
-              <Badge color="#d0539b">UOACS</Badge> <Badge color="#afdece">SESA</Badge> <Badge color="#43ccaf">Linux User Group</Badge> <Badge color="#9479ed">DEVS</Badge>
 
-              <div class="-mt-2 space-y-0">
-                <CommitsSectionDetails label="Milestones" type="new" :default-open="true">
-                  <ul class="list-inside list-disc space-y-3 pb-4 pl-2 pt-1 text-sm" style="color: var(--text-secondary)">
-                    <li>First semester GPA achieved.</li>
-                    <li>Completed first solo programming assignment in Python.</li>
-                    <li>Made friends with people who also think semicolons matter.</li>
-                  </ul>
-                </CommitsSectionDetails>
-
-                <CommitsSectionDetails label="Side Projects" type="update">
-                  <ul class="list-inside list-disc space-y-3 pb-4 pl-2 pt-1 text-sm" style="color: var(--text-secondary)">
-                    <li>Built a Minecraft plugin to automate in-game quiz and prices.</li>
-                    <li>Started this portfolio site with Vue + Nuxt 4.</li>
-                  </ul>
-                </CommitsSectionDetails>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── Entry: 2023 ──────────────────────────────────────────────────── -->
-        <div class="relative flex w-full justify-end gap-2">
-          <div class="sticky top-[4.75rem] hidden w-36 flex-col items-end gap-2 self-start pb-4 md:flex">
-            <span class="timeline-badge">2023</span>
-            <div class="text-right text-sm font-medium" style="color: var(--text-secondary)">September 2023</div>
-          </div>
-
-          <div class="flex flex-col items-center">
-            <div class="sticky top-[4.75rem] flex size-6 items-center justify-center">
-              <span class="timeline-dot-outer flex size-[1.125rem] shrink-0 items-center justify-center rounded-full">
-                <span class="timeline-dot-inner size-3 rounded-full" />
-              </span>
-            </div>
-            <span class="timeline-line -mt-2.5 w-px flex-1" />
-          </div>
-
-          <div class="flex flex-1 flex-col gap-4 pb-11 pl-3 md:pl-6 lg:pl-9">
-            <div class="flex flex-col gap-2 md:hidden">
-              <span class="timeline-badge self-start">2023</span>
-              <div class="font-medium">September 2023</div>
-            </div>
-
-            <div class="space-y-4">
-              <div class="space-y-3">
-                <h3 class="text-xl font-semibold">High School · Playing and Catching Dues with Friends</h3>
-                <p class="text-sm" style="color: var(--text-secondary)">Started the habit of staying up all night writing code. Learnt Python, JavaScript, a bit of Java, and Git. Tried to build some small automation and web tools.</p>
+              <div v-if="entry.badges?.length">
+                <CommitsSectionBadge
+                  v-for="badge in entry.badges"
+                  :key="String(badge.label)"
+                  :color="String(badge.color)"
+                  class="mr-1"
+                >{{ badge.label }}</CommitsSectionBadge>
               </div>
 
-              <div class="-mt-2 space-y-0">
-                <CommitsSectionDetails label="Toy Projects" type="new" :default-open="true">
+              <div v-if="entry.details?.length" class="-mt-2 space-y-0">
+                <CommitsSectionDetails
+                  v-for="detail in entry.details"
+                  :key="String(detail.label)"
+                  :label="String(detail.label)"
+                  :type="String(detail.type)"
+                  :default-open="Boolean(detail.defaultOpen)"
+                >
                   <ul class="list-inside list-disc space-y-3 pb-4 pl-2 pt-1 text-sm" style="color: var(--text-secondary)">
-                    <li>A QQ chatbot based on CQHttp and finally got banned.</li>
-                    <li>A Discord bot for entertainment.</li>
-                    <li>Personal website v1 with pure HTML/CSS.</li>
+                    <li v-for="item in detail.items" :key="String(item)">{{ item }}</li>
                   </ul>
                 </CommitsSectionDetails>
               </div>

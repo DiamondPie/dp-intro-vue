@@ -35,6 +35,68 @@
     "invite_email": "邮件",
     "invite_btn": "填写表格"
   },
+  "commits": {
+    "entries": [
+      {
+        "year": "2026",
+        "month": "February 2026",
+        "title": "开始就读大学 · 计算机科学",
+        "desc": "正式就读奥克兰大学计算机科学本科，一头扎进算法、离散数学和一学期的咖啡因里。",
+        "courses": [
+          "COMPSCI 110 — Introduction to Computer Science",
+          "MATHS 120 — Linear Algebra",
+          "PHYSICS 140 — Digital Fundamentals"
+        ],
+        "badges": [
+          { "label": "UOACS",           "color": "#d0539b" },
+          { "label": "SESA",            "color": "#afdece" },
+          { "label": "Linux User Group","color": "#43ccaf" },
+          { "label": "DEVS",            "color": "#9479ed" }
+        ],
+        "details": [
+          {
+            "label": "里程碑",
+            "type": "new",
+            "defaultOpen": true,
+            "items": [
+              "完成第一学期 GPA 考核。",
+              "独立完成了第一次 Python 编程作业。",
+              "结识了一群同样觉得分号很重要的朋友。"
+            ]
+          },
+          {
+            "label": "个人项目",
+            "type": "update",
+            "defaultOpen": false,
+            "items": [
+              "开发了一个 Minecraft 插件，用于自动化游戏内测验与定价。",
+              "用 Vue + Nuxt 4 搭建了这个作品集网站。"
+            ]
+          }
+        ]
+      },
+      {
+        "year": "2023",
+        "month": "September 2023",
+        "title": "高中时代 · 和朋友们玩耍打闹",
+        "desc": "养成了通宵写代码的习惯。学了 Python、JavaScript、一点 Java 和 Git，尝试搞了些小型自动化工具和网页项目。",
+        "courses": [],
+        "badges": [],
+        "details": [
+          {
+            "label": "玩具项目",
+            "type": "new",
+            "defaultOpen": true,
+            "items": [
+              "基于 CQHttp 搭建了一个 QQ 聊天机器人，最终喜提封号。",
+              "为娱乐搭建了一个 Discord 机器人。",
+              "用纯 HTML/CSS 搭建了个人网站 v1。"
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "footer": {
     "get_in_touch": "认识一下~",
     "copyright": "© 2026 DiamondPie. 倾注热情、代码和 {llm} 精心打造."
