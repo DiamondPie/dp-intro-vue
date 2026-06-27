@@ -75,7 +75,7 @@ html {
   background-attachment: fixed;
   background-color: var(--bg-primary);
   font-size: 16px;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -87,7 +87,7 @@ body {
   min-height: 100vh;
   margin: 0;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1,

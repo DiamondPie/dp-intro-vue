@@ -12,11 +12,10 @@
         <div class="w-12 h-px" style="background: var(--text-secondary); opacity: 0.35" />
       </div>
       <AboutSection />
+      <CommitsSection />
       <WorksSection />
-      <FriendsSection />
       <SiteFooter />
       <BackToTopButton />
-      <!-- <NavDock /> -->
     </main>
     <!-- TEST NAV BUTTON: remove after testing -->
     <NuxtLink
@@ -33,10 +32,9 @@ import HeadBar from '~/components/HeadBar.vue'
 import HeroSection from '~/components/HeroSection.vue'
 import AboutSection from '~/components/AboutSection.vue'
 import WorksSection from '~/components/WorksSection.vue'
-import FriendsSection from '~/components/FriendsSection.vue'
+import CommitsSection from '~/components/CommitsSection.vue'
 import SiteFooter from '~/components/SiteFooter.vue'
 import BackToTopButton from '~/components/BackToTopButton.vue'
-import _NavDock from '~/components/NavDock.vue'
 import { useIntroEffects } from '~/composables/useIntroEffects.js'
 
 definePageMeta({
