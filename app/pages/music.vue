@@ -40,6 +40,7 @@ let audioCtx: AudioContext | null = null
 let gainNode: GainNode | null = null
 let keyHandler: ((e: KeyboardEvent) => void) | null = null
 let lastSaveTime = 0
+const lyricsCache = new Map<string, LyricLine[]>()
 
 const FADE_DURATION = 0.3 // seconds
 
@@ -151,9 +152,15 @@ async function loadLyrics(lrcUrl: string) {
   parsedLyrics.value = []
   currentLyricIndex.value = -1
   if (!lrcUrl) return
+  if (lyricsCache.has(lrcUrl)) {
+    parsedLyrics.value = lyricsCache.get(lrcUrl)!
+    return
+  }
   try {
     const text = await $fetch<string>(lrcUrl, { responseType: 'text' })
-    parsedLyrics.value = parseLrc(text)
+    const parsed = parseLrc(text)
+    lyricsCache.set(lrcUrl, parsed)
+    parsedLyrics.value = parsed
   }
   catch { /* no lyrics available */ }
 }
