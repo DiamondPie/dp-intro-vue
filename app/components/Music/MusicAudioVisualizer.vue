@@ -131,7 +131,7 @@ function frame(ts: number) {
   displayFactor += (target - displayFactor) * Math.min(6 * dt, 1)
 
   const centerY = h / 2
-  const maxH = h * 0.42
+  const maxH = h * 0.42 * Math.min(1, w / 1280)
   const N = 80
 
   // Read FFT data once per frame
