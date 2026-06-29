@@ -25,5 +25,8 @@ logs
 .env.*
 !.env.example
 
+# Local Claude Code overrides (private MCP configs, etc.)
+CLAUDE.local.md
+
 temp/
 docs/
