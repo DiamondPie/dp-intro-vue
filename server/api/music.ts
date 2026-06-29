@@ -5,6 +5,8 @@ interface MusicConfig {
 
 function normalizeName(name: string): string {
   return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[ \t_`~!@#$%^&*()[\]{}|\\;:'",./<>?+\-=]+/g, '-')
     .replace(/^-+|-+$/g, '')
 }
