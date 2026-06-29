@@ -103,27 +103,51 @@
               </div>
             </NuxtLink>
 
-            <component
-              :is="link.href ? 'a' : 'button'"
+            <div
               v-for="link in socialLinks"
-              :id="link.id"
               :key="link.icon"
-              :href="link.href"
-              :target="link.external ? '_blank' : undefined"
-              :rel="link.external ? 'noopener noreferrer' : undefined"
-              :aria-label="link.ariaLabel"
-              class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
-              :style="`animation: 0.6s ease-out ${link.delay} 1 normal both running scaleIn; background-color: color-mix(in oklab, ${link.color} 10%, transparent);`"
+              class="relative"
             >
-              <div class="relative z-10 text-center flex gap-2 justify-center items-center">
-                <div
-                  class="text-xl transition-transform duration-300"
-                  :style="`color: color-mix(in oklab, ${link.color} 80%, white); filter: drop-shadow(${link.shadow} 0px 0px 20px);`"
-                >
-                  <Icon :name="link.icon" width="1em" height="1em" />
-                </div>
+              <!-- WeChat copied tooltip -->
+              <div
+                v-if="link.id === 'show-qrcode'"
+                class="absolute pointer-events-none"
+                style="bottom: calc(100% + 6px); left: 0; right: 0; display: flex; justify-content: center;"
+              >
+                <Transition name="dock-tip">
+                  <div v-if="wechatCopied" class="flex flex-col items-center select-none">
+                    <div
+                      class="px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap"
+                      style="background: rgba(255, 255, 255, 0.95); color: #111;"
+                    >
+                      {{ $t('hero.wechat_copied') }}
+                    </div>
+                    <div style="width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid rgba(255, 255, 255, 0.95);" />
+                  </div>
+                </Transition>
               </div>
-            </component>
+
+              <component
+                :is="link.href ? 'a' : 'button'"
+                :id="link.id"
+                :href="link.href"
+                :target="link.external ? '_blank' : undefined"
+                :rel="link.external ? 'noopener noreferrer' : undefined"
+                :aria-label="link.ariaLabel"
+                class="rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
+                :style="`animation: 0.6s ease-out ${link.delay} 1 normal both running scaleIn; background-color: color-mix(in oklab, ${link.color} 10%, transparent);`"
+                @click="link.id === 'show-qrcode' ? copyWechatId() : undefined"
+              >
+                <div class="relative z-10 text-center flex gap-2 justify-center items-center">
+                  <div
+                    class="text-xl transition-transform duration-300"
+                    :style="`color: color-mix(in oklab, ${link.color} 80%, white); filter: drop-shadow(${link.shadow} 0px 0px 20px);`"
+                  >
+                    <Icon :name="link.icon" width="1em" height="1em" />
+                  </div>
+                </div>
+              </component>
+            </div>
 
           </div>
 
@@ -280,6 +304,15 @@ const socialLinks = [
   },
 ]
 
+const wechatCopied = ref(false)
+
+async function copyWechatId() {
+  if (typeof navigator === 'undefined' || !navigator.clipboard) return
+  await navigator.clipboard.writeText('trydiamondpie')
+  wechatCopied.value = true
+  setTimeout(() => { wechatCopied.value = false }, 2000)
+}
+
 const dxTransitionLoading = ref(false)
 
 function toggleLocale() {
@@ -299,3 +332,25 @@ function openMail() {
   }
 }
 </script>
+
+<style scoped>
+.dock-tip-enter-active {
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.34, 2.2, 0.64, 1);
+}
+
+.dock-tip-leave-active {
+  transition: opacity 0.1s ease-in, transform 0.1s ease-in;
+}
+
+.dock-tip-enter-from,
+.dock-tip-leave-to {
+  opacity: 0;
+  transform: translateY(12px) scale(0.6);
+}
+
+.dock-tip-enter-to,
+.dock-tip-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+</style>
