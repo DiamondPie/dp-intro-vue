@@ -33,6 +33,11 @@ const emit = defineEmits<{
 
 const lyricsContainer = ref<HTMLElement | null>(null)
 
+const displayArtist = computed(() => {
+  const artist = props.currentTrack?.artist ?? ''
+  return artist.length > 10 ? `${artist.slice(0, 10)}...` : artist
+})
+
 function smoothScrollTo(el: HTMLElement, target: number, duration: number) {
   const start = el.scrollTop
   const distance = target - start
@@ -93,7 +98,7 @@ watch(() => props.currentLyricIndex, () => {
 
     <!-- Track title -->
     <h2 class="track-title flex-shrink-0 text-center text-white font-bold mb-[0.85rem] tracking-[0.01em] text-[1.8rem] max-sm:text-[1.1rem]">
-      {{ currentTrack ? `${currentTrack.name} - ${currentTrack.artist}` : '...' }}
+      {{ currentTrack ? `${currentTrack.name} - ${displayArtist}` : '...' }}
     </h2>
 
     <!-- Lyrics -->
