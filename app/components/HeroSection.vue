@@ -294,7 +294,7 @@ const socialLinks = [
     ariaLabel: 'Telegram',
   },
   {
-    href: 'https://steamcommunity.com/id/diamondpie114/',
+    href: 'https://steamcommunity.com/id/trydiamondpie/',
     icon: 'simple-icons:steam',
     color: 'rgb(19, 107, 157)',
     shadow: 'rgba(19, 107, 157, 0.5)',
