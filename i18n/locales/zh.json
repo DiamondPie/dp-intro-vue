@@ -100,6 +100,7 @@
   },
   "footer": {
     "get_in_touch": "认识一下~",
-    "copyright": "© 2026 DiamondPie. 倾注热情、代码和 {llm} 精心打造."
+    "copyright": "© 2026 DiamondPie. 倾注热情、代码和 {llm} 精心打造.",
+    "source_code": "源代码"
   }
 }
