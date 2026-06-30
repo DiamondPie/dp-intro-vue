@@ -44,7 +44,7 @@ export default defineNuxtConfig({
 
   site: {
     url: "https://dpp.qzz.io",
-    name: "DiamondPie's intro page"
+    name: "DiamondPie's Intro"
   },
 
   sitemap: {
@@ -59,7 +59,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-        { name: 'description', content: "DiamondPie's intro page - No sorrow in falling, even stars burn out." },
+        { name: 'description', content: "DiamondPie - No sorrow in falling, even stars burn out." },
         { name: 'author', content: 'diamondpie' },
         { name: 'keywords', content: 'diamondpie, developer, technology, coding' },
         { name: 'robots', content: 'index, follow' },
@@ -68,14 +68,14 @@ export default defineNuxtConfig({
  
         // Open Graph / Facebook
         { property: 'og:type', content: 'website' },
-        { property: 'og:title', content: "DiamondPie's intro page" },
-        { property: 'og:description', content: "DiamondPie's intro page - No sorrow in falling, even stars burn out." },
+        { property: 'og:title', content: "DiamondPie" },
+        { property: 'og:description', content: "DiamondPie - No sorrow in falling, even stars burn out." },
         { property: 'og:image', content: 'https://dpp.qzz.io/preview.png' },
  
         // Twitter
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: "DiamondPie's intro page" },
-        { name: 'twitter:description', content: "DiamondPie's intro page - No sorrow in falling, even stars burn out." },
+        { name: 'twitter:title', content: "DiamondPie" },
+        { name: 'twitter:description', content: "DiamondPie - No sorrow in falling, even stars burn out." },
         { name: 'twitter:image', content: 'https://dpp.qzz.io/preview.png' }
       ],
       link: [
