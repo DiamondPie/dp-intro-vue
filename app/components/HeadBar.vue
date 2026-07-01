@@ -63,19 +63,19 @@
             </div>
             <div class="flex items-center gap-2">
               <button
-                data-target="works"
+                data-target="commits"
                 class="px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 mix-blend-lighten bg-transparent text-white/60 hover:text-white hover:bg-white/10"
               >
-                {{ $t('nav.works') }}
+                {{ $t('nav.commits') }}
               </button>
               <div class="w-px h-5 bg-white/10" />
             </div>
             <div class="flex items-center gap-2">
               <button
-                data-target="friends"
+                data-target="works"
                 class="px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 mix-blend-lighten bg-transparent text-white/60 hover:text-white hover:bg-white/10"
               >
-                {{ $t('nav.friends') }}
+                {{ $t('nav.works') }}
               </button>
             </div>
           </div>
@@ -152,18 +152,18 @@
           {{ $t('nav.about') }}
         </button>
         <button
+          data-target="commits"
+          class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-white/90 hover:text-white"
+          style="transition-delay: 0ms; transform: translateX(-20px); opacity: 0;"
+        >
+          {{ $t('nav.commits') }}
+        </button>
+        <button
           data-target="works"
           class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-white/90 hover:text-white"
           style="transition-delay: 0ms; transform: translateX(-20px); opacity: 0;"
         >
           {{ $t('nav.works') }}
-        </button>
-        <button
-          data-target="friends"
-          class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-white/90 hover:text-white"
-          style="transition-delay: 0ms; transform: translateX(-20px); opacity: 0;"
-        >
-          {{ $t('nav.friends') }}
         </button>
       </nav>
     </div>

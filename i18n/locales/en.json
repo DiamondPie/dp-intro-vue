@@ -2,8 +2,8 @@
   "nav": {
     "home": "Home",
     "about": "About",
-    "works": "Works",
-    "friends": "Friends"
+    "commits": "Commits",
+    "works": "Works"
   },
   "hero": {
     "get_in_touch": "Get in Touch",

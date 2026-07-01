@@ -2,8 +2,8 @@
   "nav": {
     "home": "主页",
     "about": "关于",
-    "works": "作品",
-    "friends": "朋友"
+    "commits": "经历",
+    "works": "作品"
   },
   "hero": {
     "get_in_touch": "认识一下~",

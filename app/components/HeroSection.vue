@@ -168,8 +168,8 @@
               </span>
             </button>
 
-            <button data-target="works" class="home group !text-sm lg:!text-base">
-              {{ $t('nav.works') }}<span
+            <button data-target="commits" class="home group !text-sm lg:!text-base">
+              {{ $t('nav.commits') }}<span
                 class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform"
               >
                 <Icon
@@ -181,8 +181,8 @@
               </span>
             </button>
 
-            <button data-target="friends" class="home group !text-sm lg:!text-base">
-              {{ $t('nav.friends') }}<span
+            <button data-target="works" class="home group !text-sm lg:!text-base">
+              {{ $t('nav.works') }}<span
                 class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform"
               >
                 <Icon
