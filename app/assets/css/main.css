@@ -163,6 +163,17 @@ button.home:focus-visible {
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
+* Icon pill button (hero social links, music, locale toggle)
+* ──────────────────────────────────────────────────────────────────────────── */
+.social-pill {
+  background-color: color-mix(in oklab, var(--btn-color) 10%, transparent);
+}
+
+.social-pill:hover {
+  background-color: color-mix(in oklab, var(--btn-color) 20%, transparent);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
 * Keyframes + helper animation classes
 * ──────────────────────────────────────────────────────────────────────────── */
 @keyframes fadeIn {

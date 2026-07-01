@@ -87,25 +87,8 @@ export function useIntroEffects() {
 
   // ── Hover tint on the social pill containers ───────────────────────────────
   const initBtnContainerHover = () => {
-    const container = document.getElementById('btn-container')
     const bottomContainer = document.getElementById('bottom-container')
-    if (!container || !bottomContainer) return
-
-    const btnLinks = container.querySelectorAll('a')
-
-    btnLinks.forEach((link) => {
-      const originalStyle = link.style.backgroundColor
-
-      if (originalStyle) {
-        link.addEventListener('mouseenter', () => {
-          link.style.backgroundColor = originalStyle.replace('10%', '20%')
-        })
-
-        link.addEventListener('mouseleave', () => {
-          link.style.backgroundColor = originalStyle
-        })
-      }
-    })
+    if (!bottomContainer) return
 
     const bottomLinks = bottomContainer.querySelectorAll('a')
 

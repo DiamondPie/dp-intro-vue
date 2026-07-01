@@ -11,7 +11,9 @@
     "terminal_path": "~/en",
     "subtext": "Entering university and wanting to make more friends 👀",
     "interlude": "... I sought perfection. Fate must have favored irony, for that must have been my first mistake.",
-    "wechat_copied": "Wechat ID Copied!"
+    "wechat_copied": "Wechat ID Copied!",
+    "wechat_hover": "Click to Copy",
+    "discord_hover": "Click to Copy & Open Discord"
   },
   "about": {
     "title": "About Me",
