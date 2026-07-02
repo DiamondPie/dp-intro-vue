@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/sitemap',
     '@nuxt/eslint',
-    '@nuxt/icon'
+    '@nuxt/icon',
+    '@vueuse/nuxt'
   ],
 
   routeRules: {

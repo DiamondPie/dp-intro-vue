@@ -1,12 +1,10 @@
 // Pre-load pixel data into the module cache before PixelCanvas mounts.
 import '~/data/pixelData.js'
 
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted } from 'vue'
 
 export function useIntroEffects() {
   let scrollRafTicking = false
-  let scrollListener = null
-  let sectionObserver = null
 
   const { locale, setLocale } = useI18n()
 
@@ -96,11 +94,11 @@ export function useIntroEffects() {
       const originalStyle = link.style.backgroundColor
 
       if (originalStyle) {
-        link.addEventListener('mouseenter', () => {
+        useEventListener(link, 'mouseenter', () => {
           link.style.backgroundColor = originalStyle.replace('90%', '80%')
         })
 
-        link.addEventListener('mouseleave', () => {
+        useEventListener(link, 'mouseleave', () => {
           link.style.backgroundColor = originalStyle
         })
       }
@@ -215,9 +213,10 @@ export function useIntroEffects() {
 
     const navButtons = document.querySelectorAll('button[data-target]')
 
-    const sections = Array.from(navButtons).map((btn) =>
-      document.getElementById(btn.getAttribute('data-target'))
-    ).filter((el) => el !== null)
+    // 去重：桌面导航和 #mobile-nav 的 data-target 有重叠，避免同一 section 被 observe 两次
+    const sections = [...new Set(Array.from(navButtons).map((btn) => btn.getAttribute('data-target')))]
+      .map((id) => document.getElementById(id))
+      .filter((el) => el !== null)
 
     // --- 2. 核心切换逻辑 ---
     const setActiveButton = (id) => {
@@ -238,43 +237,36 @@ export function useIntroEffects() {
       })
     }
 
-    const observerOptions = {
-      root: null,
-      rootMargin: '-30% 0px -60% 0px',
-      threshold: 0
-    }
-
-    sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveButton(entry.target.id)
-        }
-      })
-    }, observerOptions)
-
-    sections.forEach((section) => sectionObserver.observe(section))
+    useIntersectionObserver(
+      sections,
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveButton(entry.target.id)
+          }
+        })
+      },
+      { root: null, rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+    )
 
     navButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
+      useEventListener(btn, 'click', () => {
         const targetId = btn.getAttribute('data-target')
-        const targetEl = document.getElementById(targetId)
-        if (targetEl) {
-          targetEl.scrollIntoView({ behavior: 'smooth' })
-        }
+        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
       })
     })
 
     const topBtn = document.getElementById('top-btn')
     if (topBtn) {
-      topBtn.addEventListener('click', () => {
+      useEventListener(topBtn, 'click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       })
     }
 
     const arrowDown = document.getElementById('arrow-down')
     if (arrowDown) {
-      arrowDown.addEventListener('click', () => {
-        document.getElementById('about').scrollIntoView()
+      useEventListener(arrowDown, 'click', () => {
+        document.getElementById('about')?.scrollIntoView()
       })
     }
   }
@@ -296,7 +288,7 @@ export function useIntroEffects() {
     printGradientString(art, 'rgb(192, 106, 217)', 'rgb(54, 38, 173)')
 
     // ── Wire RAF-throttled scroll listener ──
-    scrollListener = () => {
+    useEventListener(window, 'scroll', () => {
       if (!scrollRafTicking) {
         window.requestAnimationFrame(() => {
           handleScrollEffects()
@@ -304,8 +296,7 @@ export function useIntroEffects() {
         })
         scrollRafTicking = true
       }
-    }
-    window.addEventListener('scroll', scrollListener)
+    }, { passive: true })
 
     try {
       initBtnContainerHover()
@@ -320,17 +311,6 @@ export function useIntroEffects() {
     const savedLocale = document.cookie.match(/i18n_redirected=([^;]+)/)?.[1]
     if (savedLocale && savedLocale !== locale.value) {
       setLocale(savedLocale)
-    }
-  })
-
-  onUnmounted(() => {
-    if (scrollListener) {
-      window.removeEventListener('scroll', scrollListener)
-      scrollListener = null
-    }
-    if (sectionObserver) {
-      sectionObserver.disconnect()
-      sectionObserver = null
     }
   })
 }
