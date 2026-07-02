@@ -18,7 +18,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { prerender: true },
     '/music': { ssr: true },
-    '/exam-clock': { redirect: { to: '/exam-clock/', statusCode: 301 } },
+    '/exam-clock': { proxy: 'https://dp-exam-clock.pages.dev' },
     '/exam-clock/**': { proxy: 'https://dp-exam-clock.pages.dev/**' },
   },
 
