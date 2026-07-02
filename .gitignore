@@ -1,4 +1,5 @@
 .wrangler
+.eslintcache
 
 # Nuxt dev/build outputs
 .output
