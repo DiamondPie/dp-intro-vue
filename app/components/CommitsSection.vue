@@ -42,7 +42,12 @@ const entries = computed<CommitEntry[]>(() =>
       <h2 class="lg:text-4xl text-2xl mb-8 flex items-center gap-4 uppercase">
         <span class="font-extrabold">COMMITS</span>
       </h2>
-      <p class="commit-tagline font-mono text-sm mb-8"><span class="syn-cmd">git</span><span class="syn-sub"> commit</span><span class="syn-flag"> -m</span><span class="syn-str"> "feat: Made something meaningful"</span></p>
+      <p class="commit-tagline font-mono text-sm mb-8">
+        <span class="syn-cmd">git</span>
+        <span class="syn-sub"> commit</span>
+        <span class="syn-flag"> -m</span>
+        <span class="syn-str"> "feat: Made something meaningful"</span>
+      </p>
 
       <div class="flex flex-col items-start w-full">
 

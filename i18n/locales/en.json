@@ -46,6 +46,7 @@
         "title": "Started University · Computer Science",
         "desc": "Began my Bachelor of Science at the University of Auckland, diving headfirst into algorithms, discrete maths, and a semester's worth of caffeine.",
         "courses": [
+          "COMPSCI 101 — Introduction to Python Programming",
           "COMPSCI 110 — Introduction to Computer Science",
           "MATHS 120 — Linear Algebra",
           "PHYSICS 140 — Digital Fundamentals"
