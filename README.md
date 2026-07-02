@@ -21,32 +21,53 @@ A personal introduction and portfolio site for **DiamondPie** (myself!), which b
 
 ## 🔍 Project Structure
 
+All application code lives under `app/` (Nuxt 4 convention).
+
 ```
 dp-intro-vue/
-├── pages/
-│   └── index.vue              # Single-page scroll layout
-├── components/
-│   ├── HeadBar.vue             # Fixed nav — fades in on scroll
-│   ├── HeroSection.vue         # Full-viewport landing with terminal & portrait
-│   │   ├── PixelCanvas.vue         # ASCII-art portrait / QR code canvas
-│   │   └── CommandLine.vue         # Interactive terminal with command registry
-│   ├── Transition/             # maimai DX-style page transition
-│   │   ├── DXTransition.vue        # Orchestrator — driven by a :loading prop
-│   │   └── ...                     # Rest of background panels and svg elements
-│   ├── BackgroundCover.vue     # Scroll-driven gradient backdrop
-│   ├── AboutSection.vue        # Bio, interests, photo grid
-│   │   └── PhotoGrid.vue           # Masonry layout of personal photos
-│   ├── WorksSection.vue        # Featured project cards
-│   ├── FriendsSection.vue      # Friend cards + invite form
-│   │   └── FriendInvite.vue
-│   ├── SiteFooter.vue          # Social links, draggable logo
-│   └── BackToTopButton.vue
-├── error.vue                  # Custom 404/403 terminal-style error page
-├── assets/
-│   ├── css/main.css            # CSS variables, global animations
-│   └── data/pixelData.js       # Portrait & QR code pixel data
-├── plugins/
-│   └── intro.client.js         # Console banner, scroll effects, nav spy
+├── app/
+│   ├── pages/
+│   │   ├── index.vue              # Single-page scroll layout
+│   │   └── music.vue              # Standalone music player at /music
+│   ├── components/
+│   │   ├── HeadBar.vue             # Fixed nav — fades in on scroll
+│   │   ├── NavDock.vue             # Floating nav dock (currently commented out)
+│   │   ├── HeroSection.vue         # Full-viewport landing with terminal & portrait
+│   │   │   ├── PixelCanvas.vue         # ASCII-art portrait / QR code canvas
+│   │   │   ├── CommandLine.vue         # Interactive terminal with command registry
+│   │   │   └── SocialPill.vue          # Social link pill buttons
+│   │   ├── Transition/             # maimai DX-style page transition
+│   │   │   ├── DXTransition.vue        # Orchestrator — driven by a :loading prop
+│   │   │   └── ...                     # Background panels and SVG elements
+│   │   ├── BackgroundCover.vue     # Scroll-driven gradient backdrop
+│   │   ├── AboutSection.vue        # Bio, interests, photo grid
+│   │   │   └── AboutSection/PhotoGrid.vue  # Masonry layout of personal photos
+│   │   ├── WorksSection.vue        # Featured project cards
+│   │   ├── CommitsSection.vue      # Educational/career milestone timeline
+│   │   │   ├── CommitsSection/Badge.vue    # Colored pill tags
+│   │   │   ├── CommitsSection/Details.vue  # Collapsible disclosure items
+│   │   │   └── CommitsSection/Code.vue     # Inline code formatting
+│   │   ├── FriendsSection.vue      # Friend cards + invite form
+│   │   │   └── FriendsSection/FriendInvite.vue
+│   │   ├── Music/                  # Music player components
+│   │   │   ├── MusicPlayerPanel.vue
+│   │   │   ├── MusicControlBar.vue
+│   │   │   ├── MusicTrackList.vue
+│   │   │   ├── MusicAudioVisualizer.vue
+│   │   │   ├── MusicBackground.vue
+│   │   │   └── MusicDrawerTab.vue
+│   │   ├── SiteFooter.vue          # Social links, draggable logo
+│   │   └── BackToTopButton.vue
+│   ├── composables/
+│   │   └── useIntroEffects.js      # Scroll effects, nav spy, console banner
+│   ├── data/
+│   │   └── pixelData.js            # Portrait & QR code pixel data
+│   ├── assets/
+│   │   └── css/main.css            # CSS variables, global animations
+│   └── error.vue                   # Custom 404/403 terminal-style error page
+├── server/
+│   ├── api/music.ts                # Music API endpoint
+│   └── assets/music.json           # Music track metadata
 └── nuxt.config.ts
 ```
 
