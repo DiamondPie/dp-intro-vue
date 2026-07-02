@@ -16,7 +16,7 @@
         <div
           v-else-if="hovered"
           key="hover"
-          class="tip-box px-3 py-1.5 rounded-lg text-xs font-medium text-center whitespace-nowrap text-white/90 select-none"
+          class="tip-box tip-hover-only px-3 py-1.5 rounded-lg text-xs font-medium text-center whitespace-nowrap text-white/90 select-none"
         >
           <div>{{ $t(hoverAction) }}</div>
           <div class="font-mono font-semibold" :style="`color: ${color}`">{{ copyUsername }}</div>
@@ -32,7 +32,7 @@
       :aria-label="ariaLabel"
       class="social-pill rounded-full p-3 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden block"
       :style="`--btn-color: ${color}; animation: 0.6s ease-out ${delay} 1 normal both running scaleIn;`"
-      @mouseenter="hovered = true"
+      @mouseenter="onMouseEnter"
       @mouseleave="onMouseLeave"
       @click="onClickHandle"
     >
@@ -64,8 +64,19 @@ const props = defineProps({
 
 const hovered = ref(false)
 const copied = ref(false)
+const touchDevice = ref(false)
+
+onMounted(() => {
+  touchDevice.value = window.matchMedia('(hover: none)').matches
+})
+
+function onMouseEnter() {
+  if (touchDevice.value) return
+  hovered.value = true
+}
 
 function onMouseLeave() {
+  if (touchDevice.value) return
   hovered.value = false
   copied.value = false
 }
@@ -74,7 +85,12 @@ async function onClickHandle() {
   if (!props.copyUsername) return
   if (typeof navigator === 'undefined' || !navigator.clipboard) return
   await navigator.clipboard.writeText(props.copyUsername)
-  if (props.copiedKey) copied.value = true
+  if (props.copiedKey) {
+    copied.value = true
+    if (touchDevice.value) {
+      setTimeout(() => { copied.value = false }, 2000)
+    }
+  }
 }
 </script>
 
@@ -101,6 +117,12 @@ async function onClickHandle() {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 8px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (hover: none) {
+  .tip-hover-only {
+    display: none;
+  }
 }
 
 .dock-tip-enter-active {
