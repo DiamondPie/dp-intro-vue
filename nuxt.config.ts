@@ -94,6 +94,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    baseUrl: 'https://dpp.qzz.io',
     strategy: 'no_prefix',
     defaultLocale: 'en',
     locales: [
