@@ -110,6 +110,9 @@ export default defineNuxtConfig({
       }
     ],
     langDir: 'locales/',
-    detectBrowserLanguage: false
+    detectBrowserLanguage: false,
+    experimental: {
+      strictSeo: true
+    }
   }
 })
