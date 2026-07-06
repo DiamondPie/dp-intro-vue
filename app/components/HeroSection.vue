@@ -201,6 +201,7 @@ const socialLinks = [
     copyUsername: 'trydiamondpie',
   },
   {
+    id: 'show-qrcode',
     icon: 'simple-icons:wechat',
     color: 'rgb(78, 175, 79)',
     shadow: 'rgba(78, 175, 79, 0.5)',

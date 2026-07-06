@@ -26,6 +26,7 @@
 
     <component
       :is="href ? 'a' : 'button'"
+      :id="id"
       :href="href || undefined"
       :target="external ? '_blank' : undefined"
       :rel="external ? 'noopener noreferrer' : undefined"
@@ -50,6 +51,7 @@
 
 <script setup>
 const props = defineProps({
+  id: { type: String, default: undefined },
   color: { type: String, required: true },
   shadow: { type: String, required: true },
   icon: { type: String, required: true },
