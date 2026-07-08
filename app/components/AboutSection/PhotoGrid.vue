@@ -20,10 +20,20 @@
         <p class="text-white/90 text-sm font-medium">{{ photo.caption }}</p>
       </div>
     </a>
+
+    <TextScatterCard :photo="scatterPhoto" />
   </div>
 </template>
 
 <script setup>
+import TextScatterCard from './PhotoGrid/TextScatterCard.vue'
+
+const scatterPhoto = {
+  src: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/mita_miside.webp',
+  alt: 'Mita - MiSide',
+  caption: 'Mita - MiSide'
+}
+
 const photos = [
   {
     src: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/waihiki.webp',
@@ -64,11 +74,6 @@ const photos = [
     src: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/coromandel.webp',
     alt: 'Coromandel',
     caption: 'Coromandel'
-  },
-  {
-    src: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/interesting.webp',
-    alt: 'Optical things',
-    caption: 'Optical things'
   }
 ]
 </script>
