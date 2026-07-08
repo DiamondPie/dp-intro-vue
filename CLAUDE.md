@@ -33,6 +33,7 @@ There are two routes:
 app/components/
 ├── AboutSection.vue
 │   └── AboutSection/PhotoGrid.vue
+│       └── PhotoGrid/TextScatterCard.vue
 ├── CommitsSection.vue
 │   ├── CommitsSection/Badge.vue
 │   ├── CommitsSection/Code.vue
@@ -82,6 +83,10 @@ It owns all DOM-driven behavior that spans multiple components:
 
 A vertical timeline of educational/career milestones. Content is fully i18n-driven — all entries come from `tm('commits.entries')` in the locale files (`i18n/locales/en.json`, `zh.json`). Sub-components: `Badge` (colored pill tags), `Details` (collapsible disclosure items), `Code` (inline code formatting).
 
+### Text scatter card (`app/components/AboutSection/PhotoGrid/TextScatterCard.vue`)
+
+A special `PhotoGrid` tile that, on hover, plays an i18n-driven line-by-line text animation (`about.scatter_text` in the locale files) built with GSAP: characters split via `SplitText` enter, hold, then scatter and fall off using `Physics2DPlugin`, with a 3D flip revealing a back face if a character tumbles past 90°. GSAP, `SplitText`, `Physics2DPlugin`, and the two `TextScatterMedium`/`TextScatterBold` fonts (`public/fonts/text-scatter/`) are lazy-loaded on first hover, not at page load. Hover-leave cancels the in-flight animation and tweens out the overlay. All animation timing/physics constants live in the `CONFIG` object at the top of the script — tune there rather than inline.
+
 ### DX Transition system (`app/components/Transition/`)
 
 A maimai DX-inspired full-screen page transition. `DXTransition.vue` is the orchestrator — it takes a `:loading` boolean prop and manages a minimum-display-time guard so the animation always completes before dismissing. Sub-components (`DXTransitionBg`, `DXTransitionSide`, `DXTransitionSlide`, `DXTransitionSlideLong`, `DXTransitionHold`) are pure presentational and get their colors from CSS custom properties set on `.dx-transition`.
@@ -117,5 +122,6 @@ Renders a pixel-art portrait and QR code from data in `app/data/pixelData.js`. T
 - @nuxtjs/tailwindcss: https://tailwindcss.nuxtjs.org
 - @nuxtjs/sitemap: https://nuxtseo.com/sitemap
 - @nuxt/icon: https://icon.nuxt.com
+- GSAP: https://gsap.com/docs
 
 @CLAUDE.local.md

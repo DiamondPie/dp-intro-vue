@@ -6,6 +6,7 @@
   ![Nuxt 4](https://img.shields.io/badge/Nuxt-4.4.8-09dd86?logo=nuxt)
   ![Vue 3](https://img.shields.io/badge/Vue-3-42b883?logo=vue.js)
   ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06b6d4?logo=tailwindcss)
+  ![GSAP](https://img.shields.io/badge/GSAP-3-12e459?logo=gsap)
   [![CC BY-NC-SA 4.0](https://custom-icon-badges.demolab.com/badge/License-CC%20BY%20NC--SA%204.0-blue?logo=law)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 
@@ -42,6 +43,7 @@ dp-intro-vue/
 │   │   ├── BackgroundCover.vue     # Scroll-driven gradient backdrop
 │   │   ├── AboutSection.vue        # Bio, interests, photo grid
 │   │   │   └── AboutSection/PhotoGrid.vue  # Masonry layout of personal photos
+│   │   │       └── PhotoGrid/TextScatterCard.vue  # GSAP hover text-scatter tile
 │   │   ├── WorksSection.vue        # Featured project cards
 │   │   ├── CommitsSection.vue      # Educational/career milestone timeline
 │   │   │   ├── CommitsSection/Badge.vue    # Colored pill tags
