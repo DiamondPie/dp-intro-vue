@@ -22,7 +22,8 @@
 
           <div
             id="btn-container"
-            class="mb-6 flex gap-2 flex-wrap justify-center lg:justify-start"
+            ref="btnContainerRef"
+            class="mb-6 flex flex-wrap gap-2 justify-center lg:justify-start"
           >
             <!-- Locale toggle -->
             <button
@@ -75,6 +76,7 @@
                 </div>
               </div>
             </button>
+            <div v-if="shouldBreakAfter(0)" class="basis-full h-0" aria-hidden="true" />
 
             <!-- Music -->
             <NuxtLink
@@ -92,13 +94,13 @@
                 </div>
               </div>
             </NuxtLink>
+            <div v-if="shouldBreakAfter(1)" class="basis-full h-0" aria-hidden="true" />
 
             <!-- Social links -->
-            <HeroSectionSocialPill
-              v-for="link in socialLinks"
-              :key="link.icon"
-              v-bind="link"
-            />
+            <template v-for="(link, i) in socialLinks" :key="link.icon">
+              <HeroSectionSocialPill v-bind="link" />
+              <div v-if="shouldBreakAfter(i + 2)" class="basis-full h-0" aria-hidden="true" />
+            </template>
           </div>
 
           <div
@@ -249,4 +251,64 @@ function openMail() {
     window.openMailClient()
   }
 }
+
+// Balance #btn-container wrapping so a broken row splits into equal halves
+// (or top row +1) instead of dumping most buttons on row one and a few on row two.
+// A forced `basis-full` break element is injected at the balanced split point so
+// flexbox's per-line justify-content still centers each row independently
+// (unlike CSS grid, where a short last row hugs one side).
+const btnContainerRef = ref(null)
+const btnBreakColumns = ref(null)
+const totalButtons = computed(() => 2 + socialLinks.length)
+let btnResizeObserver = null
+let btnRecalcRaf = null
+
+function recalcBtnLayout() {
+  const el = btnContainerRef.value
+  const firstItem = el?.children[0]
+  if (!firstItem) return
+
+  const total = totalButtons.value
+  const itemWidth = firstItem.getBoundingClientRect().width
+  const gap = Number.parseFloat(getComputedStyle(el).columnGap) || 0
+  const containerWidth = el.clientWidth
+  if (!itemWidth || !containerWidth) return
+
+  const maxPerRow = Math.max(1, Math.floor((containerWidth + gap) / (itemWidth + gap)))
+
+  if (maxPerRow >= total) {
+    btnBreakColumns.value = null
+    return
+  }
+
+  const rows = Math.ceil(total / maxPerRow)
+  btnBreakColumns.value = Math.ceil(total / rows)
+}
+
+function shouldBreakAfter(index) {
+  const cols = btnBreakColumns.value
+  if (!cols) return false
+  const position = index + 1
+  return position % cols === 0 && position < totalButtons.value
+}
+
+function scheduleBtnRecalc() {
+  if (btnRecalcRaf) cancelAnimationFrame(btnRecalcRaf)
+  btnRecalcRaf = requestAnimationFrame(recalcBtnLayout)
+}
+
+onMounted(() => {
+  nextTick(() => {
+    recalcBtnLayout()
+    if (btnContainerRef.value && typeof ResizeObserver !== 'undefined') {
+      btnResizeObserver = new ResizeObserver(scheduleBtnRecalc)
+      btnResizeObserver.observe(btnContainerRef.value)
+    }
+  })
+})
+
+onBeforeUnmount(() => {
+  if (btnResizeObserver) btnResizeObserver.disconnect()
+  if (btnRecalcRaf) cancelAnimationFrame(btnRecalcRaf)
+})
 </script>
