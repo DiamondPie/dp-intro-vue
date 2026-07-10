@@ -163,6 +163,39 @@ button.home:focus-visible {
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
+* Inline terminal-style input — a bare <input> made to look like typed
+* command-line text (transparent, no chrome, sized to its own content).
+* Shared by HeroSection/CommandLine.vue (.cmd-editable) and
+* Utils/InlineTerminalInput.vue. Component-specific coloring/animation stays
+* in each consumer's scoped styles.
+* ──────────────────────────────────────────────────────────────────────────── */
+.inline-terminal-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  caret-color: currentColor;
+  field-sizing: content;
+  min-width: 1ch;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+* Enter (↵) hint — nudges the user to press Enter after an inline terminal
+* input is "complete". Shared layout by HeroSection/CommandLine.vue
+* (.cmd-enter-hint) and CommitsSection.vue; each consumer supplies its own
+* color and show/hide transition.
+* ──────────────────────────────────────────────────────────────────────────── */
+.inline-enter-hint {
+  font-weight: bold;
+  margin-left: 0.5em;
+  font-size: 0.85em;
+  pointer-events: none;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
 * Icon pill button (hero social links, music, locale toggle)
 * ──────────────────────────────────────────────────────────────────────────── */
 .social-pill {

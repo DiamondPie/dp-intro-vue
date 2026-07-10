@@ -19,7 +19,7 @@
       <span style="color: var(--color-cyan);">user@diamondpie</span><span style="color: var(--color-gray-500);">:</span><span style="color: var(--color-purple);">{{ $t('hero.terminal_path') }}</span><span style="color: var(--color-gray-500);">$</span><span class="cmd-line ml-2">
         <input
           id="cmd-input"
-          class="cmd-editable"
+          class="cmd-editable inline-terminal-input"
           type="text"
           aria-label="Terminal command input"
           autocomplete="off"
@@ -31,7 +31,7 @@
         >
         <span id="cmd-ghost" class="cmd-ghost" />
         <span id="cmd-parameter" class="cmd-parameter" />
-        <span id="cmd-enter-hint" class="cmd-enter-hint">↵</span>
+        <span id="cmd-enter-hint" class="cmd-enter-hint inline-enter-hint">↵</span>
       </span>
     </div>
 
@@ -458,18 +458,10 @@ onMounted(() => {
   font-size: inherit;
 }
 
-/* ── The real (invisible-border) input ── */
+/* ── Component-specific overrides on top of the shared .inline-terminal-input ── */
 .cmd-editable {
-  background: transparent;
-  border: none;
-  outline: none;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  field-sizing: content;
   color: var(--text-primary);
   caret-color: var(--text-primary);
-  min-width: 1ch;
 }
 
 /* ── WebKit fallback: field-sizing not supported, initial width for "whoami" ── */
@@ -495,15 +487,11 @@ onMounted(() => {
   white-space: pre;
 }
 
-/* ── Enter hint ↵ ── */
+/* ── Enter hint ↵ (layout shared via .inline-enter-hint) ── */
 .cmd-enter-hint {
   display: none;
-  font-weight: bold;
-  margin-left: 0.5em;
   opacity: 0;
   color: var(--color-cyan, #22d3ee);
-  font-size: 0.85em;
-  pointer-events: none;
 }
 
 /* ── No-match: text turns red via CSS animation ── */

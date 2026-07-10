@@ -16,10 +16,12 @@ interface CommitEntry {
   details: CommitDetail[]
 }
 
-const { tm, rt } = useI18n()
+const { tm, rt, t } = useI18n()
 
-const entries = computed<CommitEntry[]>(() =>
-  (tm('commits.entries') as Record<string, unknown>[]).map(e => ({
+const metVisitor = ref<{ name: string; date: Date } | null>(null)
+
+const entries = computed<CommitEntry[]>(() => {
+  const base = (tm('commits.entries') as Record<string, unknown>[]).map(e => ({
     year:    rt(e.year   as string),
     month:   rt(e.month  as string),
     title:   rt(e.title  as string),
@@ -33,7 +35,40 @@ const entries = computed<CommitEntry[]>(() =>
       items:       (d.items as string[]).map(i => rt(i)),
     })),
   }))
-)
+
+  if (!metVisitor.value) return base
+
+  const { name, date } = metVisitor.value
+  const metEntry: CommitEntry = {
+    year:    String(date.getFullYear()),
+    month:   date.toLocaleString('en-US', { month: 'long', year: 'numeric' }),
+    title:   t('commits.met_entry.title', { name }),
+    desc:    t('commits.met_entry.desc'),
+    courses: [],
+    badges:  [],
+    details: [],
+  }
+
+  return [metEntry, ...base]
+})
+
+const NAME_PLACEHOLDER = '(your name)'
+const visitorName = ref('')
+const showEnterHint = computed(() => visitorName.value.trim().length > 0)
+
+function submitCommitName() {
+  const name = visitorName.value.trim()
+  if (!name) return
+
+  if (metVisitor.value) {
+    metVisitor.value.name = name
+  } else {
+    metVisitor.value = { name, date: new Date() }
+  }
+
+  const body = `Hi DiamondPie,\n\nThis is ${name}, ...\n\nBest regards,\n\n${name}`
+  window.location.href = `mailto:diamondpie@dpp.qzz.io?subject=Friend Request&body=${encodeURIComponent(body)}`
+}
 </script>
 
 <template>
@@ -43,17 +78,28 @@ const entries = computed<CommitEntry[]>(() =>
         <span class="font-extrabold">COMMITS</span>
       </h2>
       <p class="commit-tagline font-mono text-sm mb-8">
-        <span class="syn-cmd">git</span>
+        <span class="syn-cmd">&gt; git</span>
         <span class="syn-sub"> commit</span>
-        <span class="syn-flag"> -m</span>
-        <span class="syn-str"> "feat: Made something meaningful"</span>
+        <span class="syn-flag">&nbsp;{{ metVisitor ? '--amend -m' : '-m' }}</span>
+        <span class="syn-str"> "build: met </span>
+        <UtilsInlineTerminalInput
+          v-model="visitorName"
+          class="commit-name-input syn-str font-mono text-sm"
+          :placeholder="NAME_PLACEHOLDER"
+          aria-label="Your name"
+          @enter="submitCommitName"
+        />
+        <span class="syn-str">"</span>
+        <Transition name="commit-enter-hint">
+          <span v-if="showEnterHint" class="commit-enter-hint inline-enter-hint">↵</span>
+        </Transition>
       </p>
 
       <div class="flex flex-col items-start w-full">
 
         <div
-          v-for="entry in entries"
-          :key="String(entry.year)"
+          v-for="(entry, index) in entries"
+          :key="`${entry.year}-${entry.month}-${index}`"
           class="relative flex w-full justify-end gap-2"
         >
           <!-- Left column (desktop) -->
@@ -169,5 +215,34 @@ const entries = computed<CommitEntry[]>(() =>
 .syn-sub  { color: var(--accent-secondary); }
 .syn-flag { color: var(--accent-tertiary); }
 .syn-str  { color: var(--accent-primary); }
+
+/* ── Commit-name input (base look shared via .inline-terminal-input) ──────── */
+.commit-name-input {
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+.commit-name-input::placeholder {
+  color: color-mix(in oklab, var(--accent-primary), transparent 45%);
+}
+
+/* ── Enter hint ↵ (layout shared via .inline-enter-hint) ──────────────────── */
+.commit-enter-hint {
+  color: var(--accent-primary);
+  opacity: 0.7;
+}
+
+.commit-enter-hint-enter-active {
+  transition: opacity 0.4s ease;
+}
+
+.commit-enter-hint-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.commit-enter-hint-enter-from,
+.commit-enter-hint-leave-to {
+  opacity: 0;
+}
 
 </style>

@@ -104,7 +104,11 @@
           }
         ]
       }
-    ]
+    ],
+    "met_entry": {
+      "title": "Met {name}",
+      "desc": "Someone new said hello and left their name in this timeline."
+    }
   },
   "footer": {
     "get_in_touch": "Get in Touch",
