@@ -82,7 +82,10 @@ const entries = computed<CommitEntry[]>(() =>
 
             <div class="space-y-4">
               <div class="space-y-3">
-                <h3 class="text-xl font-semibold">{{ entry.title }}</h3>
+                <h3 class="flex items-center gap-2 text-xl font-semibold">
+                  <Icon name="mdi:tag-outline" class="shrink-0 text-lg" />
+                  {{ entry.title }}
+                </h3>
                 <p class="text-sm" style="color: var(--text-secondary)">{{ entry.desc }}</p>
               </div>
 
