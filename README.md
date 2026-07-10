@@ -58,6 +58,8 @@ dp-intro-vue/
 │   │   │   ├── MusicAudioVisualizer.vue
 │   │   │   ├── MusicBackground.vue
 │   │   │   └── MusicDrawerTab.vue
+│   │   ├── Utils/
+│   │   │   └── InlineTerminalInput.vue  # Reusable v-model input styled to blend into terminal text
 │   │   ├── SiteFooter.vue          # Social links, draggable logo
 │   │   └── BackToTopButton.vue
 │   ├── composables/
@@ -89,5 +91,5 @@ You may not use anything in the repository for commercial purposes.
 <div align="center">
   <a href="https://dpp.qzz.io"><img align=center src="https://raw.githubusercontent.com/DiamondPie/storage/refs/heads/main/logo.svg" alt="DiamondPie" width="70%" height="auto" /></a>
 
-  <sub>© 2026 DiamondPie — Crafted with passion, code and LLMs.</sub>
+  <sub>© 2026 DiamondPie — Crafted with passion, code and ~~LLMs~~.</sub>
 </div>

@@ -57,6 +57,8 @@ app/components/
 │   ├── DXTransitionSide.vue
 │   ├── DXTransitionSlide.vue
 │   └── DXTransitionSlideLong.vue
+├── Utils/
+│   └── InlineTerminalInput.vue   ← reusable v-model input styled to blend into terminal-style text
 ├── BackgroundCover.vue
 ├── BackToTopButton.vue
 ├── HeadBar.vue
@@ -83,6 +85,8 @@ It owns all DOM-driven behavior that spans multiple components:
 
 A vertical timeline of educational/career milestones. Content is fully i18n-driven — all entries come from `tm('commits.entries')` in the locale files (`i18n/locales/en.json`, `zh.json`). Sub-components: `Badge` (colored pill tags), `Details` (collapsible disclosure items), `Code` (inline code formatting).
 
+The tagline above the timeline (`git commit -m "build: met <input>"`) is interactive: the input is `Utils/InlineTerminalInput.vue`, styled to blend into the surrounding text (see Styling conventions below). Pressing Enter opens a `mailto:` link to the site owner and, on the first submission, prepends a synthetic "met {name}" entry to the top of `entries` — its `{ name, date }` is held in a `metVisitor` ref, and its title/desc are resolved from `commits.met_entry.title` / `.desc` reactively inside the `entries` computed (not cached as plain strings), so they stay correct if the language is switched afterwards. The flag switches from `-m` to `--amend -m` once `metVisitor` is set. Submitting again with a different name mutates `metVisitor.name` in place — updating the existing entry's text — rather than adding another timeline row.
+
 ### Text scatter card (`app/components/AboutSection/PhotoGrid/TextScatterCard.vue`)
 
 A special `PhotoGrid` tile that, on hover, plays an i18n-driven line-by-line text animation (`about.scatter_text` in the locale files) built with GSAP: characters split via `SplitText` enter, hold, then scatter and fall off using `Physics2DPlugin`, with a 3D flip revealing a back face if a character tumbles past 90°. GSAP, `SplitText`, `Physics2DPlugin`, and the two `TextScatterMedium`/`TextScatterBold` fonts (`public/fonts/text-scatter/`) are lazy-loaded on first hover, not at page load. Hover-leave cancels the in-flight animation and tweens out the overlay. All animation timing/physics constants live in the `CONFIG` object at the top of the script — tune there rather than inline.
@@ -98,6 +102,7 @@ A maimai DX-inspired full-screen page transition. `DXTransition.vue` is the orch
 - **Fonts**: `Google Sans Flex` (body/sans) and `Google Sans Code` (mono), loaded from Google Fonts. Referenced as `font-sans` / `font-mono` in Tailwind.
 - Named animation classes (`.animate-fadeIn`, `.animate-fadeInUp`, `.animate-blink`) and keyframes are defined globally in `main.css`.
 - The `button.home` and `.link-tag` classes are global reusable styles defined in `main.css`.
+- `.inline-terminal-input` and `.inline-enter-hint` (also in `main.css`) are the shared base styles for terminal-blended `<input>`s and their `↵` hints — used by both `HeroSection/CommandLine.vue` (`#cmd-input` / `#cmd-enter-hint`) and `Utils/InlineTerminalInput.vue` (used in `CommitsSection.vue`). Each consumer layers its own color/animation on top in scoped styles.
 
 ### Icons (`@nuxt/icon`)
 
