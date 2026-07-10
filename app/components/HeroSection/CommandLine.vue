@@ -40,7 +40,7 @@
       class="mb-4 lg:mb-6 animate-fadeInUp text-[var(--text-primary)] text-4xl lg:text-6xl font-mono font-extrabold title-line"
       style="animation-delay: 0.2s;"
     >
-      <span class="text-[var(--text-secondary)]">&gt;</span><span id="diamondpie" data-content="DiamondPie" /><span class="text-[var(--accent-primary)] animate-blink">_</span>
+      <span class="text-[var(--text-secondary)]">&gt;</span><span id="diamondpie" data-content="DiamondPie" /><span class="text-[var(--accent-primary)] animate-blink select-none">_</span>
     </h1>
 
     <p
