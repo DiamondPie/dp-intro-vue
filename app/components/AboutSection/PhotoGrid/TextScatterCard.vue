@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick, onBeforeUnmount } from 'vue'
+import { ref, nextTick, onMounted, onBeforeUnmount } from 'vue'
 
 defineProps({
   photo: { type: Object, required: true }
@@ -141,6 +141,38 @@ function loadResources() {
   }
   return loadPromise
 }
+
+// Only after the page is fully loaded and the browser is idle 
+// should gsap/SplitText/Physics2DPlugin and fonts be pre-fetched 
+// (without animation), ensuring the cache is likely hit by the time 
+// the user actually hovers over the screen. 
+// This must begin only after the window's load event 
+// (not the component's mounted event) is triggered to avoid 
+// competing for bandwidth/main thread with critical resources 
+// on the first screen, thus prolonging the first screen loading time.
+let pageLoadListener = null
+
+function prefetchOnIdle() {
+  const run = () => {
+    loadResources().then((api) => {
+      gsapApi = api
+    })
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(run)
+  } else {
+    setTimeout(run, 0)
+  }
+}
+
+onMounted(() => {
+  if (document.readyState === 'complete') {
+    prefetchOnIdle()
+  } else {
+    pageLoadListener = () => prefetchOnIdle()
+    window.addEventListener('load', pageLoadListener, { once: true })
+  }
+})
 
 function clearRow(rowIndex) {
   if (rowSplits[rowIndex]) {
@@ -356,6 +388,10 @@ function handleLeave() {
 }
 
 onBeforeUnmount(async () => {
+  if (pageLoadListener) {
+    window.removeEventListener('load', pageLoadListener)
+    pageLoadListener = null
+  }
   if (!loadPromise) return
   const { gsap } = await loadPromise
   rowSplits.forEach((split, i) => {
