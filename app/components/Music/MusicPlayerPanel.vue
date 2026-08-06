@@ -7,10 +7,18 @@ interface Track {
   lrc: string
 }
 
+/** One run of lyric text; `ruby` holds its furigana when the line is annotated. */
+interface RubySegment {
+  text: string
+  ruby?: string
+}
+
 interface LyricLine {
   time: number
   text: string
+  segments?: RubySegment[]
   translation?: string
+  translationSegments?: RubySegment[]
 }
 
 const props = defineProps<{
@@ -112,8 +120,18 @@ watch(() => props.currentLyricIndex, () => {
           :class="{ 'lyric-active': i === currentLyricIndex }"
           @click="emit('seekToLyric', line.time)"
         >
-          <p class="lyric-text">{{ line.text }}</p>
-          <p v-if="line.translation" class="lyric-translation">{{ line.translation }}</p>
+          <p class="lyric-text" :class="{ 'has-ruby': line.segments }">
+            <template v-if="line.segments">
+              <template v-for="(seg, si) in line.segments" :key="si"><ruby v-if="seg.ruby">{{ seg.text }}<rp>(</rp><rt>{{ seg.ruby }}</rt><rp>)</rp></ruby><template v-else>{{ seg.text }}</template></template>
+            </template>
+            <template v-else>{{ line.text }}</template>
+          </p>
+          <p v-if="line.translation" class="lyric-translation" :class="{ 'has-ruby': line.translationSegments }">
+            <template v-if="line.translationSegments">
+              <template v-for="(seg, si) in line.translationSegments" :key="si"><ruby v-if="seg.ruby">{{ seg.text }}<rp>(</rp><rt>{{ seg.ruby }}</rt><rp>)</rp></ruby><template v-else>{{ seg.text }}</template></template>
+            </template>
+            <template v-else>{{ line.translation }}</template>
+          </p>
         </div>
       </template>
       <p v-else class="text-center text-[2rem] my-8" style="color: rgba(255,255,255,.18)">
@@ -286,6 +304,27 @@ watch(() => props.currentLyricIndex, () => {
   letter-spacing: 0.01em;
   transition: color .3s, opacity .3s;
 }
+
+/* Japanese furigana: `{base|reading}` groups in the .lrc become <ruby>/<rt> */
+.lyric-text ruby,
+.lyric-translation ruby {
+  ruby-position: over;
+  ruby-align: center;
+}
+
+.lyric-text rt,
+.lyric-translation rt {
+  font-size: 0.5em;
+  font-weight: inherit;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  user-select: none;
+}
+
+/* Annotated lines need extra leading so the reading never collides with the line above */
+.lyric-text.has-ruby { line-height: 2.4; }
+.lyric-translation.has-ruby { line-height: 2; }
 
 @media (hover: hover) {
   .lyric-line:hover .lyric-text { color: rgba(255,255,255,.6); }

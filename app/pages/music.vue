@@ -7,10 +7,19 @@ interface Track {
   lrc: string
 }
 
+/** One run of lyric text; `ruby` holds its furigana when the line is annotated. */
+interface RubySegment {
+  text: string
+  ruby?: string
+}
+
 interface LyricLine {
   time: number
   text: string
+  /** Only set when the line contains at least one `{base|ruby}` group. */
+  segments?: RubySegment[]
   translation?: string
+  translationSegments?: RubySegment[]
 }
 
 useHead({
@@ -111,6 +120,53 @@ const progress = computed(() =>
 )
 const isMuted = computed(() => volume.value === 0)
 
+// Ruby (furigana) markup: `{base|reading}`, e.g. `{夢|ゆめ}を{見|み}る`.
+// Per-character readings are written as adjacent groups: `{漢|かん}{字|じ}`.
+// A literal `{`, `}` or `|` is escaped with a backslash.
+const RUBY_GROUP = /\{((?:\\.|[^\\{}|])*)\|((?:\\.|[^\\{}|])*)\}/g
+
+function unescapeRuby(s: string): string {
+  return s.replace(/\\([{}|\\])/g, '$1')
+}
+
+/**
+ * Splits a lyric line into ruby segments. `text` is always the plain reading-free
+ * string (used for the fallback render); `segments` is returned only when the line
+ * actually carries an annotation, so unannotated lines stay a single text node.
+ */
+function parseRuby(raw: string): { text: string; segments?: RubySegment[] } {
+  if (!raw.includes('{')) return { text: unescapeRuby(raw) }
+
+  const segments: RubySegment[] = []
+  let plain = ''
+  let last = 0
+  let hasRuby = false
+
+  RUBY_GROUP.lastIndex = 0
+  let m: RegExpExecArray | null
+  while ((m = RUBY_GROUP.exec(raw)) !== null) {
+    if (m.index > last) {
+      const lead = unescapeRuby(raw.slice(last, m.index))
+      segments.push({ text: lead })
+      plain += lead
+    }
+    const base = unescapeRuby(m[1]!)
+    const ruby = unescapeRuby(m[2]!).trim()
+    segments.push(ruby ? { text: base, ruby } : { text: base })
+    if (ruby) hasRuby = true
+    plain += base
+    last = m.index + m[0].length
+  }
+
+  if (last < raw.length) {
+    const tail = unescapeRuby(raw.slice(last))
+    segments.push({ text: tail })
+    plain += tail
+  }
+
+  return hasRuby ? { text: plain, segments } : { text: plain }
+}
+
 function parseLrc(text: string): LyricLine[] {
   interface RawItem { time: number; text: string; isTr: boolean }
   const items: RawItem[] = []
@@ -134,7 +190,9 @@ function parseLrc(text: string): LyricLine[] {
 
   for (const item of items) {
     if (!item.isTr) {
-      const lyric: LyricLine = { time: item.time, text: item.text }
+      const { text, segments } = parseRuby(item.text)
+      const lyric: LyricLine = { time: item.time, text }
+      if (segments) lyric.segments = segments
       timeToLyric.set(item.time, lyric)
       result.push(lyric)
     }
@@ -142,7 +200,10 @@ function parseLrc(text: string): LyricLine[] {
   for (const item of items) {
     if (item.isTr) {
       const lyric = timeToLyric.get(item.time)
-      if (lyric) lyric.translation = item.text
+      if (!lyric) continue
+      const { text, segments } = parseRuby(item.text)
+      lyric.translation = text
+      if (segments) lyric.translationSegments = segments
     }
   }
 
