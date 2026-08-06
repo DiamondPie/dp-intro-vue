@@ -91,6 +91,31 @@ The tagline above the timeline (`git commit -m "build: met <input>"`) is interac
 
 A special `PhotoGrid` tile that, on hover, plays an i18n-driven line-by-line text animation (`about.scatter_text` in the locale files) built with GSAP: characters split via `SplitText` enter, hold, then scatter and fall off using `Physics2DPlugin`, with a 3D flip revealing a back face if a character tumbles past 90°. GSAP, `SplitText`, `Physics2DPlugin`, and the two `TextScatterMedium`/`TextScatterBold` fonts (`public/fonts/text-scatter/`) are lazy-loaded on first hover, not at page load. Hover-leave cancels the in-flight animation and tweens out the overlay. All animation timing/physics constants live in the `CONFIG` object at the top of the script — tune there rather than inline.
 
+### Music page (`app/pages/music.vue`)
+
+`server/api/music.ts` turns each `server/assets/music.json` entry into a track by slugifying its `name` and building `{cdnUrl}/{slug}/{slug}.{ext}` URLs for the audio, `.webp` cover, and `.lrc` lyrics.
+
+**Audio format** — tracks are `.mp3` unless the entry sets `"format": "flac"`:
+
+```json
+{ "name": "Komorebi", "artist": "M-TAKU" },
+{ "name": "Some Lossless Track", "artist": "Someone", "format": "flac" }
+```
+
+The value is case-insensitive; anything other than `flac` falls back to `mp3`. The resolved format is returned to the client on `track.format`.
+
+**LRC format** — parsed by `parseLrc()` in `music.vue`, with two extensions over plain LRC:
+
+- **Translations**: a second line at the *same timestamp* prefixed with `[tr]` attaches as `translation` to that lyric (`[00:12.34][tr]你的名字`).
+- **Japanese ruby (furigana)**: `{base|reading}` groups become `<ruby>base<rt>reading</rt></ruby>`. Write per-character readings as adjacent groups — `{漢|かん}{字|じ}`, not `{漢字|かんじ}` — when you want each kana over its own kanji. A literal `{`, `}`, or `|` is backslash-escaped. Ruby works in both the main line and its `[tr]` line.
+
+```
+[00:12.34]{君|きみ}の{名|な}は
+[00:12.34][tr]你的名字
+```
+
+`parseRuby()` returns `segments` **only** when a line actually carries a reading, so unannotated lines stay a single text node; `line.text` is always the plain, reading-free string. Malformed markup (unclosed brace, empty reading) degrades to literal text rather than throwing. Annotated lines get a `.has-ruby` class in `MusicPlayerPanel.vue` that widens `line-height` so the reading doesn't collide with the line above.
+
 ### DX Transition system (`app/components/Transition/`)
 
 A maimai DX-inspired full-screen page transition. `DXTransition.vue` is the orchestrator — it takes a `:loading` boolean prop and manages a minimum-display-time guard so the animation always completes before dismissing. Sub-components (`DXTransitionBg`, `DXTransitionSide`, `DXTransitionSlide`, `DXTransitionSlideLong`, `DXTransitionHold`) are pure presentational and get their colors from CSS custom properties set on `.dx-transition`.
