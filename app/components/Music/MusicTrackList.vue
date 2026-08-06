@@ -2,6 +2,7 @@
 interface Track {
   name: string
   artist: string
+  format: 'mp3' | 'flac'
   url: string
   cover: string
   lrc: string
