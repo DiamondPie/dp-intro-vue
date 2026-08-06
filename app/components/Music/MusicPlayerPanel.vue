@@ -323,10 +323,6 @@ watch(() => props.currentLyricIndex, () => {
   user-select: none;
 }
 
-/* Annotated lines need extra leading so the reading never collides with the line above */
-.lyric-text.has-ruby { line-height: 2.4; }
-.lyric-translation.has-ruby { line-height: 2; }
-
 @media (hover: hover) {
   .lyric-line:hover .lyric-text { color: rgba(255,255,255,.6); }
   .lyric-line:hover .lyric-translation { opacity: 0.75; }
