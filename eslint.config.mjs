@@ -8,6 +8,7 @@ export default withNuxt(
       '.output/**',
       'dist/**',
       'public/**',
+      'temp/**',
       '**/*.d.ts'
     ]
   }

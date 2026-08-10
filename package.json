@@ -9,8 +9,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint . --cache",
-    "lint:fix": "eslint . --fix --cache"
+    "lint": "node ./node_modules/eslint/bin/eslint.js . --cache",
+    "lint:fix": "node ./node_modules/eslint/bin/eslint.js . --fix --cache"
   },
   "dependencies": {
     "@nuxt/icon": "^2.2.3",
