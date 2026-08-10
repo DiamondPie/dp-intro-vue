@@ -24,7 +24,7 @@ This is a **Nuxt 4** single-page portfolio site. All application code lives unde
 
 There are two routes:
 
-- **`app/pages/index.vue`** — the main portfolio page. Renders a full-page vertical scroll layout with sections stacked in order: `HeroSection → AboutSection → WorksSection → CommitsSection → FriendsSection → SiteFooter`. Also includes `BackgroundCover`, `HeadBar`, and `BackToTopButton`. `NavDock` exists but is currently commented out.
+- **`app/pages/index.vue`** — the main portfolio page. Renders a full-page vertical scroll layout with sections stacked in order: `HeroSection → AboutSection → PathwaySection → FriendsSection → SiteFooter`. Also includes `BackgroundCover`, `HeadBar`, and `BackToTopButton`. `NavDock` exists but is currently commented out.
 - **`app/pages/music.vue`** — a standalone music player page at `/music`, backed by a server API (`server/api/music.ts` reads `server/assets/music.json`). Uses `useFetch('/api/music')` at runtime (`routeRules: { '/music': { ssr: true } }`), so this route is not purely static.
 
 ### Component tree
@@ -34,10 +34,12 @@ app/components/
 ├── AboutSection.vue
 │   └── AboutSection/PhotoGrid.vue
 │       └── PhotoGrid/TextScatterCard.vue
-├── CommitsSection.vue
-│   ├── CommitsSection/Badge.vue
-│   ├── CommitsSection/Code.vue
-│   └── CommitsSection/Details.vue
+├── PathwaySection.vue                ← orchestrator: heading + Timeline + Works
+│   ├── PathwaySection/Timeline.vue   ← the commit timeline
+│   ├── PathwaySection/Works.vue      ← the works grid
+│   ├── PathwaySection/Badge.vue
+│   ├── PathwaySection/Code.vue
+│   └── PathwaySection/Details.vue
 ├── FriendsSection.vue
 │   └── FriendsSection/FriendInvite.vue
 ├── HeroSection.vue
@@ -63,8 +65,7 @@ app/components/
 ├── BackToTopButton.vue
 ├── HeadBar.vue
 ├── NavDock.vue
-├── SiteFooter.vue
-└── WorksSection.vue
+└── SiteFooter.vue
 ```
 
 ### Cross-cutting scroll logic (`app/composables/useIntroEffects.js`)
@@ -74,16 +75,18 @@ This is the most architecturally important file. It was previously a client-only
 It owns all DOM-driven behavior that spans multiple components:
 
 - **Scroll effects** — drives opacity/transform on `#cover`, `#head-bar`, `#avatar`, `#top-btn`, `#side-text`, `#arrow-down` by reading `window.scrollY` thresholds. RAF-throttled.
-- **Scroll spy** — `IntersectionObserver` on section anchors (`#home`, `#about`, `#works`, `#friends`) that toggles active styles on `button[data-target]` elements in both the desktop nav and `#mobile-nav`.
+- **Scroll spy** — `IntersectionObserver` on section anchors (`#home`, `#about`, `#pathway`, `#friends`) that toggles active styles on `button[data-target]` elements in both the desktop nav and `#mobile-nav`.
 - **Button hover tints** — reads `background-color` from inline `style` attributes on `<a>` tags inside `#btn-container` (hero) and `#bottom-container` (footer), then adjusts the alpha on hover.
 - **Console branding** — prints a styled ASCII art banner and status badge on page load.
 - **Pixel data pre-load** — imports `~/data/pixelData.js` at the top of the module so it is in the module cache before `PixelCanvas` mounts.
 
 > **Rule**: Do not move scroll/nav logic into individual components. It's in the composable because it touches elements rendered by both `HeroSection` and `SiteFooter`.
 
-### CommitsSection (`app/components/CommitsSection.vue`)
+### PathwaySection (`app/components/PathwaySection.vue`)
 
-A vertical timeline of educational/career milestones. Content is fully i18n-driven — all entries come from `tm('commits.entries')` in the locale files (`i18n/locales/en.json`, `zh.json`). Sub-components: `Badge` (colored pill tags), `Details` (collapsible disclosure items), `Code` (inline code formatting).
+The single `#pathway` section that merges what used to be the separate `COMMITS` and `WORKS` sections. `PathwaySection.vue` is a thin orchestrator: it owns the `<section id="pathway">` wrapper, the `PATHWAY` `<h2>` (`pathway.title`) and a divider, then renders `PathwaySection/Timeline.vue` followed by `PathwaySection/Works.vue`. Both sub-components are plain `<div>`s with their own `<h3>` sub-heading (`pathway.commits_title` / `pathway.works_title`) — they must not reintroduce a `<section>` or an `id`, since the scroll spy observes `#pathway` only.
+
+`Timeline.vue` is a vertical timeline of educational/career milestones. Content is fully i18n-driven — all entries come from `tm('commits.entries')` in the locale files (`i18n/locales/en.json`, `zh.json`). Sub-components: `Badge` (colored pill tags), `Details` (collapsible disclosure items), `Code` (inline code formatting). `Works.vue` is a static grid of project cards, with copy under the `works.*` locale keys.
 
 The tagline above the timeline (`git commit -m "build: met <input>"`) is interactive: the input is `Utils/InlineTerminalInput.vue`, styled to blend into the surrounding text (see Styling conventions below). Pressing Enter opens a `mailto:` link to the site owner and, on the first submission, prepends a synthetic "met {name}" entry to the top of `entries` — its `{ name, date }` is held in a `metVisitor` ref, and its title/desc are resolved from `commits.met_entry.title` / `.desc` reactively inside the `entries` computed (not cached as plain strings), so they stay correct if the language is switched afterwards. The flag switches from `-m` to `--amend -m` once `metVisitor` is set. Submitting again with a different name mutates `metVisitor.name` in place — updating the existing entry's text — rather than adding another timeline row.
 
@@ -127,7 +130,7 @@ A maimai DX-inspired full-screen page transition. `DXTransition.vue` is the orch
 - **Fonts**: `Google Sans Flex` (body/sans) and `Google Sans Code` (mono), loaded from Google Fonts. Referenced as `font-sans` / `font-mono` in Tailwind.
 - Named animation classes (`.animate-fadeIn`, `.animate-fadeInUp`, `.animate-blink`) and keyframes are defined globally in `main.css`.
 - The `button.home` and `.link-tag` classes are global reusable styles defined in `main.css`.
-- `.inline-terminal-input` and `.inline-enter-hint` (also in `main.css`) are the shared base styles for terminal-blended `<input>`s and their `↵` hints — used by both `HeroSection/CommandLine.vue` (`#cmd-input` / `#cmd-enter-hint`) and `Utils/InlineTerminalInput.vue` (used in `CommitsSection.vue`). Each consumer layers its own color/animation on top in scoped styles.
+- `.inline-terminal-input` and `.inline-enter-hint` (also in `main.css`) are the shared base styles for terminal-blended `<input>`s and their `↵` hints — used by both `HeroSection/CommandLine.vue` (`#cmd-input` / `#cmd-enter-hint`) and `Utils/InlineTerminalInput.vue` (used in `PathwaySection/Timeline.vue`). Each consumer layers its own color/animation on top in scoped styles.
 
 ### Icons (`@nuxt/icon`)
 
