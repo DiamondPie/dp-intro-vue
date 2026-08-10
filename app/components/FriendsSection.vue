@@ -45,20 +45,10 @@ import FriendInvite from './FriendsSection/FriendInvite.vue'
 
 const friends = [
   {
-    href: 'https://github.com/diamondPiesdad',
-    name: 'Void Magician',
-    avatar: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/friends/void_magician.webp',
-    desc: '<del>DiamondPiesDad</del>'
-  },
-  {
-    href: 'https://github.com/70RCH',
-    name: '70RCH',
-    avatar: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/friends/70rch.webp',
-  },
-  {
-    href: 'https://github.com/niuniu12341234',
-    name: 'Niuniu12341234',
-    avatar: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/friends/niuniu12341234.webp',
+    href: 'https://zxs24719.codeberg.page',
+    name: '爱吃可比克的鲸鱼',
+    avatar: 'https://zxs24719.codeberg.page/avatar.jpg',
+    desc: '"生活起起伏伏，始终充满热爱"'
   }
 ]
 </script>
