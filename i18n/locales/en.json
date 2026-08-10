@@ -51,14 +51,14 @@
     "entries": [
       {
         "year": "2026",
-        "month": "February 2026",
-        "title": "Started University · Computer Science",
-        "desc": "Began my Bachelor of Science at the University of Auckland, diving headfirst into algorithms, discrete maths, and a semester's worth of caffeine.",
+        "month": "July 2026",
+        "title": "Second semester at University",
+        "desc": "Being stucked into endless EXERSCI myths... :(",
         "courses": [
-          "COMPSCI 101 — Introduction to Python Programming",
-          "COMPSCI 110 — Introduction to Computer Science",
-          "MATHS 120 — Linear Algebra",
-          "PHYSICS 140 — Digital Fundamentals"
+          "COMPSCI 120 - Mathematics for Computer Science",
+          "COMPSCI 130 - Introduction to Software Fundamentals",
+          "STATS 101 - Introduction to Statistics",
+          "EXERSCI 100G - Exercise and Fitness"
         ],
         "badges": [
           { "label": "UOACS",           "color": "#d0539b" },
@@ -66,15 +66,29 @@
           { "label": "Linux User Group","color": "#43ccaf" },
           { "label": "DEVS",            "color": "#9479ed" }
         ],
+        "details": []
+      },
+      {
+        "year": "2026",
+        "month": "February 2026",
+        "title": "Started University · Computer Science",
+        "desc": "Began my Bachelor of Science at the University of Auckland, diving headfirst into algorithms, discrete maths, and a semester's worth of caffeine.",
+        "courses": [
+          "COMPSCI 101 - Introduction to Python Programming",
+          "COMPSCI 110 - Introduction to Computer Science",
+          "MATHS 120 - Linear Algebra",
+          "PHYSICS 140 - Digital Fundamentals"
+        ],
+        "badges": [],
         "details": [
           {
             "label": "Milestones",
             "type": "new",
             "defaultOpen": true,
             "items": [
-              "First semester GPA achieved.",
-              "Completed first solo programming assignment in Python.",
-              "Made friends with people who also think semicolons matter."
+              "First semester GPA achieved",
+              "Completed first solo programming assignment in Python",
+              "Made friends with people who also think semicolons matter"
             ]
           },
           {
@@ -82,8 +96,8 @@
             "type": "update",
             "defaultOpen": false,
             "items": [
-              "Built a Minecraft plugin to automate in-game quiz and prices.",
-              "Started this portfolio site with Vue + Nuxt 4."
+              "Built a Minecraft plugin to automate in-game quiz and prices",
+              "Started this portfolio site with Vue + Nuxt 4"
             ]
           }
         ]
@@ -101,9 +115,9 @@
             "type": "new",
             "defaultOpen": true,
             "items": [
-              "A QQ chatbot based on CQHttp and finally got banned.",
-              "A Discord bot for entertainment.",
-              "Personal website v1 with pure HTML/CSS."
+              "A QQ chatbot based on CQHttp and finally got banned",
+              "A Discord bot for entertainment",
+              "Personal website v1 with pure HTML/CSS"
             ]
           }
         ]

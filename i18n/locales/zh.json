@@ -41,7 +41,7 @@
   },
   "friends": {
     "title": "Friends",
-    "invite_heading": "想成为一员吗？",
+    "invite_heading": "想携手共进吗？",
     "invite_text": "填写一份简单的表格，加入我们吧~！",
     "invite_contact": "如果因网络原因无法访问表单，请通过{email}和我联系",
     "invite_email": "邮件",
@@ -49,6 +49,25 @@
   },
   "commits": {
     "entries": [
+      {
+        "year": "2026",
+        "month": "July 2026",
+        "title": "在大学的第二个学期",
+        "desc": "也没人告诉我 EXERSCI 还要学医学和生物啊... :(",
+        "courses": [
+          "COMPSCI 120 - Mathematics for Computer Science",
+          "COMPSCI 130 - Introduction to Software Fundamentals",
+          "STATS 101 - Introduction to Statistics",
+          "EXERSCI 100G - Exercise and Fitness"
+        ],
+        "badges": [
+          { "label": "UOACS",           "color": "#d0539b" },
+          { "label": "SESA",            "color": "#afdece" },
+          { "label": "Linux User Group","color": "#43ccaf" },
+          { "label": "DEVS",            "color": "#9479ed" }
+        ],
+        "details": []
+      },
       {
         "year": "2026",
         "month": "February 2026",
@@ -59,12 +78,7 @@
           "MATHS 120 — Linear Algebra",
           "PHYSICS 140 — Digital Fundamentals"
         ],
-        "badges": [
-          { "label": "UOACS",           "color": "#d0539b" },
-          { "label": "SESA",            "color": "#afdece" },
-          { "label": "Linux User Group","color": "#43ccaf" },
-          { "label": "DEVS",            "color": "#9479ed" }
-        ],
+        "badges": [],
         "details": [
           {
             "label": "里程碑",
@@ -73,7 +87,7 @@
             "items": [
               "完成第一学期 GPA 考核",
               "独立完成了第一次 Python 编程作业",
-              "结识了一群同样觉得分号很重要的朋友"
+              "结识了一群能一起做项目的朋友"
             ]
           },
           {
