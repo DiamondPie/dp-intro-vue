@@ -1,7 +1,7 @@
 <template>
   <div class="group-item">
     <button type="button" class="group-header" @click="isOpen = !isOpen">
-      <CommitsSectionBadge :type="type">{{ label }}</CommitsSectionBadge>
+      <PathwaySectionBadge :type="type">{{ label }}</PathwaySectionBadge>
       <svg
         class="chevron"
         :class="{ 'chevron-open': isOpen }"

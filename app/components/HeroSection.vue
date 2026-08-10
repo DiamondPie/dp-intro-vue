@@ -113,14 +113,14 @@
               </span>
             </button>
 
-            <button data-target="commits" class="home group !text-sm lg:!text-base">
-              {{ $t('nav.commits') }}<span class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform">
+            <button data-target="pathway" class="home group !text-sm lg:!text-base">
+              {{ $t('nav.pathway') }}<span class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform">
                 <Icon name="mingcute:arrow-right-fill" class="text-lg lg:text-xl -mt-1" width="1em" height="1em" />
               </span>
             </button>
 
-            <button data-target="works" class="home group !text-sm lg:!text-base">
-              {{ $t('nav.works') }}<span class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform">
+            <button data-target="friends" class="home group !text-sm lg:!text-base">
+              {{ $t('nav.friends') }}<span class="inline-block align-middle ml-2 group-hover:translate-x-2 transition-transform">
                 <Icon name="mingcute:arrow-right-fill" class="text-lg lg:text-xl -mt-1" width="1em" height="1em" />
               </span>
             </button>

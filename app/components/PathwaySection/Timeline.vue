@@ -72,102 +72,101 @@ function submitCommitName() {
 </script>
 
 <template>
-  <section id="commits" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
-    <div class="animate-fadeIn">
-      <h2 class="lg:text-4xl text-2xl mb-8 flex items-center gap-4 uppercase">
-        <span class="font-extrabold">COMMITS</span>
-      </h2>
-      <p class="commit-tagline font-mono text-sm mb-8">
-        <span class="syn-cmd">&gt; git</span>
-        <span class="syn-sub"> commit</span>
-        <span class="syn-flag">&nbsp;{{ metVisitor ? '--amend -m' : '-m' }}</span>
-        <span class="syn-str"> "build: met </span>
-        <UtilsInlineTerminalInput
-          v-model="visitorName"
-          class="commit-name-input syn-str font-mono text-sm"
-          :placeholder="NAME_PLACEHOLDER"
-          aria-label="Your name"
-          @enter="submitCommitName"
-        />
-        <span class="syn-str">"</span>
-        <Transition name="commit-enter-hint">
-          <span v-if="showEnterHint" class="commit-enter-hint inline-enter-hint">↵</span>
-        </Transition>
-      </p>
+  <div class="animate-fadeIn">
+    <h3 class="lg:text-xl text-lg mb-6 flex items-center gap-2 font-semibold uppercase" style="color: var(--text-secondary)">
+      <Icon name="mdi:source-commit" class="shrink-0 text-xl" />
+      {{ $t('pathway.commits_title') }}
+    </h3>
+    <p class="commit-tagline font-mono text-sm mb-8">
+      <span class="syn-cmd">&gt; git</span>
+      <span class="syn-sub"> commit</span>
+      <span class="syn-flag">&nbsp;{{ metVisitor ? '--amend -m' : '-m' }}</span>
+      <span class="syn-str"> "build: met </span>
+      <UtilsInlineTerminalInput
+        v-model="visitorName"
+        class="commit-name-input syn-str font-mono text-sm"
+        :placeholder="NAME_PLACEHOLDER"
+        aria-label="Your name"
+        @enter="submitCommitName"
+      />
+      <span class="syn-str">"</span>
+      <Transition name="commit-enter-hint">
+        <span v-if="showEnterHint" class="commit-enter-hint inline-enter-hint">↵</span>
+      </Transition>
+    </p>
 
-      <div class="flex flex-col items-start w-full">
+    <div class="flex flex-col items-start w-full">
 
-        <div
-          v-for="(entry, index) in entries"
-          :key="`${entry.year}-${entry.month}-${index}`"
-          class="relative flex w-full justify-end gap-2"
-        >
-          <!-- Left column (desktop) -->
-          <div class="sticky top-[4.75rem] hidden w-36 flex-col items-end gap-2 self-start pb-4 md:flex">
-            <span class="timeline-badge">{{ entry.year }}</span>
-            <div class="text-right text-sm font-medium" style="color: var(--text-secondary)">{{ entry.month }}</div>
+      <div
+        v-for="(entry, index) in entries"
+        :key="`${entry.year}-${entry.month}-${index}`"
+        class="relative flex w-full justify-end gap-2"
+      >
+        <!-- Left column (desktop) -->
+        <div class="sticky top-[4.75rem] hidden w-36 flex-col items-end gap-2 self-start pb-4 md:flex">
+          <span class="timeline-badge">{{ entry.year }}</span>
+          <div class="text-right text-sm font-medium" style="color: var(--text-secondary)">{{ entry.month }}</div>
+        </div>
+
+        <!-- Timeline dot + line -->
+        <div class="flex flex-col items-center">
+          <div class="sticky top-[4.75rem] flex size-6 items-center justify-center">
+            <span class="timeline-dot-outer flex size-[1.125rem] shrink-0 items-center justify-center rounded-full">
+              <span class="timeline-dot-inner size-3 rounded-full" />
+            </span>
+          </div>
+          <span class="timeline-line -mt-2.5 w-px flex-1" />
+        </div>
+
+        <!-- Content -->
+        <div class="flex flex-1 flex-col gap-4 pb-11 pl-3 md:pl-6 lg:pl-9">
+          <!-- Mobile year/month -->
+          <div class="flex flex-col gap-2 md:hidden">
+            <span class="timeline-badge self-start">{{ entry.year }}</span>
+            <div class="font-medium">{{ entry.month }}</div>
           </div>
 
-          <!-- Timeline dot + line -->
-          <div class="flex flex-col items-center">
-            <div class="sticky top-[4.75rem] flex size-6 items-center justify-center">
-              <span class="timeline-dot-outer flex size-[1.125rem] shrink-0 items-center justify-center rounded-full">
-                <span class="timeline-dot-inner size-3 rounded-full" />
-              </span>
-            </div>
-            <span class="timeline-line -mt-2.5 w-px flex-1" />
-          </div>
-
-          <!-- Content -->
-          <div class="flex flex-1 flex-col gap-4 pb-11 pl-3 md:pl-6 lg:pl-9">
-            <!-- Mobile year/month -->
-            <div class="flex flex-col gap-2 md:hidden">
-              <span class="timeline-badge self-start">{{ entry.year }}</span>
-              <div class="font-medium">{{ entry.month }}</div>
+          <div class="space-y-4">
+            <div class="space-y-3">
+              <h3 class="flex items-center gap-2 text-xl font-semibold">
+                <Icon name="mdi:tag-outline" class="shrink-0 text-lg" />
+                {{ entry.title }}
+              </h3>
+              <p class="text-sm" style="color: var(--text-secondary)">{{ entry.desc }}</p>
             </div>
 
-            <div class="space-y-4">
-              <div class="space-y-3">
-                <h3 class="flex items-center gap-2 text-xl font-semibold">
-                  <Icon name="mdi:tag-outline" class="shrink-0 text-lg" />
-                  {{ entry.title }}
-                </h3>
-                <p class="text-sm" style="color: var(--text-secondary)">{{ entry.desc }}</p>
-              </div>
+            <ul v-if="entry.courses?.length" class="ml-2 list-inside list-disc space-y-3 text-sm" style="color: var(--text-secondary)">
+              <li v-for="course in entry.courses" :key="String(course)">{{ course }}</li>
+            </ul>
 
-              <ul v-if="entry.courses?.length" class="ml-2 list-inside list-disc space-y-3 text-sm" style="color: var(--text-secondary)">
-                <li v-for="course in entry.courses" :key="String(course)">{{ course }}</li>
-              </ul>
+            <div v-if="entry.badges?.length">
+              <PathwaySectionBadge
+                v-for="badge in entry.badges"
+                :key="String(badge.label)"
+                :color="String(badge.color)"
+                class="mr-1"
+              >{{ badge.label }}</PathwaySectionBadge>
+            </div>
 
-              <div v-if="entry.badges?.length">
-                <CommitsSectionBadge
-                  v-for="badge in entry.badges"
-                  :key="String(badge.label)"
-                  :color="String(badge.color)"
-                  class="mr-1"
-                >{{ badge.label }}</CommitsSectionBadge>
-              </div>
-
-              <div v-if="entry.details?.length" class="-mt-2 space-y-0">
-                <CommitsSectionDetails
-                  v-for="detail in entry.details"
-                  :key="String(detail.label)"
-                  :label="String(detail.label)"
-                  :type="String(detail.type)"
-                  :default-open="Boolean(detail.defaultOpen)"
-                >
-                  <ul class="list-inside list-disc space-y-3 pb-4 pl-2 pt-1 text-sm" style="color: var(--text-secondary)">
-                    <li v-for="item in detail.items" :key="String(item)">{{ item }}</li>
-                  </ul>
-                </CommitsSectionDetails>
-              </div>
+            <div v-if="entry.details?.length" class="-mt-2 space-y-0">
+              <PathwaySectionDetails
+                v-for="detail in entry.details"
+                :key="String(detail.label)"
+                :label="String(detail.label)"
+                :type="String(detail.type)"
+                :default-open="Boolean(detail.defaultOpen)"
+              >
+                <ul class="list-inside list-disc space-y-3 pb-4 pl-2 pt-1 text-sm" style="color: var(--text-secondary)">
+                  <li v-for="item in detail.items" :key="String(item)">{{ item }}</li>
+                </ul>
+              </PathwaySectionDetails>
             </div>
           </div>
         </div>
-
       </div>
-    </div>
-  </section>
+
+  </div>
+</div>
 </template>
 
 <style scoped>

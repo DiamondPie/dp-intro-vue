@@ -160,7 +160,7 @@ const DIST = 120  // px — magnification falloff radius
 const navItems = [
   { target: 'home',    icon: 'lucide:sprout',      labelKey: 'nav.home'    },
   { target: 'about',   icon: 'lucide:user-round',  labelKey: 'nav.about'   },
-  { target: 'works',   icon: 'lucide:code-xml',    labelKey: 'nav.works'   },
+  { target: 'pathway', icon: 'lucide:git-commit-horizontal', labelKey: 'nav.pathway' },
   { target: 'friends', icon: 'lucide:users-round', labelKey: 'nav.friends' },
 ]
 

@@ -185,7 +185,7 @@ button.home:focus-visible {
 /* ────────────────────────────────────────────────────────────────────────────
 * Enter (↵) hint — nudges the user to press Enter after an inline terminal
 * input is "complete". Shared layout by HeroSection/CommandLine.vue
-* (.cmd-enter-hint) and CommitsSection.vue; each consumer supplies its own
+* (.cmd-enter-hint) and PathwaySection/Timeline.vue; each consumer supplies its own
 * color and show/hide transition.
 * ──────────────────────────────────────────────────────────────────────────── */
 .inline-enter-hint {

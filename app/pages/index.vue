@@ -12,8 +12,8 @@
         <div class="w-12 h-px" style="background: var(--text-secondary); opacity: 0.35" />
       </div>
       <AboutSection />
-      <CommitsSection />
-      <WorksSection />
+      <PathwaySection />
+      <FriendsSection />
       <SiteFooter />
       <BackToTopButton />
     </main>
@@ -25,8 +25,8 @@ import BackgroundCover from '~/components/BackgroundCover.vue'
 import HeadBar from '~/components/HeadBar.vue'
 import HeroSection from '~/components/HeroSection.vue'
 import AboutSection from '~/components/AboutSection.vue'
-import WorksSection from '~/components/WorksSection.vue'
-import CommitsSection from '~/components/CommitsSection.vue'
+import PathwaySection from '~/components/PathwaySection.vue'
+import FriendsSection from '~/components/FriendsSection.vue'
 import SiteFooter from '~/components/SiteFooter.vue'
 import BackToTopButton from '~/components/BackToTopButton.vue'
 import { useIntroEffects } from '~/composables/useIntroEffects.js'

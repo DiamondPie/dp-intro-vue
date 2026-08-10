@@ -2,7 +2,7 @@
   <section id="friends" class="relative z-10 max-w-6xl mx-auto px-6 py-20">
     <div class="animate-fadeIn">
       <h2 class="lg:text-4xl text-2xl mb-8 flex items-center gap-4 uppercase">
-        <span class="font-extrabold">Friends</span>
+        <span class="font-extrabold">{{ $t('friends.title') }}</span>
       </h2>
       <div class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

@@ -2,8 +2,8 @@
   "nav": {
     "home": "Home",
     "about": "About",
-    "commits": "Commits",
-    "works": "Works"
+    "pathway": "Pathway",
+    "friends": "Friends"
   },
   "hero": {
     "get_in_touch": "Get in Touch",
@@ -24,8 +24,12 @@
       "got to spend so little time together"
     ]
   },
+  "pathway": {
+    "title": "Pathway",
+    "commits_title": "Commits",
+    "works_title": "Works"
+  },
   "works": {
-    "title": "Works",
     "blog_title": "Personal Blog",
     "blog_desc": "Tech notes and personal stories, built on Hexo.",
     "irisbot_title": "Irisbot",

@@ -2,8 +2,8 @@
   "nav": {
     "home": "主页",
     "about": "关于",
-    "commits": "经历",
-    "works": "作品"
+    "pathway": "历程",
+    "friends": "友链"
   },
   "hero": {
     "get_in_touch": "认识一下~",
@@ -24,8 +24,12 @@
       "这么短暂..."
     ]
   },
+  "pathway": {
+    "title": "Pathway",
+    "commits_title": "Commits",
+    "works_title": "Works"
+  },
   "works": {
-    "title": "Works",
     "blog_title": "我的博客",
     "blog_desc": "一个基于 Anzhiyu 主题打造的 Hexo 博客",
     "irisbot_title": "Irisbot",
