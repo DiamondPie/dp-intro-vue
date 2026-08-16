@@ -43,28 +43,28 @@ const { t } = useI18n()
 
 const works = computed(() => [
   {
+    href: 'https://github.com/DiamondPie/mita-auth',
+    title: t('works.mita_auth_title'),
+    description: t('works.mita_auth_desc'),
+    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/mita_auth.webp'
+  },
+  {
+    href: 'https://dpp.qzz.io/exam-clock',
+    title: t('works.exam_clock_title'),
+    description: t('works.exam_clock_desc'),
+    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/exam_clock.webp'
+  },
+  {
+    href: 'https://compsci110.vercel.app/asm',
+    title: t('works.assembly_sim_title'),
+    description: t('works.assembly_sim_desc'),
+    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/assembly_sim.webp'
+  },
+  {
     href: 'https://blog.dpp.qzz.io',
     title: t('works.blog_title'),
     description: t('works.blog_desc'),
     image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/blog.webp'
-  },
-  {
-    href: 'https://github.com/DiamondPie/Irisbot',
-    title: t('works.irisbot_title'),
-    description: t('works.irisbot_desc'),
-    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/discord_bot.webp'
-  },
-  {
-    href: 'https://github.com/DiamondPie/DetectClipOut',
-    title: t('works.detectclipout_title'),
-    description: t('works.detectclipout_desc'),
-    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/detect_clip.webp'
-  },
-  {
-    href: 'https://year.dpp.qzz.io',
-    title: t('works.countdown_title'),
-    description: t('works.countdown_desc'),
-    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/countdown.webp'
   }
 ])
 </script>

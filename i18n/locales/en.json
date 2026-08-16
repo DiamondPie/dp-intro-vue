@@ -30,14 +30,14 @@
     "works_title": "Works"
   },
   "works": {
+    "mita_auth_title": "mita-auth",
+    "mita_auth_desc": "A lightweight anti-abuse protection SDK.",
     "blog_title": "Personal Blog",
     "blog_desc": "Tech notes and personal stories, built on Hexo.",
-    "irisbot_title": "Irisbot",
-    "irisbot_desc": "A native Discord chatbot built with discord.py.",
-    "detectclipout_title": "DetectClipOut",
-    "detectclipout_desc": "NZQA exam simulation with tab-switch detection.",
-    "countdown_title": "Countdown",
-    "countdown_desc": "Minimal countdown timer for New Year and custom events."
+    "assembly_sim_title": "CS110 Assembly Visualizer",
+    "assembly_sim_desc": "A web app to simulate and run CS110 assembly code.",
+    "exam_clock_title": "?! Exam !?",
+    "exam_clock_desc": "A simple exam clock designed after UoA's Exam Clock App."
   },
   "friends": {
     "title": "Friends",
