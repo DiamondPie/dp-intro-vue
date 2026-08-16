@@ -66,7 +66,7 @@ const photos = [
     caption: 'Coromandel'
   },
   {
-    src: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/mita_miside.webp',
+    src: 'https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/mita.webp',
     alt: 'Mita - MiSide',
     caption: 'Mita - MiSide'
   }
