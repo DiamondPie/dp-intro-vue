@@ -57,6 +57,7 @@
         ],
         "badges": [
           { "label": "UOACS",           "color": "#d0539b" },
+          { "label": "WDCC",            "color": "#097cef" },
           { "label": "SESA",            "color": "#afdece" },
           { "label": "Linux User Group","color": "#43ccaf" },
           { "label": "DEVS",            "color": "#9479ed" }
