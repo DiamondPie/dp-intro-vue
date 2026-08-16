@@ -33,7 +33,6 @@ There are two routes:
 app/components/
 ├── AboutSection.vue
 │   └── AboutSection/PhotoGrid.vue
-│       └── PhotoGrid/TextScatterCard.vue
 ├── PathwaySection.vue                ← orchestrator: heading + Timeline + Works
 │   ├── PathwaySection/Timeline.vue   ← the commit timeline
 │   ├── PathwaySection/Works.vue      ← the works grid
@@ -89,10 +88,6 @@ The single `#pathway` section that merges what used to be the separate `COMMITS`
 `Timeline.vue` is a vertical timeline of educational/career milestones. Content is fully i18n-driven — all entries come from `tm('commits.entries')` in the locale files (`i18n/locales/en.json`, `zh.json`). Sub-components: `Badge` (colored pill tags), `Details` (collapsible disclosure items), `Code` (inline code formatting). `Works.vue` is a static grid of project cards, with copy under the `works.*` locale keys.
 
 The tagline above the timeline (`git commit -m "build: met <input>"`) is interactive: the input is `Utils/InlineTerminalInput.vue`, styled to blend into the surrounding text (see Styling conventions below). Pressing Enter opens a `mailto:` link to the site owner and, on the first submission, prepends a synthetic "met {name}" entry to the top of `entries` — its `{ name, date }` is held in a `metVisitor` ref, and its title/desc are resolved from `commits.met_entry.title` / `.desc` reactively inside the `entries` computed (not cached as plain strings), so they stay correct if the language is switched afterwards. The flag switches from `-m` to `--amend -m` once `metVisitor` is set. Submitting again with a different name mutates `metVisitor.name` in place — updating the existing entry's text — rather than adding another timeline row.
-
-### Text scatter card (`app/components/AboutSection/PhotoGrid/TextScatterCard.vue`)
-
-A special `PhotoGrid` tile that, on hover, plays an i18n-driven line-by-line text animation (`about.scatter_text` in the locale files) built with GSAP: characters split via `SplitText` enter, hold, then scatter and fall off using `Physics2DPlugin`, with a 3D flip revealing a back face if a character tumbles past 90°. GSAP, `SplitText`, `Physics2DPlugin`, and the two `TextScatterMedium`/`TextScatterBold` fonts (`public/fonts/text-scatter/`) are lazy-loaded on first hover, not at page load. Hover-leave cancels the in-flight animation and tweens out the overlay. All animation timing/physics constants live in the `CONFIG` object at the top of the script — tune there rather than inline.
 
 ### Music page (`app/pages/music.vue`)
 
@@ -155,6 +150,5 @@ Renders a pixel-art portrait and QR code from data in `app/data/pixelData.js`. T
 - @nuxtjs/tailwindcss: https://tailwindcss.nuxtjs.org
 - @nuxtjs/sitemap: https://nuxtseo.com/sitemap
 - @nuxt/icon: https://icon.nuxt.com
-- GSAP: https://gsap.com/docs
 
 @CLAUDE.local.md
