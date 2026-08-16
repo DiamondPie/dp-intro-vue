@@ -17,12 +17,7 @@
   },
   "about": {
     "title": "About Me",
-    "dp_warning": "⚠️ 不要与 {link} 相混淆，后者是一种算法范式。",
-    "scatter_text": [
-      "真可惜...",
-      "和你在一起的时间",
-      "这么短暂..."
-    ]
+    "dp_warning": "⚠️ 不要与 {link} 相混淆，后者是一种算法范式。"
   },
   "pathway": {
     "title": "Pathway",

@@ -17,12 +17,7 @@
   },
   "about": {
     "title": "About Me",
-    "dp_warning": "⚠️ Not to be confused with {link}, an algorithmic paradigm.",
-    "scatter_text": [
-      "It's a real shame...",
-      "that you and I",
-      "got to spend so little time together"
-    ]
+    "dp_warning": "⚠️ Not to be confused with {link}, an algorithmic paradigm."
   },
   "pathway": {
     "title": "Pathway",
