@@ -8,6 +8,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "preview:cf": "wrangler pages dev dist --compatibility-date=2026-07-07",
     "postinstall": "nuxt prepare",
     "lint": "node ./node_modules/eslint/bin/eslint.js . --cache",
     "lint:fix": "node ./node_modules/eslint/bin/eslint.js . --fix --cache"
