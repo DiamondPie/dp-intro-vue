@@ -49,7 +49,7 @@ const works = computed(() => [
     image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/mita_auth.webp'
   },
   {
-    href: 'https://dpp.qzz.io/exam-clock',
+    href: '/exam-clock/',
     title: t('works.exam_clock_title'),
     description: t('works.exam_clock_desc'),
     image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/exam_clock.webp'
