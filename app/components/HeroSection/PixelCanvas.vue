@@ -88,7 +88,7 @@ onMounted(() => {
    * 二维码点阵渲染函数（随机像素出现动画）
    *
    * 数据格式：每行是一个数组，每个元素为 [color_or_dash, count]
-   *   - color_or_dash: "rgb(r,g,b)" 表示有色方块，"-" 表示空格
+   *   - color_or_dash: "#rrggbb" 表示有色方块，"-" 表示空格
    *   - count: 该段重复的字符数（两个相邻 █ 视作一个像素点单位，按 count 拆分为独立像素）
    *
    * @param {HTMLElement} container  - 目标容器元素
