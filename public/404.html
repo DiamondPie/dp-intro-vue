@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --color-cyan:     #d282e6;
+      --color-magenta:  #d282e6;
       --color-purple:   #b57bee;
       --color-pink:     #f0a8c0;
       --color-red:      #e05c5c;
@@ -96,7 +96,7 @@
       position: absolute; top: 0; left: 0;
     }
     .error-num::before {
-      color: var(--color-cyan);
+      color: var(--color-magenta);
       clip-path: polygon(0 15%, 100% 15%, 100% 38%, 0 38%);
       animation: glitch-a 3.5s infinite steps(1);
     }
@@ -171,7 +171,7 @@
     .log-time  { color: var(--color-gray-500); flex-shrink: 0; }
     .log-err   { color: var(--color-red); }
     .log-warn  { color: var(--color-pink); }
-    .log-info  { color: var(--color-cyan); }
+    .log-info  { color: var(--color-magenta); }
 
     /* buttons — exact visual match to original */
     .home {
@@ -233,7 +233,7 @@
 
     <!-- user@diamondpie:~$ prompt -->
     <div class="prompt-line animate-fadeInUp" style="animation-delay:0.1s">
-        <span style="color:var(--color-cyan)">user@diamondpie</span><span style="color:var(--color-gray-500)">:</span><span style="color:var(--color-purple)" id="prompt-path">~</span><span style="color:var(--color-gray-500)">$</span><span style="margin-left:8px">find . -name <span style="color:var(--color-pink)" id="prompt-filename">"index"</span></span>
+        <span style="color:var(--color-magenta)">user@diamondpie</span><span style="color:var(--color-gray-500)">:</span><span style="color:var(--color-purple)" id="prompt-path">~</span><span style="color:var(--color-gray-500)">$</span><span style="margin-left:8px">find . -name <span style="color:var(--color-pink)" id="prompt-filename">"index"</span></span>
       </div>
 
     <!-- >PageNotFound_ -->

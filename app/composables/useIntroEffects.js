@@ -208,7 +208,7 @@ export function useIntroEffects() {
     const desktopInactive = ['bg-transparent', 'text-white/60', 'hover:text-white', 'hover:bg-white/10']
 
     // 手机端样式 (Mobile Nav)
-    const mobileActive = ['text-[var(--color-cyan)]']
+    const mobileActive = ['text-[var(--color-magenta)]']
     const mobileInactive = ['text-white/90', 'hover:text-white']
 
     const navButtons = document.querySelectorAll('button[data-target]')

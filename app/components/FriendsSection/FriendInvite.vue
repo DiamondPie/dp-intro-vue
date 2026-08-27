@@ -121,9 +121,9 @@
   gap: 6px;
   padding: 8px 16px;
   border-radius: 9999px;
-  border: 1px solid color-mix(in oklab, var(--color-cyan), transparent 35%);
-  background: color-mix(in oklab, var(--color-cyan), transparent 85%);
-  color: var(--color-cyan);
+  border: 1px solid color-mix(in oklab, var(--color-magenta), transparent 35%);
+  background: color-mix(in oklab, var(--color-magenta), transparent 85%);
+  color: var(--color-magenta);
   font-size: 0.75rem;
   font-weight: 500;
   text-decoration: none;
@@ -133,7 +133,7 @@
 }
 
 .friend-invite-btn:hover {
-  background: color-mix(in oklab, var(--color-cyan), transparent 72%);
+  background: color-mix(in oklab, var(--color-magenta), transparent 72%);
   transform: scale(1.05);
 }
 

@@ -77,7 +77,7 @@ function goBack() {
 
       <!-- Prompt: command line -->
       <div class="prompt-line animate-fadeInUp mb-4 opacity-70" style="animation-delay: 0.1s">
-        <span style="color: var(--color-cyan)">user@diamondpie</span
+        <span style="color: var(--color-magenta)">user@diamondpie</span
         ><span style="color: var(--color-gray-500)">:</span
         ><span style="color: var(--color-purple)">{{ promptPath }}</span
         ><span style="color: var(--color-gray-500)">$</span>
@@ -138,7 +138,7 @@ function goBack() {
           </div>
           <div class="flex gap-3">
             <span class="shrink-0" style="color: var(--color-gray-500)">{{ logTime }}</span>
-            <span style="color: var(--color-cyan)">[INFO]</span>
+            <span style="color: var(--color-magenta)">[INFO]</span>
             <span>&nbsp;Suggestion: navigate back to home <span style="color: var(--color-purple)">~</span></span>
           </div>
           <div class="mt-0.5 flex gap-3">
@@ -239,7 +239,7 @@ function goBack() {
 }
 
 .error-num::before {
-  color: var(--color-cyan);
+  color: var(--color-magenta);
   clip-path: polygon(0 15%, 100% 15%, 100% 38%, 0 38%);
   animation: glitch-a 3.5s infinite steps(1);
 }

@@ -139,7 +139,7 @@
       <nav id="mobile-nav" class="relative pt-[72px] px-6">
         <button
           data-target="home"
-          class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-[var(--color-cyan)]"
+          class="block w-full text-left py-3 text-2xl font-medium transition-all ease-in-out text-[var(--color-magenta)]"
           style="transition-delay: 0ms; transform: translateX(-20px); opacity: 0;"
         >
           {{ $t('nav.home') }}
