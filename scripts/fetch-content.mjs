@@ -5,7 +5,9 @@
  * API and writes it to `app/content/content.json`, which `useSiteContent()`
  * imports statically so the page stays fully prerendered.
  *
- * Runs on `predev` / `prebuild` / `pregenerate` (see package.json).
+ * Runs on `predev` / `prebuild` / `pregenerate` (see package.json). Also
+ * records `{ source, revision }` in `app/content/fetch-meta.json` so
+ * `scripts/stamp-deployed.mjs` (postbuild) knows which revision was baked in.
  *
  * Behaviour:
  *   - CF_* env vars missing        → use content/seed.json (info message)
@@ -23,6 +25,7 @@ import { CONTENT_KV_KEY, validateContent } from '../shared/validateContent.js'
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const SEED_PATH = resolve(ROOT, 'content/seed.json')
 const OUT_PATH = resolve(ROOT, 'app/content/content.json')
+const META_PATH = resolve(ROOT, 'app/content/fetch-meta.json')
 const FETCH_TIMEOUT_MS = 15_000
 
 const TAG = '[fetch-content]'
@@ -77,6 +80,7 @@ async function main() {
 
   await mkdir(dirname(OUT_PATH), { recursive: true })
   await writeFile(OUT_PATH, JSON.stringify(content, null, 2) + '\n', 'utf8')
+  await writeFile(META_PATH, JSON.stringify({ source, revision: content.revision, fetchedAt: new Date().toISOString() }, null, 2) + '\n', 'utf8')
   console.log(`${TAG} wrote app/content/content.json (source: ${source})`)
 }
 

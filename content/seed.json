@@ -2,9 +2,6 @@
   "version": 1,
   "revision": 1,
   "updatedAt": "2026-09-17T00:00:00.000Z",
-  "deployedRevision": 0,
-  "deployStartedAt": null,
-  "deployAttempts": 0,
 
   "works": [
     {
