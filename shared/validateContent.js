@@ -1,14 +1,23 @@
 /**
  * Schema validation for the site content object stored in KV (`content:v1`).
  *
- * Plain ESM so it can run both in `scripts/fetch-content.mjs` (plain node at
- * build time) and inside Nitro handlers (Phase B). Deliberately dependency-free.
+ * Plain ESM so it can run both in `scripts/*.mjs` (plain node at build time)
+ * and inside Nitro handlers (`server/api/content.put.ts`). Dependency-free.
  *
  * Returns a list of human-readable problems; an empty list means valid.
  */
 
 export const CONTENT_SCHEMA_VERSION = 1
 export const CONTENT_KV_KEY = 'content:v1'
+/**
+ * Publish-tracking state (`deployedRevision`, `deployStartedAt`, …) lives in its
+ * own key so the build-stamp script and the editor's PUT never read-modify-write
+ * the same value (KV has no compare-and-swap).
+ */
+export const DEPLOY_KV_KEY = 'content:v1:deploy'
+
+/** Top-level fields that make up a content document; anything else is dropped on write. */
+export const CONTENT_FIELDS = ['version', 'revision', 'updatedAt', 'works', 'photos', 'friends', 'commits']
 
 const LIST_FIELDS = ['works', 'photos', 'friends', 'commits']
 const DETAIL_TYPES = ['new', 'update']
