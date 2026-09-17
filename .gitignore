@@ -32,3 +32,6 @@ CLAUDE.local.md
 temp/
 docs/
 archive/
+
+# Build-time content pulled from Cloudflare KV (see scripts/fetch-content.mjs)
+app/content/content.json
