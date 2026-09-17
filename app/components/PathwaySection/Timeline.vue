@@ -16,23 +16,25 @@ interface CommitEntry {
   details: CommitDetail[]
 }
 
-const { tm, rt, t } = useI18n()
+const { t } = useI18n()
+const { commits, pick } = useSiteContent()
 
 const metVisitor = ref<{ name: string; date: Date } | null>(null)
 
 const entries = computed<CommitEntry[]>(() => {
-  const base = (tm('commits.entries') as Record<string, unknown>[]).map(e => ({
-    year:    rt(e.year   as string),
-    month:   rt(e.month  as string),
-    title:   rt(e.title  as string),
-    desc:    rt(e.desc   as string),
-    courses: (e.courses as string[]).map(c => rt(c)),
-    badges:  (e.badges  as { label: string; color: string }[]).map(b => ({ label: rt(b.label), color: rt(b.color) })),
-    details: (e.details as Record<string, unknown>[]).map(d => ({
-      label:       rt(d.label as string),
-      type:        rt(d.type  as string),
-      defaultOpen: d.defaultOpen as boolean,
-      items:       (d.items as string[]).map(i => rt(i)),
+  // `pick()` reads the active locale, so this re-resolves on language switch.
+  const base: CommitEntry[] = commits.map(e => ({
+    year:    e.year,
+    month:   pick(e.month),
+    title:   pick(e.title),
+    desc:    pick(e.desc),
+    courses: e.courses.map(c => pick(c)),
+    badges:  e.badges,
+    details: e.details.map(d => ({
+      label:       pick(d.label),
+      type:        d.type,
+      defaultOpen: d.defaultOpen,
+      items:       d.items.map(i => pick(i)),
     })),
   }))
 

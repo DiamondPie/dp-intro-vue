@@ -12,9 +12,12 @@ pnpm preview      # Preview production build
 pnpm postinstall  # Run after installing deps (nuxt prepare)
 pnpm lint         # Lint with ESLint
 pnpm lint:fix     # Auto-fix lint errors
+pnpm content:fetch # Pull site content from KV into app/content/content.json (also runs as pre{dev,build,generate})
 ```
 
 Package manager is **pnpm** (v11). Always use `pnpm`, never `npm` or `yarn`.
+
+Cloudflare Pages builds with `pnpm run build` (output dir `dist`), so `nuxt build` + the `cloudflare-pages` preset is the production path — `/` is prerendered via `routeRules`, not by `nuxt generate`.
 
 ## Architecture
 
@@ -67,6 +70,25 @@ app/components/
 └── SiteFooter.vue
 ```
 
+### Site content (`app/composables/useSiteContent.js`)
+
+The four list-type content blocks — **works, photos, friends, commits** — are **not** in the locale files or hardcoded in components. They live in Cloudflare KV (namespace `CONTENT`, key `content:v1`) and are baked into the prerendered page at build time:
+
+```
+KV content:v1 ──(scripts/fetch-content.mjs, REST API)──▶ app/content/content.json ──(static import)──▶ useSiteContent()
+                       │ fails / no CF_* env → content/seed.json (warning)
+                       │ schema invalid      → exit 1, build stops
+```
+
+- `scripts/fetch-content.mjs` runs as `predev` / `prebuild` / `pregenerate`. It needs `CF_ACCOUNT_ID`, `CF_KV_NAMESPACE_ID`, `CF_API_TOKEN` (see `.env.example`); when unset it copies `content/seed.json`, so local dev needs zero config.
+- `app/content/content.json` is gitignored. `content/seed.json` is the committed fallback — keep it in sync with KV when you make structural changes.
+- `shared/validateContent.js` is the single schema validator (plain ESM so both the node script and Nitro handlers can import it). It exports `CONTENT_KV_KEY` and `validateContent(obj) → string[]` (empty = valid).
+- **Schema**: one object with `version`, `revision`, `updatedAt`, publish-tracking fields (`deployedRevision`, `deployStartedAt`, `deployAttempts`), and the four arrays. Every item has a stable `id` (used as `v-for` key). Bilingual text is stored **at field level** as `{ en, zh }` — never as two parallel documents. `friend.name` and `badge.label` are not bilingual. `friend.desc` is rendered with `v-html` (site-owner-controlled content).
+- `useSiteContent()` returns `{ works, photos, friends, commits, revision, pick }`. `pick(field)` resolves an `{ en, zh }` value for the active locale (falls back to `en`); it reads `locale.value` so it stays reactive inside templates and computeds. Call `pick()` at render time — don't cache its result in a plain variable.
+- `Timeline.vue` maps `commits` through `pick()` inside its `entries` computed and then layers the runtime `metVisitor` entry on top; the met entry never goes into KV.
+- Nothing reads KV at runtime. Publishing a content change = write KV → trigger a Pages build. Runtime read/write endpoints and the in-page editor are later phases (see `temp/content-manager-plan.md`).
+- KV writes via wrangler need `--remote` (`wrangler kv key put --remote --namespace-id=… content:v1 --path=content/seed.json`); wrangler 4 defaults to the local `.wrangler/state` store otherwise.
+
 ### Cross-cutting scroll logic (`app/composables/useIntroEffects.js`)
 
 This is the most architecturally important file. It was previously a client-only plugin (`app/plugins/intro.client.js`) and has been rewritten as a composable. It is called from `index.vue` via `useIntroEffects()` in `<script setup>`, with all DOM access guarded inside `onMounted`.
@@ -85,7 +107,7 @@ It owns all DOM-driven behavior that spans multiple components:
 
 The single `#pathway` section that merges what used to be the separate `COMMITS` and `WORKS` sections. `PathwaySection.vue` is a thin orchestrator: it owns the `<section id="pathway">` wrapper, the `PATHWAY` `<h2>` (`pathway.title`) and a divider, then renders `PathwaySection/Timeline.vue` followed by `PathwaySection/Works.vue`. Both sub-components are plain `<div>`s with their own `<h3>` sub-heading (`pathway.commits_title` / `pathway.works_title`) — they must not reintroduce a `<section>` or an `id`, since the scroll spy observes `#pathway` only.
 
-`Timeline.vue` is a vertical timeline of educational/career milestones. Content is fully i18n-driven — all entries come from `tm('commits.entries')` in the locale files (`i18n/locales/en.json`, `zh.json`). Sub-components: `Badge` (colored pill tags), `Details` (collapsible disclosure items), `Code` (inline code formatting). `Works.vue` is a static grid of project cards, with copy under the `works.*` locale keys.
+`Timeline.vue` is a vertical timeline of educational/career milestones. Entries come from `useSiteContent().commits` (KV-backed, see "Site content" above), not from the locale files. Sub-components: `Badge` (colored pill tags), `Details` (collapsible disclosure items), `Code` (inline code formatting). `Works.vue` is a grid of project cards driven by `useSiteContent().works`; only the section headings (`pathway.*`) remain in i18n.
 
 The tagline above the timeline (`git commit -m "build: met <input>"`) is interactive: the input is `Utils/InlineTerminalInput.vue`, styled to blend into the surrounding text (see Styling conventions below). Pressing Enter opens a `mailto:` link to the site owner and, on the first submission, prepends a synthetic "met {name}" entry to the top of `entries` — its `{ name, date }` is held in a `metVisitor` ref, and its title/desc are resolved from `commits.met_entry.title` / `.desc` reactively inside the `entries` computed (not cached as plain strings), so they stay correct if the language is switched afterwards. The flag switches from `-m` to `--amend -m` once `metVisitor` is set. Submitting again with a different name mutates `metVisitor.name` in place — updating the existing entry's text — rather than adding another timeline row.
 
@@ -134,6 +156,8 @@ Uses `@nuxt/icon` with SVG mode and client bundle scanning. Icon sets available:
 ### i18n
 
 Uses `@nuxtjs/i18n` with `strategy: 'no_prefix'`. Locale files live in `i18n/locales/en.json` and `zh.json`. Language defaults to `en`; browser language detection is disabled (`detectBrowserLanguage: false`). Language is switched via a cookie (`i18n_redirected`). Use `useI18n()` composable and the `$t()` helper inside templates. For complex structured translations (arrays/objects), use `tm()` + `rt()`.
+
+The locale files hold **UI copy only** (`nav.*`, `hero.*`, `about.*`, `pathway.*`, `friends.invite_*`, `commits.met_entry`, `footer.*`). List content (works / photos / friends / commit entries) is bilingual at field level in KV — do not add `works.*` or `commits.entries` back to the locale files.
 
 ### Kill-switch
 

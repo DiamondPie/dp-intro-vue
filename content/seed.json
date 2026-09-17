@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "revision": 1,
+  "updatedAt": "2026-09-17T00:00:00.000Z",
+  "deployedRevision": 0,
+  "deployStartedAt": null,
+  "deployAttempts": 0,
+
+  "works": [
+    {
+      "id": "mita-auth",
+      "href": "https://github.com/DiamondPie/mita-auth",
+      "image": "https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/mita_auth.webp",
+      "title": { "en": "mita-auth", "zh": "mita-auth" },
+      "desc": { "en": "A lightweight anti-abuse protection SDK.", "zh": "一款轻量级的评论系统限流保护 SDK" }
+    },
+    {
+      "id": "exam-clock",
+      "href": "/exam-clock/",
+      "image": "https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/exam_clock.webp",
+      "title": { "en": "?! Exam !?", "zh": "？！考试！？" },
+      "desc": { "en": "A simple exam clock designed after UoA's Exam Clock App.", "zh": "一个仿照奥克兰大学 Exam Clock App 设计的简单考试时钟" }
+    },
+    {
+      "id": "assembly-sim",
+      "href": "https://compsci110.vercel.app/asm",
+      "image": "https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/assembly_sim.webp",
+      "title": { "en": "CS110 Assembly Visualizer", "zh": "CS110 汇编可视化工具" },
+      "desc": { "en": "A web app to simulate and run CS110 assembly code.", "zh": "一个用于可视化运行 CS110 汇编代码的 Web 应用程序" }
+    },
+    {
+      "id": "blog",
+      "href": "https://blog.dpp.qzz.io",
+      "image": "https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/blog.webp",
+      "title": { "en": "Personal Blog", "zh": "我的博客" },
+      "desc": { "en": "Tech notes and personal stories, built on Hexo.", "zh": "一个基于 Anzhiyu 主题打造的 Hexo 博客" }
+    }
+  ],
+
+  "photos": [
+    {
+      "id": "waihiki",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/waihiki.webp",
+      "caption": { "en": "Waihiki Island", "zh": "Waihiki Island" }
+    },
+    {
+      "id": "friends",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/friends.webp",
+      "caption": { "en": "Me and my friends!", "zh": "Me and my friends!" }
+    },
+    {
+      "id": "logo",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/logo.webp",
+      "caption": { "en": "Personal logo", "zh": "Personal logo" }
+    },
+    {
+      "id": "yutori-natsu",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/yutori_natsu.webp",
+      "caption": { "en": "Yutori Natsu🥰🥰", "zh": "Yutori Natsu🥰🥰" }
+    },
+    {
+      "id": "beware-of-snakes",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/beware_of_snakes.webp",
+      "caption": { "en": "Beware of Snakes😱", "zh": "Beware of Snakes😱" }
+    },
+    {
+      "id": "rick-and-morty",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/rick_and_morty.webp",
+      "caption": { "en": "Rick and Morty", "zh": "Rick and Morty" }
+    },
+    {
+      "id": "tower",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/tower.webp",
+      "caption": { "en": "A Sci-fi signal tower!", "zh": "A Sci-fi signal tower!" }
+    },
+    {
+      "id": "coromandel",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/coromandel.webp",
+      "caption": { "en": "Coromandel", "zh": "Coromandel" }
+    },
+    {
+      "id": "mita",
+      "src": "https://cdn.jsdelivr.net/gh/diamondpie/storage@master/intro/mita.webp",
+      "caption": { "en": "Mita - MiSide", "zh": "Mita - MiSide" }
+    }
+  ],
+
+  "friends": [
+    {
+      "id": "zxs24719",
+      "href": "https://zxs24719.codeberg.page",
+      "avatar": "https://zxs24719.codeberg.page/avatar.jpg",
+      "name": "爱吃可比克的鲸鱼",
+      "desc": { "en": "\"生活起起伏伏，始终充满热爱\"", "zh": "\"生活起起伏伏，始终充满热爱\"" }
+    }
+  ],
+
+  "commits": [
+    {
+      "id": "2026-07",
+      "year": "2026",
+      "month": { "en": "July 2026", "zh": "July 2026" },
+      "title": { "en": "Second semester at University", "zh": "在大学的第二个学期" },
+      "desc": { "en": "Being stucked into endless EXERSCI myths... :(", "zh": "也没人告诉我 EXERSCI 还要学医学和生物啊... :(" },
+      "courses": [
+        { "en": "COMPSCI 120 - Mathematics for Computer Science", "zh": "COMPSCI 120 - Mathematics for Computer Science" },
+        { "en": "COMPSCI 130 - Introduction to Software Fundamentals", "zh": "COMPSCI 130 - Introduction to Software Fundamentals" },
+        { "en": "STATS 101 - Introduction to Statistics", "zh": "STATS 101 - Introduction to Statistics" },
+        { "en": "EXERSCI 100G - Exercise and Fitness", "zh": "EXERSCI 100G - Exercise and Fitness" }
+      ],
+      "badges": [
+        { "label": "UOACS", "color": "#d0539b" },
+        { "label": "WDCC", "color": "#097cef" },
+        { "label": "SESA", "color": "#afdece" },
+        { "label": "Linux User Group", "color": "#43ccaf" },
+        { "label": "DEVS", "color": "#9479ed" }
+      ],
+      "details": []
+    },
+    {
+      "id": "2026-02",
+      "year": "2026",
+      "month": { "en": "February 2026", "zh": "February 2026" },
+      "title": { "en": "Started University · Computer Science", "zh": "开始就读大学 · 计算机科学" },
+      "desc": {
+        "en": "Began my Bachelor of Science at the University of Auckland, diving headfirst into algorithms, discrete maths, and a semester's worth of caffeine.",
+        "zh": "正式就读奥克兰大学计算机科学本科，一头扎进算法、离散数学和一学期的咖啡因里"
+      },
+      "courses": [
+        { "en": "COMPSCI 101 - Introduction to Python Programming", "zh": "COMPSCI 101 - Introduction to Python Programming" },
+        { "en": "COMPSCI 110 - Introduction to Computer Science", "zh": "COMPSCI 110 - Introduction to Computer Science" },
+        { "en": "MATHS 120 - Linear Algebra", "zh": "MATHS 120 - Linear Algebra" },
+        { "en": "PHYSICS 140 - Digital Fundamentals", "zh": "PHYSICS 140 - Digital Fundamentals" }
+      ],
+      "badges": [],
+      "details": [
+        {
+          "label": { "en": "Milestones", "zh": "里程碑" },
+          "type": "new",
+          "defaultOpen": true,
+          "items": [
+            { "en": "First semester GPA achieved", "zh": "完成第一学期 GPA 考核" },
+            { "en": "Completed first solo programming assignment in Python", "zh": "独立完成了第一次 Python 编程作业" },
+            { "en": "Made friends with people who also think semicolons matter", "zh": "结识了一群能一起做项目的朋友" }
+          ]
+        },
+        {
+          "label": { "en": "Side Projects", "zh": "个人项目" },
+          "type": "update",
+          "defaultOpen": false,
+          "items": [
+            { "en": "Built a Minecraft plugin to automate in-game quiz and prices", "zh": "开发了一个 Minecraft 插件，用于自动化游戏内测验与定价" },
+            { "en": "Started this portfolio site with Vue + Nuxt 4", "zh": "用 Vue + Nuxt 4 搭建了这个作品集网站" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2023-09",
+      "year": "2023",
+      "month": { "en": "September 2023", "zh": "September 2023" },
+      "title": { "en": "High School · Playing and Catching Dues with Friends", "zh": "高中时代 · 和朋友们玩耍打闹" },
+      "desc": {
+        "en": "Started the habit of staying up all night writing code. Learnt Python, JavaScript, a bit of Java, and Git. Tried to build some small automation and web tools.",
+        "zh": "养成了通宵写代码的习惯。学了 Python、JavaScript、一点 Java 和 Git，尝试搞了些小型自动化工具和网页项目"
+      },
+      "courses": [],
+      "badges": [],
+      "details": [
+        {
+          "label": { "en": "Toy Projects", "zh": "玩具项目" },
+          "type": "new",
+          "defaultOpen": true,
+          "items": [
+            { "en": "A QQ chatbot based on CQHttp and finally got banned", "zh": "基于 CQHttp 搭建了一个 QQ 聊天机器人，最终喜提封号" },
+            { "en": "A Discord bot for entertainment", "zh": "为娱乐搭建了一个 Discord 机器人" },
+            { "en": "Personal website v1 with pure HTML/CSS", "zh": "用纯 HTML/CSS 搭建了个人网站 v1" }
+          ]
+        }
+      ]
+    }
+  ]
+}
