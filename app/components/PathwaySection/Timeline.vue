@@ -23,7 +23,7 @@ const metVisitor = ref<{ name: string; date: Date } | null>(null)
 
 const entries = computed<CommitEntry[]>(() => {
   // `pick()` reads the active locale, so this re-resolves on language switch.
-  const base: CommitEntry[] = commits.map(e => ({
+  const base: CommitEntry[] = commits.value.map(e => ({
     year:    e.year,
     month:   pick(e.month),
     title:   pick(e.title),

@@ -42,5 +42,30 @@
     "get_in_touch": "认识一下~",
     "copyright": "© 2026 DiamondPie. 倾注热情、代码和 {llm} 精心打造.",
     "source_code": "源代码"
+  },
+  "editor": {
+    "loading": "正在加载线上内容…",
+    "editing": "编辑中 · rev {rev}",
+    "dirty": "未保存",
+    "invalid": "{n} 个字段需要填写",
+    "save": "保存",
+    "saving": "保存中…",
+    "discard": "放弃更改",
+    "exit": "退出编辑",
+    "reload": "重新加载",
+    "publishing": "正在发布 rev {rev}，新的改动会合并进下一次发布",
+    "published": "已上线 · rev {rev}",
+    "no_hook": "已保存 rev {rev}，但未配置 Deploy Hook，站点不会自动重建",
+    "stalled": "rev {rev} 发布停滞，请重新保存或手动重建",
+    "conflict": "内容已在别处被修改，请重新加载（本地改动会丢失）。",
+    "unauthorized": "编辑令牌无效，已退出编辑。",
+    "load_failed": "内容加载失败：{msg}",
+    "save_failed": "保存失败：{msg}",
+    "discard_confirm": "放弃未保存的更改？",
+    "add_work": "新增作品",
+    "delete": "删除",
+    "drag": "拖动排序",
+    "work_title": "标题",
+    "work_desc": "描述"
   }
 }

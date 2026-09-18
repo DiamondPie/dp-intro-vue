@@ -42,5 +42,30 @@
     "get_in_touch": "Get in Touch",
     "copyright": "© 2026 DiamondPie. Crafted with passion, code and {llm}.",
     "source_code": "Source Code"
+  },
+  "editor": {
+    "loading": "Loading live content…",
+    "editing": "Editing · rev {rev}",
+    "dirty": "unsaved",
+    "invalid": "{n} field(s) need attention",
+    "save": "Save",
+    "saving": "Saving…",
+    "discard": "Discard",
+    "exit": "Exit editor",
+    "reload": "Reload",
+    "publishing": "Publishing rev {rev} — new edits will merge into the next publish",
+    "published": "Live · rev {rev}",
+    "no_hook": "Saved rev {rev} — deploy hook not configured, site won't rebuild by itself",
+    "stalled": "Publishing rev {rev} stalled — save again or rebuild manually",
+    "conflict": "Content was modified elsewhere. Reload to continue (your local edits will be lost).",
+    "unauthorized": "Edit token rejected — editor closed.",
+    "load_failed": "Could not load content: {msg}",
+    "save_failed": "Save failed: {msg}",
+    "discard_confirm": "Discard unsaved changes?",
+    "add_work": "add work",
+    "delete": "Delete",
+    "drag": "Drag to reorder",
+    "work_title": "Title",
+    "work_desc": "Description"
   }
 }

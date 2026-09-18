@@ -4,7 +4,11 @@
       <Icon name="mdi:package-variant-closed" class="shrink-0 text-xl" />
       {{ $t('pathway.works_title') }}
     </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Edit mode swaps the grid for the editable one; `enabled` is always false on the server. -->
+    <ClientOnly v-if="editor.enabled.value">
+      <LazyEditorWorks />
+    </ClientOnly>
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <a
         v-for="(work, index) in works"
         :key="work.id"
@@ -38,4 +42,5 @@
 
 <script setup>
 const { works, pick } = useSiteContent()
+const editor = useEditor()
 </script>

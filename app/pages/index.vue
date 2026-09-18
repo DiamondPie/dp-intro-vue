@@ -16,6 +16,9 @@
       <FriendsSection />
       <SiteFooter />
       <BackToTopButton />
+      <ClientOnly>
+        <LazyEditorBar v-if="editor.enabled.value" />
+      </ClientOnly>
     </main>
   </div>
 </template>
@@ -36,6 +39,11 @@ definePageMeta({
 })
 
 useIntroEffects()
+
+// In-page content editor: only activates when a `#edit=<token>` hash (or a
+// token from earlier in this tab) is present. See app/composables/useEditor.ts.
+const editor = useEditor()
+onMounted(() => editor.init())
 
 useHead({
   script: [
