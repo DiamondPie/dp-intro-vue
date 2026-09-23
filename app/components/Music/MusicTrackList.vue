@@ -12,6 +12,8 @@ const props = defineProps<{
   tracks: Track[]
   currentIndex: number
   isOpen: boolean
+  /** Immersive view: the list leaves the flow and fades out to the left. */
+  collapsed: boolean
 }>()
 
 const emit = defineEmits<{
@@ -19,6 +21,19 @@ const emit = defineEmits<{
 }>()
 
 const listEl = ref<HTMLElement | null>(null)
+// Width frozen at collapse time so the list keeps its layout while fading out
+const frozenWidth = ref<number | null>(null)
+// Suppresses transitions until after the first paint, so a restored collapsed state doesn't animate on load
+const instant = ref(true)
+
+watch(() => props.collapsed, (collapsed) => {
+  // Runs before the DOM update, so offsetWidth is still the in-flow width
+  if (collapsed && listEl.value) frozenWidth.value = listEl.value.offsetWidth
+})
+
+onMounted(() => {
+  requestAnimationFrame(() => requestAnimationFrame(() => { instant.value = false }))
+})
 
 watch(() => props.currentIndex, () => {
   setTimeout(() => {
@@ -32,7 +47,13 @@ watch(() => props.currentIndex, () => {
 </script>
 
 <template>
-  <div ref="listEl" class="track-list" :class="{ 'is-open': isOpen }">
+  <div
+    ref="listEl"
+    class="track-list"
+    :class="{ 'is-open': isOpen, 'is-collapsed': collapsed, 'is-instant': instant }"
+    :style="frozenWidth ? { '--list-w': `${frozenWidth}px` } : undefined"
+    :inert="collapsed || undefined"
+  >
     <p v-if="!tracks.length" class="px-6 py-8 text-[0.9rem] text-white/30">
       No tracks loaded
     </p>
@@ -58,6 +79,35 @@ watch(() => props.currentIndex, () => {
   padding: 0.5rem 1.25rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,.15) transparent;
+  /* Coming back (leaving immersive) waits for the wheel's lyrics to spin out first —
+     mirrors EXIT_WAIT_MS in MusicPlayerPanel. Collapsing (below) starts immediately. */
+  transition:
+    opacity 450ms cubic-bezier(0.32, 0.72, 0, 1) 380ms,
+    transform 800ms cubic-bezier(0.32, 0.72, 0, 1) 380ms,
+    visibility 0s;
+}
+
+/* Out of the flow so the player panel snaps to full width immediately (it FLIPs its own contents) */
+.track-list.is-collapsed {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--list-w, 55%);
+  opacity: 0;
+  transform: translateX(-3rem);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 350ms cubic-bezier(0.32, 0.72, 0, 1),
+    transform 800ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 800ms;
+}
+
+.track-list.is-instant { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .track-list, .track-list.is-collapsed { transition: none; }
 }
 
 .track-list::-webkit-scrollbar { width: 4px; }

@@ -49,6 +49,7 @@ app/components/
 │   ├── MusicBackground.vue
 │   ├── MusicControlBar.vue
 │   ├── MusicDrawerTab.vue
+│   ├── MusicLyricsWheel.vue      ← arc-wheel lyrics for the immersive layout
 │   ├── MusicPlayerPanel.vue
 │   └── MusicTrackList.vue
 ├── Transition/
@@ -113,6 +114,8 @@ The value is case-insensitive; anything other than `flac` falls back to `mp3`. T
 ```
 
 `parseRuby()` returns `segments` **only** when a line actually carries a reading, so unannotated lines stay a single text node; `line.text` is always the plain, reading-free string. Malformed markup (unclosed brace, empty reading) degrades to literal text rather than throwing. Annotated lines get a `.has-ruby` class in `MusicPlayerPanel.vue` that widens `line-height` so the reading doesn't collide with the line above.
+
+**Immersive layout** — a desktop-only toggle (hidden ≤640px; the persisted flag is ignored there) that collapses the track list and switches `MusicPlayerPanel` from the stacked grid to two columns (cover + title | lyrics). The switch is a hand-written FLIP: starting boxes are captured in the button's click handler, *before* any re-render — the parent patches `MusicTrackList` (which goes `position: absolute` and resizes the panel) before the panel's `immersive` prop updates, so measuring in the watcher is too late. Lyrics can't be FLIPped (they re-flow), so a frozen clone of the old lyrics cross-fades out on top. In immersive mode the lyrics are rendered by `MusicLyricsWheel.vue`: lines laid flat along the rim of a large 2D wheel whose hub is off to the left (no 3D folding), rotated by a JS spring, with per-line transform/opacity/blur written straight to the DOM each frame.
 
 ### DX Transition system (`app/components/Transition/`)
 
