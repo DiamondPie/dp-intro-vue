@@ -8,7 +8,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <a
             v-for="(friend, index) in friends"
-            :key="friend.id"
+            :key="friend.href"
             :href="friend.href"
             target="_blank"
             rel="noopener noreferrer"
@@ -29,7 +29,7 @@
               <div class="flex flex-col min-w-0 gap-1">
                 <h3 class="text-sm font-bold truncate">{{ friend.name }}</h3>
                 <!-- eslint-disable-next-line vue/no-v-html -->
-                <p v-if="pick(friend.desc)" class="text-xs" style="color: var(--color-gray-400)" v-html="pick(friend.desc)" />
+                <p v-if="friend.desc" class="text-xs" style="color: var(--color-gray-400)" v-html="friend.desc" />
               </div>
             </div>
           </a>
@@ -43,5 +43,12 @@
 <script setup>
 import FriendInvite from './FriendsSection/FriendInvite.vue'
 
-const { friends, pick } = useSiteContent()
+const friends = [
+  {
+    href: 'https://zxs24719.codeberg.page',
+    name: '爱吃可比克的鲸鱼',
+    avatar: 'https://zxs24719.codeberg.page/avatar.jpg',
+    desc: '"生活起起伏伏，始终充满热爱"'
+  }
+]
 </script>

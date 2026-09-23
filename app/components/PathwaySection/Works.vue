@@ -7,7 +7,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <a
         v-for="(work, index) in works"
-        :key="work.id"
+        :key="work.href"
         :href="work.href"
         target="_blank"
         rel="noopener noreferrer"
@@ -27,8 +27,8 @@
             class="absolute -left-[2px] -right-[2px] -bottom-[2px] -top-12 z-[-1] bg-gradient-to-t from-black/80 via-black/40"
           />
           <div class="p-6">
-            <h3 class="text-xl font-bold mb-2">{{ pick(work.title) }}</h3>
-            <p class="text-sm leading-relaxed line-clamp-2 text-white/60">{{ pick(work.desc) }}</p>
+            <h3 class="text-xl font-bold mb-2">{{ work.title }}</h3>
+            <p class="text-sm leading-relaxed line-clamp-2 text-white/60">{{ work.description }}</p>
           </div>
         </div>
       </a>
@@ -37,5 +37,34 @@
 </template>
 
 <script setup>
-const { works, pick } = useSiteContent()
+import { computed } from 'vue'
+
+const { t } = useI18n()
+
+const works = computed(() => [
+  {
+    href: 'https://github.com/DiamondPie/mita-auth',
+    title: t('works.mita_auth_title'),
+    description: t('works.mita_auth_desc'),
+    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/mita_auth.webp'
+  },
+  {
+    href: '/exam-clock/',
+    title: t('works.exam_clock_title'),
+    description: t('works.exam_clock_desc'),
+    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/exam_clock.webp'
+  },
+  {
+    href: 'https://compsci110.vercel.app/asm',
+    title: t('works.assembly_sim_title'),
+    description: t('works.assembly_sim_desc'),
+    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/assembly_sim.webp'
+  },
+  {
+    href: 'https://blog.dpp.qzz.io',
+    title: t('works.blog_title'),
+    description: t('works.blog_desc'),
+    image: 'https://cdn.jsdelivr.net/gh/DiamondPie/storage@master/intro/works/blog.webp'
+  }
+])
 </script>

@@ -4,13 +4,8 @@
   "private": true,
   "packageManager": "pnpm@11.9.0",
   "scripts": {
-    "content:fetch": "node scripts/fetch-content.mjs",
-    "prebuild": "node scripts/fetch-content.mjs",
     "build": "nuxt build",
-    "postbuild": "node scripts/stamp-deployed.mjs",
-    "predev": "node scripts/fetch-content.mjs",
     "dev": "nuxt dev",
-    "pregenerate": "node scripts/fetch-content.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "preview:cf": "wrangler pages dev dist --compatibility-date=2026-07-07",
