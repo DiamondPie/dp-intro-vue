@@ -16,6 +16,8 @@ interface LyricLine {
 const props = defineProps<{
   lyrics: LyricLine[]
   currentIndex: number
+  /** While paused, a manually scrolled rim is left where the user put it. */
+  isPlaying: boolean
   /** Hold the first entrance this long (ms), e.g. until the previous layout's lyrics have left. */
   enterDelay?: number
 }>()
@@ -289,6 +291,29 @@ function prepareSpinOut(timing: SpinOutTiming = LAYOUT_SPIN_OUT): SpinOut {
 
 defineExpose({ prepareSpinOut })
 
+/**
+ * (Re)starts the countdown back to the current line after the user moved the rim. Only while
+ * playing: when paused, whatever the user scrolled to stays put until playback resumes.
+ */
+function scheduleReturn() {
+  if (userTimer) { clearTimeout(userTimer); userTimer = null }
+  if (!props.isPlaying) return
+  userTimer = setTimeout(() => {
+    userTimer = null
+    userOffset = 0
+    settle()
+  }, USER_SCROLL_HOLD)
+}
+
+watch(() => props.isPlaying, (playing) => {
+  if (!playing) {
+    if (userTimer) { clearTimeout(userTimer); userTimer = null }
+  }
+  else if (userOffset) {
+    scheduleReturn()
+  }
+})
+
 function onWheel(e: WheelEvent) {
   if (!centers.length) return
   entrance = null
@@ -296,17 +321,29 @@ function onWheel(e: WheelEvent) {
   const max = centers[centers.length - 1]! - target
   userOffset = Math.min(max, Math.max(min, userOffset + e.deltaY))
   settle()
-  if (userTimer) clearTimeout(userTimer)
-  userTimer = setTimeout(() => {
-    userOffset = 0
-    settle()
-  }, USER_SCROLL_HOLD)
+  scheduleReturn()
 }
 
+// `userOffset` is relative to the current line. When the current line moves while the user has the
+// rim scrolled away, fold the move into the offset so the view they're looking at stays put —
+// otherwise a click on a scrolled-to line would add the offset on top of that line and overshoot.
 watch(activeIndex, () => {
+  const previous = target
   target = baseTarget()
+  if (userOffset) userOffset -= target - previous
   settle()
 })
+
+/** Clicking a line: aim the rim at it now (no jump back first), then seek; the index catches up. */
+function onLineClick(i: number, time: number) {
+  if (centers[i] !== undefined) userOffset = centers[i]! - target
+  // Normally the offset is back to 0 once the index reaches this line; if the seek lands on a
+  // different line (e.g. shared timestamps), still return to the real current line eventually
+  scheduleReturn()
+  entrance = null
+  settle()
+  emit('seek', i === 0 ? 0 : time) // the first line counts as starting at 0:00
+}
 
 /** When the new song may start spinning in: once the previous one's spin-out is mostly done. */
 let trackEnterAt = -Infinity
@@ -377,7 +414,7 @@ onBeforeUnmount(() => {
         :key="i"
         class="wheel-line"
         :class="{ 'is-active': i === activeIndex }"
-        @click="emit('seek', i === 0 ? 0 : line.time)"
+        @click="onLineClick(i, line.time)"
       >
         <p class="lyric-text">
           <template v-if="line.segments">

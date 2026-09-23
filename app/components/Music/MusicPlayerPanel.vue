@@ -380,6 +380,7 @@ onBeforeUnmount(() => {
         v-if="immersive"
         ref="wheelRef"
         :enter-delay="wheelEnterDelay"
+        :is-playing="isPlaying"
         :lyrics="parsedLyrics"
         :current-index="currentLyricIndex"
         @seek="(time: number) => emit('seekToLyric', time)"
