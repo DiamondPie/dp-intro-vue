@@ -93,12 +93,16 @@ function measure() {
   measuredSize = `${root.clientWidth}x${root.clientHeight}`
 }
 
+/**
+ * The line treated as current. Before the first timestamp (`currentIndex` -1) the first line counts
+ * as current, as if it started at 0:00 — otherwise the rim would sit with nothing at the front.
+ */
+const activeIndex = computed(() => props.lyrics.length ? Math.max(0, props.currentIndex) : -1)
+
 /** Arc position that should face the viewer for the current line. */
 function baseTarget(): number {
   if (!centers.length) return 0
-  const i = props.currentIndex
-  if (i < 0) return centers[0]! - radius * 0.35 // before the first line: it waits just below the front
-  return centers[Math.min(i, centers.length - 1)]!
+  return centers[Math.min(Math.max(0, activeIndex.value), centers.length - 1)]!
 }
 
 /**
@@ -263,7 +267,7 @@ function onWheel(e: WheelEvent) {
   }, USER_SCROLL_HOLD)
 }
 
-watch(() => props.currentIndex, () => {
+watch(activeIndex, () => {
   target = baseTarget()
   settle()
 })
@@ -309,8 +313,8 @@ onBeforeUnmount(() => {
         v-for="(line, i) in lyrics"
         :key="i"
         class="wheel-line"
-        :class="{ 'is-active': i === currentIndex }"
-        @click="emit('seek', line.time)"
+        :class="{ 'is-active': i === activeIndex }"
+        @click="emit('seek', i === 0 ? 0 : line.time)"
       >
         <p class="lyric-text">
           <template v-if="line.segments">
