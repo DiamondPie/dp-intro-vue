@@ -79,11 +79,12 @@ watch(() => props.currentIndex, () => {
   padding: 0.5rem 1.25rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,.15) transparent;
-  /* Coming back (leaving immersive) waits for the wheel's lyrics to spin out first —
-     mirrors EXIT_WAIT_MS in MusicPlayerPanel. Collapsing (below) starts immediately. */
+  /* Coming back (leaving immersive) waits for the wheel's lyrics to spin out first; MusicPlayerPanel
+     sets --layout-exit-wait on the shared parent from the spin's length. Collapsing (below) starts
+     immediately. */
   transition:
-    opacity 450ms cubic-bezier(0.32, 0.72, 0, 1) 380ms,
-    transform 800ms cubic-bezier(0.32, 0.72, 0, 1) 380ms,
+    opacity 450ms cubic-bezier(0.32, 0.72, 0, 1) var(--layout-exit-wait, 0ms),
+    transform 800ms cubic-bezier(0.32, 0.72, 0, 1) var(--layout-exit-wait, 0ms),
     visibility 0s;
 }
 

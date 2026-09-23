@@ -48,10 +48,26 @@ const SPRING_OMEGA = 8 // rad/s; critically damped, settles in ~0.7s
 const ENTER_BASE_MS = 900
 const ENTER_MS_PER_RAD = 120
 const ENTER_MAX_EXTRA_MS = 600
-const SPIN_OUT_MS = 500
+
+// Spin-out (leaving the layout, or the old song on a track change) turns the rim through the lines on
+// screen plus a tail of what follows; its duration scales with the distance, within bounds.
+const SPIN_OUT_TAIL_RATIO = 0.4 // tail = 40% of the song's lines, rounded down…
+const SPIN_OUT_MIN_TAIL = 8 // …but at least this many
+interface SpinOutTiming { minMs: number; msPerRad: number; maxMs: number }
+interface SpinOut {
+  /** Total length of the spin, so callers can start the next thing when it's mostly done. */
+  duration: number
+  run: (copyRoot: HTMLElement) => Promise<void>
+}
+const LAYOUT_SPIN_OUT: SpinOutTiming = { minMs: 500, msPerRad: 240, maxMs: 1100 }
+const TRACK_SPIN_OUT: SpinOutTiming = { minMs: 350, msPerRad: 180, maxMs: 900 } // faster on a track change
+const TRACK_ENTER_AT = 0.63 // the new song starts spinning in at this fraction of the old one's spin-out
 const USER_SCROLL_HOLD = 2500 // ms before a manual wheel scroll springs back to the active line
 
 const rootEl = ref<HTMLElement | null>(null)
+/** Holds frozen copies of the previous song while they spin out; has no Vue children of its own. */
+const leavingEl = ref<HTMLElement | null>(null)
+const stageEl = ref<HTMLElement | null>(null)
 
 let lineEls: HTMLElement[] = []
 let heights: number[] = []
@@ -77,7 +93,8 @@ function prefersReducedMotion() {
 function measure() {
   const root = rootEl.value
   if (!root) return
-  lineEls = [...root.querySelectorAll<HTMLElement>('.wheel-line')]
+  // Scoped to the live stage: `.wheel-leaving` may hold copies of the previous song's lines
+  lineEls = [...(stageEl.value?.querySelectorAll<HTMLElement>('.wheel-line') ?? [])]
   // offsetHeight ignores transforms, so this is the flat layout height of each line
   heights = lineEls.map(el => el.offsetHeight)
   centers = []
@@ -219,29 +236,47 @@ function enterFromStart(delay = 0) {
 }
 
 /**
- * Called just before this component is removed (leaving the immersive layout). Returns a function
- * that keeps spinning a frozen copy of the wheel counter-clockwise until every line has left
- * through the top; the copy's lines are matched to ours by order.
+ * Captures the wheel as it is now and returns a function that spins a frozen copy of it
+ * counter-clockwise until every line has left through the top; the copy's lines are matched to ours
+ * by order. Used when leaving the immersive layout (the copy outlives this component) and when the
+ * track changes (the copy spins out while the new song's lines spin in).
  */
-function prepareSpinOut(): (copyRoot: HTMLElement) => Promise<void> {
+function prepareSpinOut(timing: SpinOutTiming = LAYOUT_SPIN_OUT): SpinOut {
   const hs = heights
   const cs = centers
   const r = radius
   const from = pos
-  const to = pos + 2 * HIDE_ANGLE * r // the lowest visible line ends up past the top
-  // Only the lines on screen now take part: turning the rim would otherwise pull later lines up
-  // from below, leaving them visible when the copy is removed
+  if (!cs.length || prefersReducedMotion()) return { duration: 0, run: () => Promise.resolve() }
+
+  // Lines taking part: everything on screen now, plus a tail of the following lines so the rim keeps
+  // bringing lyrics up from below as it turns. The tail is 40% of the song (at least SPIN_OUT_MIN_TAIL
+  // lines) to keep long songs from spinning for ages. Lines past the tail stay hidden, so the rim is
+  // empty by the time the copy is removed.
+  let current = 0 // the line nearest the front — `currentIndex` may already belong to the next track
+  cs.forEach((c, i) => { if (Math.abs(c - from) < Math.abs(cs[current]! - from)) current = i })
   const onScreen = cs.map((_, i) => i).filter(i => Math.abs((cs[i]! - from) / r) <= HIDE_ANGLE)
-  return (copyRoot) => {
-    const all = [...copyRoot.querySelectorAll<HTMLElement>('.wheel-line')]
-    const els = onScreen.map(i => all[i]).filter((el): el is HTMLElement => !!el)
-    if (!els.length || prefersReducedMotion()) return Promise.resolve()
-    const subHs = onScreen.map(i => hs[i]!)
-    const subCs = onScreen.map(i => cs[i]!)
-    return new Promise((resolve) => {
+  const tail = Math.max(SPIN_OUT_MIN_TAIL, Math.floor(cs.length * SPIN_OUT_TAIL_RATIO))
+  const first = onScreen[0] ?? current
+  const last = Math.min(cs.length - 1, Math.max(current + tail, onScreen.at(-1) ?? current))
+  const to = cs[last]! + HIDE_ANGLE * r // the tail's last line ends up past the top
+  const duration = Math.min(timing.maxMs, Math.max(timing.minMs, ((to - from) / r) * timing.msPerRad))
+  const indices = Array.from({ length: last - first + 1 }, (_, k) => first + k)
+
+  const run = (copyRoot: HTMLElement) => {
+    // Either a copy of the stage itself, or of the whole wheel — then only its live stage, not any
+    // track-change copies it happens to contain
+    const stage = copyRoot.classList.contains('wheel-stage')
+      ? copyRoot
+      : copyRoot.querySelector<HTMLElement>(':scope > .wheel-stage')
+    const all = [...(stage?.querySelectorAll<HTMLElement>(':scope > .wheel-line') ?? [])]
+    const els = indices.map(i => all[i]).filter((el): el is HTMLElement => !!el)
+    if (!els.length) return Promise.resolve()
+    const subHs = indices.map(i => hs[i]!)
+    const subCs = indices.map(i => cs[i]!)
+    return new Promise<void>((resolve) => {
       const start = performance.now()
       const step = (now: number) => {
-        const p = Math.min(1, (now - start) / SPIN_OUT_MS)
+        const p = Math.min(1, (now - start) / duration)
         placeLines(els, subHs, subCs, r, from + (to - from) * easeInQuad(p))
         if (p < 1) requestAnimationFrame(step)
         else resolve()
@@ -249,6 +284,7 @@ function prepareSpinOut(): (copyRoot: HTMLElement) => Promise<void> {
       requestAnimationFrame(step)
     })
   }
+  return { duration, run }
 }
 
 defineExpose({ prepareSpinOut })
@@ -272,9 +308,35 @@ watch(activeIndex, () => {
   settle()
 })
 
-// New track: new lines, so re-measure and roll them in
-watch(() => props.lyrics, () => {
-  nextTick(enterFromStart)
+/** When the new song may start spinning in: once the previous one's spin-out is mostly done. */
+let trackEnterAt = -Infinity
+
+/**
+ * Freezes the old song's lines into a copy (in `leavingEl`, which Vue never renders into) and spins
+ * it out. Must run before the DOM update, while the elements still show the old song.
+ */
+function spinOutOldTrack() {
+  const stage = stageEl.value
+  const holder = leavingEl.value
+  if (!stage || !holder || !lineEls.length) return
+  const spin = prepareSpinOut(TRACK_SPIN_OUT)
+  const copy = stage.cloneNode(true) as HTMLElement
+  copy.setAttribute('aria-hidden', 'true')
+  holder.appendChild(copy)
+  trackEnterAt = performance.now() + spin.duration * TRACK_ENTER_AT
+  spin.run(copy).then(() => copy.remove())
+}
+
+// New track: the old song spins out counter-clockwise, then the new one spins in from its first
+// line. Runs pre-flush (before the DOM is patched to the new lines). The player briefly clears the
+// lyrics while the new file loads, so this may fire twice — old → [] → new — and the new song's
+// wait is measured from when the old one started leaving.
+watch(() => props.lyrics, (_, prev) => {
+  if (prev?.length) spinOutOldTrack()
+  nextTick(() => {
+    const wait = Math.max(0, trackEnterAt - performance.now())
+    enterFromStart(wait)
+  })
 })
 
 onMounted(() => {
@@ -308,7 +370,8 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="rootEl" class="wheel" @wheel.prevent="onWheel">
-    <div class="wheel-stage">
+    <div ref="leavingEl" class="wheel-leaving" aria-hidden="true" />
+    <div ref="stageEl" class="wheel-stage">
       <div
         v-for="(line, i) in lyrics"
         :key="i"
@@ -343,6 +406,13 @@ onBeforeUnmount(() => {
   height: 100%;
   overflow: hidden;
   user-select: none;
+}
+
+/* The previous song's frozen lines while they spin out on a track change */
+.wheel-leaving {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 /* Inset by the arc's left travel so lines curving back toward the hub stay inside the wheel */
@@ -419,5 +489,11 @@ onBeforeUnmount(() => {
   transform: translateY(-50%);
   font-size: 2rem;
   color: rgba(255,255,255,.18);
+  /* Lyrics are briefly empty while a new track's file loads; don't flash the placeholder then */
+  animation: wheel-empty-in 300ms ease 450ms backwards;
+}
+
+@keyframes wheel-empty-in {
+  from { opacity: 0; }
 }
 </style>

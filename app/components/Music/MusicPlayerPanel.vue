@@ -97,9 +97,10 @@ const LAYOUT_EASING = 'cubic-bezier(0.32, 0.72, 0, 1)'
 // list coming back) waits until they're mostly gone, so the two sets of lyrics never overlap.
 const STACKED_LYRICS_LEAVE_MS = 300 // entering: the stacked list slides right and fades
 const ENTER_WAIT_MS = 240
-// Leaving: the wheel spins out over MusicLyricsWheel's SPIN_OUT_MS (500). MusicTrackList's
-// re-entry transition-delay mirrors this value.
-const EXIT_WAIT_MS = 380
+// Leaving: the wheel's spin-out length depends on the song (MusicLyricsWheel scales it with the lines
+// it turns through), so the wait is a fraction of it. Handed to MusicTrackList's re-entry delay too.
+const EXIT_WAIT_RATIO = 0.76
+const EXIT_WAIT_FALLBACK_MS = 380 // no wheel to ask (e.g. no lyrics)
 
 const flipping = ref(false)
 let flipAnims: Animation[] = []
@@ -119,13 +120,14 @@ interface FlipFirst {
 let pendingFirst: FlipFirst | null = null
 /** Frozen copy of the old lyrics, animated out on top while the new ones come in. */
 let lyricsGhost: HTMLElement | null = null
-const wheelRef = ref<{ prepareSpinOut: () => (copyRoot: HTMLElement) => Promise<void> } | null>(null)
+interface WheelSpinOut { duration: number; run: (copyRoot: HTMLElement) => Promise<void> }
+const wheelRef = ref<{ prepareSpinOut: () => WheelSpinOut } | null>(null)
 /** How long a newly mounted wheel holds its spin-in (only non-zero right after the user toggles in). */
 const wheelEnterDelay = ref(0)
 /** Delay before the new layout's motion starts, chosen on click for the watcher. */
 let pendingWait = 0
 /** Leaving immersive: spins the frozen copy of the wheel out (captured while the wheel still exists). */
-let pendingSpinOut: ((copyRoot: HTMLElement) => Promise<void>) | null = null
+let pendingSpinOut: WheelSpinOut | null = null
 
 function removeLyricsGhost() {
   lyricsGhost?.remove()
@@ -179,8 +181,17 @@ function toggleImmersive() {
   pendingWait = 0
   wheelEnterDelay.value = 0
   if (!prefersReducedMotion()) {
-    pendingWait = props.immersive ? EXIT_WAIT_MS : ENTER_WAIT_MS
-    if (!props.immersive) wheelEnterDelay.value = ENTER_WAIT_MS
+    if (props.immersive) {
+      pendingSpinOut = wheelRef.value?.prepareSpinOut() ?? null
+      pendingWait = pendingSpinOut?.duration
+        ? Math.round(pendingSpinOut.duration * EXIT_WAIT_RATIO)
+        : EXIT_WAIT_FALLBACK_MS
+    }
+    else {
+      pendingSpinOut = null
+      pendingWait = ENTER_WAIT_MS
+      wheelEnterDelay.value = ENTER_WAIT_MS
+    }
     const cover = snapshot(coverWrapperEl.value)
     const img = coverWrapperEl.value?.querySelector<HTMLElement>('.cover-art')
     pendingFirst = {
@@ -193,11 +204,12 @@ function toggleImmersive() {
     }
     removeLyricsGhost()
     if (lyricsContainer.value && panel) lyricsGhost = createLyricsGhost(lyricsContainer.value, panel)
-    pendingSpinOut = props.immersive ? (wheelRef.value?.prepareSpinOut() ?? null) : null
   }
-  // CSS transitions (the artist's color/weight) start on the class change itself, so their delay
-  // has to be in place before the re-render
+  // CSS transitions (the artist's color/weight, the track list coming back) start on the class change
+  // itself, so their delays have to be in place before the re-render. The track list is a sibling, so
+  // its value goes on the shared parent.
   panel?.style.setProperty('--layout-delay', `${pendingWait}ms`)
+  panel?.parentElement?.style.setProperty('--layout-exit-wait', `${props.immersive ? pendingWait : 0}ms`)
   flipAnims.forEach(a => a.cancel())
   flipAnims = []
   emit('toggleImmersive')
@@ -299,7 +311,7 @@ watch(() => props.immersive, async () => {
         { opacity: 1, transform: 'none' },
       ], timing))
       const copyRoot = ghost.querySelector<HTMLElement>('.wheel')
-      if (spinOut && copyRoot) spinOut(copyRoot).then(done)
+      if (spinOut && copyRoot) spinOut.run(copyRoot).then(done)
       else done()
     }
   }
