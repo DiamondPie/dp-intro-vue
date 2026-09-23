@@ -66,6 +66,11 @@
     "delete": "Delete",
     "drag": "Drag to reorder",
     "work_title": "Title",
-    "work_desc": "Description"
+    "work_desc": "Description",
+    "add_photo": "add photo",
+    "photo_caption": "Caption",
+    "add_friend": "add friend",
+    "friend_name": "Name",
+    "friend_desc": "Description (HTML ok)"
   }
 }

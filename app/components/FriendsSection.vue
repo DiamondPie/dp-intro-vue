@@ -5,7 +5,10 @@
         <span class="font-extrabold">{{ $t('friends.title') }}</span>
       </h2>
       <div class="space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <ClientOnly v-if="editor.enabled.value">
+          <LazyEditorFriends />
+        </ClientOnly>
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <a
             v-for="(friend, index) in friends"
             :key="friend.id"
@@ -44,4 +47,5 @@
 import FriendInvite from './FriendsSection/FriendInvite.vue'
 
 const { friends, pick } = useSiteContent()
+const editor = useEditor()
 </script>

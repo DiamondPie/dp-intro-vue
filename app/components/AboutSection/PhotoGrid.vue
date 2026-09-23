@@ -1,5 +1,8 @@
 <template>
-  <div class="!mt-8 columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+  <ClientOnly v-if="editor.enabled.value">
+    <LazyEditorPhotos />
+  </ClientOnly>
+  <div v-else class="!mt-8 columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
     <a
       v-for="photo in photos"
       :key="photo.id"
@@ -25,4 +28,5 @@
 
 <script setup>
 const { photos, pick } = useSiteContent()
+const editor = useEditor()
 </script>

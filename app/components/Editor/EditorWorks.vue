@@ -2,42 +2,19 @@
 // Edit-mode counterpart of PathwaySection/Works.vue: the same card grid, but
 // each card is a form bound straight onto the shared `siteContent` draft.
 // Only ever rendered client-side, after `useEditor().init()` found a token.
-import { useSortable } from '@vueuse/integrations/useSortable'
-import { siteContent } from '~/composables/useSiteContent'
-
-const { works } = useSiteContent()
-const { t } = useI18n()
-
-const grid = ref<HTMLElement | null>(null)
-// Writable, not the read-only computed from useSiteContent: given a ref,
-// useSortable copies the array and assigns the reordered copy back through
-// `.value`, which a read-only computed drops silently (DOM moves, data doesn't).
-// Always resolving through `siteContent` also survives the document being
-// replaced by load / discard / save while this component is mounted.
-const sortableWorks = computed({
-  get: () => works.value,
-  set: (list) => { siteContent.value.works = list },
-})
-useSortable(grid, sortableWorks, {
-  handle: '.editor-drag-handle',
-  draggable: '.editor-work-card',
-  animation: 150,
-  forceFallback: true, // mouse/touch events instead of native DnD: consistent ghost, works on mobile
-  ghostClass: 'editor-sortable-ghost',
-})
-
-function addWork() {
-  works.value.push({
-    id: `work-${Date.now().toString(36)}`,
-    href: '',
-    image: '',
-    title: { en: '', zh: '' },
-    desc: { en: '', zh: '' },
-  })
+interface Work {
+  id: string
+  href: string
+  image: string
+  title: { en: string, zh: string }
+  desc: { en: string, zh: string }
 }
 
-function removeWork(index: number) {
-  works.value.splice(index, 1)
+const { t } = useI18n()
+const { list: works, grid, add, remove } = useEditorList<Work>('works')
+
+function addWork() {
+  add({ href: '', image: '', title: { en: '', zh: '' }, desc: { en: '', zh: '' } })
 }
 
 const isBlank = (value: string) => value.trim().length === 0
@@ -48,7 +25,7 @@ const isBlank = (value: string) => value.trim().length === 0
     <div
       v-for="(work, index) in works"
       :key="work.id"
-      class="editor-work-card rounded-2xl overflow-hidden relative min-h-[20rem] md:aspect-[4/3] flex flex-col bg-[var(--content-1)]"
+      class="editor-card rounded-2xl overflow-hidden relative min-h-[20rem] md:aspect-[4/3] flex flex-col bg-[var(--content-1)]"
     >
       <div class="absolute inset-0 z-0">
         <img
@@ -60,25 +37,7 @@ const isBlank = (value: string) => value.trim().length === 0
         >
       </div>
 
-      <div class="relative z-10 flex items-center justify-end gap-1 p-3">
-        <button
-          type="button"
-          class="editor-card-btn editor-drag-handle cursor-grab active:cursor-grabbing"
-          :title="t('editor.drag')"
-          :aria-label="t('editor.drag')"
-        >
-          <Icon name="mdi:drag" class="text-xl" />
-        </button>
-        <button
-          type="button"
-          class="editor-card-btn editor-card-btn-danger"
-          :title="t('editor.delete')"
-          :aria-label="t('editor.delete')"
-          @click="removeWork(index)"
-        >
-          <Icon name="mdi:trash-can-outline" class="text-xl" />
-        </button>
-      </div>
+      <EditorCardControls class="relative z-10 p-3" @delete="remove(index)" />
 
       <div class="relative z-10 mt-auto">
         <div class="absolute -left-[2px] -right-[2px] -bottom-[2px] -top-24 z-[-1] bg-gradient-to-t from-black/90 via-black/70" />
@@ -99,56 +58,6 @@ const isBlank = (value: string) => value.trim().length === 0
       </div>
     </div>
 
-    <button
-      type="button"
-      class="editor-add-card rounded-2xl min-h-[20rem] md:aspect-[4/3] flex flex-col items-center justify-center gap-2 font-mono text-sm"
-      @click="addWork"
-    >
-      <Icon name="mdi:plus" class="text-3xl" />
-      {{ t('editor.add_work') }}
-    </button>
+    <EditorAddCard class="min-h-[20rem] md:aspect-[4/3]" :label="t('editor.add_work')" @click="addWork" />
   </div>
 </template>
-
-<style scoped>
-.editor-card-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.35rem;
-  border-radius: var(--radius-full);
-  color: var(--text-primary);
-  background: color-mix(in oklab, var(--color-black) 55%, transparent);
-  border: 1px solid var(--border-color-1);
-  backdrop-filter: blur(6px);
-  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
-}
-
-.editor-card-btn:hover {
-  border-color: var(--border-color-2);
-  background: color-mix(in oklab, var(--color-black) 75%, transparent);
-}
-
-.editor-card-btn-danger:hover {
-  color: var(--color-danger);
-  border-color: var(--color-danger);
-}
-
-.editor-add-card {
-  color: var(--text-secondary);
-  border: 1px dashed var(--border-color-2);
-  background: transparent;
-  transition: color var(--transition-base), border-color var(--transition-base), background var(--transition-base);
-}
-
-.editor-add-card:hover {
-  color: var(--accent-primary);
-  border-color: var(--accent-primary);
-  background: color-mix(in oklab, var(--accent-primary), transparent 92%);
-}
-
-.editor-sortable-ghost {
-  opacity: 0.35;
-  outline: 1px dashed var(--accent-primary);
-}
-</style>

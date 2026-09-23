@@ -198,6 +198,15 @@ button.home:focus-visible {
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
+* In-page editor: class Sortable puts on the card left behind while dragging
+* (`ghostClass` in useEditorList). Global because Sortable applies it by name.
+* ──────────────────────────────────────────────────────────────────────────── */
+.editor-sortable-ghost {
+  opacity: 0.35;
+  outline: 1px dashed var(--accent-primary);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
 * Icon pill button (hero social links, music, locale toggle)
 * ──────────────────────────────────────────────────────────────────────────── */
 .social-pill {

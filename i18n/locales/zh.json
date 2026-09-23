@@ -66,6 +66,11 @@
     "delete": "删除",
     "drag": "拖动排序",
     "work_title": "标题",
-    "work_desc": "描述"
+    "work_desc": "描述",
+    "add_photo": "新增照片",
+    "photo_caption": "说明",
+    "add_friend": "新增友链",
+    "friend_name": "名称",
+    "friend_desc": "描述（可含 HTML）"
   }
 }
