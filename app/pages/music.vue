@@ -44,11 +44,17 @@ const repeat = ref<'none' | 'all' | 'one'>('none')
 const parsedLyrics = ref<LyricLine[]>([])
 const currentLyricIndex = ref(-1)
 const mobileDrawerOpen = ref(false)
+const immersive = ref(false)
+// Immersive layout is desktop-only; on narrow screens the persisted flag is kept but ignored
+const isNarrow = ref(false)
+const immersiveActive = computed(() => immersive.value && !isNarrow.value)
 
 let audio: HTMLAudioElement | null = null
 let audioCtx: AudioContext | null = null
 let gainNode: GainNode | null = null
 let keyHandler: ((e: KeyboardEvent) => void) | null = null
+let narrowQuery: MediaQueryList | null = null
+let narrowHandler: ((e: MediaQueryListEvent) => void) | null = null
 let lastSaveTime = 0
 const lyricsCache = new Map<string, LyricLine[]>()
 
@@ -63,6 +69,7 @@ interface PersistedState {
   shuffle?: boolean
   repeat?: 'none' | 'all' | 'one'
   showVisualizer?: boolean
+  immersive?: boolean
   currentTime?: number
 }
 
@@ -85,6 +92,7 @@ function saveState() {
       shuffle: shuffle.value,
       repeat: repeat.value,
       showVisualizer: showVisualizer.value,
+      immersive: immersive.value,
       currentTime: audio?.currentTime ?? 0,
     } satisfies PersistedState))
   }
@@ -392,7 +400,7 @@ function setVolume(e: Event) {
 }
 
 watch(volume, (v) => { if (audio) audio.volume = v })
-watch([currentIndex, volume, prevVolume, shuffle, repeat, showVisualizer], saveState)
+watch([currentIndex, volume, prevVolume, shuffle, repeat, showVisualizer, immersive], saveState)
 
 function updateMediaSession() {
   if (!import.meta.client || !('mediaSession' in navigator)) return
@@ -430,7 +438,13 @@ onMounted(() => {
     if (saved.shuffle !== undefined) shuffle.value = saved.shuffle
     if (saved.repeat !== undefined) repeat.value = saved.repeat
     if (saved.showVisualizer !== undefined) showVisualizer.value = saved.showVisualizer
+    if (saved.immersive !== undefined) immersive.value = saved.immersive
   }
+
+  narrowQuery = window.matchMedia('(max-width: 640px)')
+  isNarrow.value = narrowQuery.matches
+  narrowHandler = (e) => { isNarrow.value = e.matches }
+  narrowQuery.addEventListener('change', narrowHandler)
 
   audio.volume = volume.value
   audio.addEventListener('timeupdate', onTimeUpdate)
@@ -476,6 +490,7 @@ onBeforeUnmount(() => {
   if (audio) { audio.pause(); audio.src = '' }
   audioCtx?.close()
   if (keyHandler) window.removeEventListener('keydown', keyHandler)
+  if (narrowQuery && narrowHandler) narrowQuery.removeEventListener('change', narrowHandler)
   window.removeEventListener('beforeunload', saveState)
   if (arcRafId !== null) cancelAnimationFrame(arcRafId)
   if (import.meta.client && 'mediaSession' in navigator) {
@@ -515,6 +530,7 @@ onBeforeUnmount(() => {
         :tracks="tracks ?? []"
         :current-index="currentIndex"
         :is-open="mobileDrawerOpen"
+        :collapsed="immersiveActive"
         @select="selectTrack"
       />
 
@@ -526,11 +542,13 @@ onBeforeUnmount(() => {
         :arc-active="arcActive"
         :refresh-arc-pct="refreshArcPct"
         :show-visualizer="showVisualizer"
+        :immersive="immersiveActive"
         @toggle-play="togglePlay"
         @seek-to-lyric="seekToLyric"
         @random-track="randomTrack"
         @start-refresh-arc="startRefreshArc"
         @toggle-visualizer="showVisualizer = !showVisualizer"
+        @toggle-immersive="immersive = !immersive"
       />
     </div>
 
