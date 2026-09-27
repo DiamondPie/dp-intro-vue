@@ -3,6 +3,7 @@
     <main class="relative w-screen min-h-screen">
       <BackgroundCover />
       <HeadBar />
+      <NoticeBanner />
       <HeroSection />
       <div class="relative z-10 flex items-center justify-center gap-4 px-8 py-14 animate-fadeIn" style="animation-delay: 1.35s">
         <div class="w-12 h-px" style="background: var(--text-secondary); opacity: 0.35" />
@@ -23,6 +24,7 @@
 <script setup>
 import BackgroundCover from '~/components/BackgroundCover.vue'
 import HeadBar from '~/components/HeadBar.vue'
+import NoticeBanner from '~/components/NoticeBanner.vue'
 import HeroSection from '~/components/HeroSection.vue'
 import AboutSection from '~/components/AboutSection.vue'
 import PathwaySection from '~/components/PathwaySection.vue'

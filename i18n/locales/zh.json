@@ -1,4 +1,10 @@
 {
+  "notice": {
+    "updated": "更新于 {date}",
+    "body": "DiamondPie的Github页面和仓库目前无法被未登录用户访问，在此期间页面所有依赖Github CDN的资产（图片等）均无法正常显示。请不要报告此异常。",
+    "apology": "我们目前正在处理这一问题，带来的不便敬请谅解。",
+    "close": "关闭公告"
+  },
   "nav": {
     "home": "主页",
     "about": "关于",
