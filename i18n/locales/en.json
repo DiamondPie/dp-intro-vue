@@ -1,7 +1,7 @@
 {
   "notice": {
     "updated": "Updated {date}",
-    "body": "DiamondPie's GitHub profile and repositories are currently inaccessible to signed-out users. In the meantime, all assets on this page that rely on GitHub's CDN (images, etc.) will not display properly. Please do not report this issue.",
+    "body": "DiamondPie's GitHub profile and repositories are currently inaccessible. Please do not report this issue.",
     "apology": "We are currently working on this. We apologize for any inconvenience.",
     "close": "Dismiss notice"
   },

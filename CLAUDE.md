@@ -134,6 +134,10 @@ A maimai DX-inspired full-screen page transition. `DXTransition.vue` is the orch
 
 Uses `@nuxt/icon` with SVG mode and client bundle scanning. Icon sets available: `mdi`, `mingcute`, `simple-icons` (via `@iconify-json/*` dev deps). Use the `<Icon name="mdi:..." />` component syntax.
 
+### CDN fallback (`app/plugins/cdn-fallback.js`)
+
+Images served from `cdn.jsdelivr.net/gh/DiamondPie/storage@…` must carry the `v-cdn-fallback` directive. On load failure it swaps the repo to the `carbonradian/storage` mirror (same path), and also updates a wrapping `<a>` whose `href` is the same image URL. It also catches images that already failed before hydration, so don't replace it with a plain `@error` handler.
+
 ### i18n
 
 Uses `@nuxtjs/i18n` with `strategy: 'no_prefix'`. Locale files live in `i18n/locales/en.json` and `zh.json`. Language defaults to `en`; browser language detection is disabled (`detectBrowserLanguage: false`). Language is switched via a cookie (`i18n_redirected`). Use `useI18n()` composable and the `$t()` helper inside templates. For complex structured translations (arrays/objects), use `tm()` + `rt()`.
