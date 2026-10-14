@@ -1,8 +1,8 @@
 {
   "notice": {
     "updated": "更新于 {date}",
-    "body": "DiamondPie的Github页面和仓库目前无法被访问。请不要报告此异常。",
-    "apology": "我们目前正在处理这一问题，带来的不便敬请谅解。",
+    "body": "",
+    "apology": "",
     "close": "关闭公告"
   },
   "nav": {

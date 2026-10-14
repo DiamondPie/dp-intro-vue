@@ -5,6 +5,9 @@
     NOTICE_ID, so bumping NOTICE_ID re-shows the banner for a new notice.
     Rendered only after mount (localStorage is client-only) to avoid an
     SSR flash for visitors who already dismissed it.
+    To post a notice: set NOTICE_ID / NOTICE_DATE below and fill in
+    notice.body (and optionally notice.apology) in the locale files.
+    Leave NOTICE_ID empty when there is no active notice.
   -->
   <Transition name="notice">
     <div
@@ -21,7 +24,7 @@
           {{ $t('notice.updated', { date: NOTICE_DATE }) }}
         </span>
         <p class="notice-text font-medium">{{ $t('notice.body') }}</p>
-        <p class="notice-text notice-sub mt-1">{{ $t('notice.apology') }}</p>
+        <p v-if="$t('notice.apology')" class="notice-text notice-sub mt-1">{{ $t('notice.apology') }}</p>
       </div>
       <button
         type="button"
@@ -36,13 +39,15 @@
 </template>
 
 <script setup>
-const NOTICE_ID = 'github-cdn-2026-09-28'
-const NOTICE_DATE = '2026-9-28'
+// Empty = no active notice; the banner never renders.
+const NOTICE_ID = ''
+const NOTICE_DATE = ''
 const STORAGE_KEY = `notice-dismissed:${NOTICE_ID}`
 
 const visible = ref(false)
 
 onMounted(() => {
+  if (!NOTICE_ID) return
   let dismissed = false
   try {
     dismissed = localStorage.getItem(STORAGE_KEY) === '1'

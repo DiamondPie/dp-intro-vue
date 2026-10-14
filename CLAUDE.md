@@ -65,8 +65,13 @@ app/components/
 ├── BackToTopButton.vue
 ├── HeadBar.vue
 ├── NavDock.vue
+├── NoticeBanner.vue              ← dismissible announcement banner (off when NOTICE_ID is empty)
 └── SiteFooter.vue
 ```
+
+### Notice banner (`app/components/NoticeBanner.vue`)
+
+Mounted in `index.vue` permanently; it renders nothing while `NOTICE_ID` is empty. To post a notice, set `NOTICE_ID` (a new value re-shows it to visitors who dismissed an earlier one) and `NOTICE_DATE`, then fill `notice.body` (and optionally `notice.apology`) in both locale files. To retire it, empty `NOTICE_ID` and the two text keys again — don't delete the component.
 
 ### Cross-cutting scroll logic (`app/composables/useIntroEffects.js`)
 
